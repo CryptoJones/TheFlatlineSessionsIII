@@ -1,0 +1,31 @@
+{
+	"id": "gentry11",
+	"name": "Gentry",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Gentry has become the Factory's nervous system: cables run from his rig down through the floor like roots, and every screen carries a sightline or a circuit. \"They're professionals,\" he reports, not looking up. \"Which is good. Professionals have BUDGETS. We are going to be uneconomical, Slick Henry. We are going to be the worst quarter of somebody's fiscal year.\"",
+			"options": [
+				{ "text": "\"What have we got?\"", "next": "assets" },
+				{ "text": "\"Why aren't you panicking? You panic about VISITORS.\"", "next": "calm" }
+			]
+		},
+		"calm": {
+			"text": "\"Visitors interrupt the work. These people ARE the work.\" He flips a breaker; somewhere below, a dead line machine shudders half-alive. \"Also—\" and here the old mania surfaces, wearing armor now, \"—they've come to steal the Shape, Slick. The SHAPE. There are things a man discovers he'll do, standing between vandals and the only proof God left lying around.\" Flip. Flip. \"Hand me the yard schematic.\"",
+			"options": [
+				{ "text": "\"What have we got?\"", "next": "assets" }
+			]
+		},
+		"assets": {
+			"text": "\"Fence current on the north wire, floods on the yard, the freight door slaved to my board — and your ART, which they will catalog as 'sculpture' in their approach brief.\" A thin, terrible smile. \"Their brief is wrong. Go wire your children into my board, Slick: the Witch on the west approach, the Corpsegrinder in the door, and the Judge—\" he hands you the remote like a field commission, \"—the Judge goes wherever the Judge feels called. It's HIS day, after all.\"",
+			"set_flag": "ch11_defenses_wired",
+			"options": [
+				{ "text": "\"His day. Yeah. Let's introduce them to the art.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "Gentry returns to his board of breakers and sightlines, conducting the Factory like a doomed and glorious orchestra — a man who hunted the Shape of everything for nine years and, on the day of the vandals, finds he has accidentally built a fortress around it.",
+			"options": []
+		}
+	}
+}

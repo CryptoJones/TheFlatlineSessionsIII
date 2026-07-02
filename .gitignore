@@ -1,0 +1,17 @@
+# Godot build/import cache
+.godot/
+*.uid
+
+# Novel source + extracted text (copyrighted; local reference only — never commit)
+*.epub
+reference/
+
+# Exports
+build/
+*.pck
+*.exe
+*.dmg
+*.x86_64
+
+# OS noise
+.DS_Store

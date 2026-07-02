@@ -1,0 +1,53 @@
+{
+	"_note": "Chapter 10 — the switch at the New Suzuki Envoy. Rehearsal -> understanding -> garage -> Molly breaks the plan -> the car.",
+	"start": "c10_suite",
+	"rooms": {
+		"c10_suite": {
+			"name": "New Suzuki Envoy — the Suite",
+			"bg": "M10_suite",
+			"desc": "Weather in the atrium, a bed the size of the squat, and clothes laid out that photograph as somebody else's. Prior's crew comes and goes without knocking. You are furniture with a pulse, and the pulse is theirs on paper.",
+			"npcs": ["prior10"],
+			"exits": { "south": "c10_atrium" }
+		},
+		"c10_atrium": {
+			"name": "Hotel Atrium — Rehearsal",
+			"bg": "M10_atrium",
+			"desc": "They walk you the route twice: lobby, lifts, service corridor, garage. Marks on the floor only you are meant to notice. A man with a camera who is not a tourist. You smile HER smile at the staff, and the staff smile back at the wrong woman.",
+			"on_enter_flag": "ch10_rehearsed",
+			"net": true,
+			"exits": { "north": "c10_suite", "east": "c10_service", "west": "c10_bar10" }
+		},
+		"c10_bar10": {
+			"name": "Atrium Bar",
+			"bg": "M10_bar",
+			"desc": "You nurse a juice like it's a career and do what Lanette taught you: count the crew. Two by the lifts pretending not to know each other. One on the mezzanine with a briefcase that never opens. Wheels within wheels — and every wheel rolls down to the garage tonight.",
+			"npcs": ["crew_watcher"],
+			"exits": { "east": "c10_atrium" }
+		},
+		"c10_service": {
+			"name": "Service Corridor",
+			"bg": "M10_service",
+			"desc": "Concrete, cart tracks, the hotel's glamour stripped to its plumbing. The route from the rehearsal, walked backward. Your heart is doing wiz-time without wiz. Ahead: the door with the painted number and the garage's cold beyond.",
+			"requires_flag": "ch10_job_understood",
+			"locked_text": "Not yet. Be dumb down there and you're freight. Work the room until the job makes sense.",
+			"exits": { "west": "c10_atrium", "south": "c10_garage" }
+		},
+		"c10_garage": {
+			"name": "Underground Garage",
+			"bg": "M10_garage",
+			"desc": "Pillars, ramp-echo, one limousine idling like a black rumor. The mark steps out and the world goes wrong-mirror: it's HER — your face on her bones, her face on yours — and then the mirror-eyed woman moves, and Prior's crew starts hitting the concrete in alphabetical order.",
+			"on_enter_flag": "ch10_garage",
+			"npcs": ["sally10", "angie10"],
+			"exits": { "north": "c10_service", "east": "c10_car" }
+		},
+		"c10_car": {
+			"name": "The Car — Northbound",
+			"bg": "M10_car",
+			"desc": "Doors thunk like verdicts and the city pours away behind tinted glass. Up front, the woman with the mirrors drives in silence. Beside you, wearing the truth of your borrowed face, Angie Mitchell watches you with something that is not pity and might be recognition. North. Whatever's north, you're in it now.",
+			"requires_flag": "ch10_switch_broken",
+			"locked_text": "The plan is still happening. Survive it first.",
+			"on_enter_flag": "ch10_in_the_car",
+			"exits": { "west": "c10_garage" }
+		}
+	}
+}

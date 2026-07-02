@@ -1,0 +1,139 @@
+{
+	"_note": "Mona Lisa Overdrive item catalog. type: hardware = matrix interface (enables Jack In), software = warez, skill = chipped skill, misc/key = story items (key items can't be sold).",
+	"items": {
+		"colin_unit": {
+			"name": "Maas-Neotek unit (Colin)",
+			"type": "misc",
+			"key": true,
+			"price": 0,
+			"desc": "A slab of biosoft that projects a ghost only you can see: Colin, guide to London and increasingly to everything else. Your father's parting gift."
+		},
+		"shuriken": {
+			"name": "Shuriken",
+			"type": "misc",
+			"key": true,
+			"price": 0,
+			"desc": "A steel star from a Portobello stall, bought for you by Sally Shears. 'Souvenir,' she said. It means she thinks you'll need luck."
+		},
+		"cortex_lace": {
+			"name": "Cortical lace",
+			"type": "hardware",
+			"price": 0,
+			"key": true,
+			"desc": "Your father's wire, grown through your head since childhood. You are the deck. You always were."
+		},
+		"simstim_deck": {
+			"name": "Simstim deck",
+			"type": "misc",
+			"price": 250,
+			"desc": "Consumer stim rig, one warm slot, one dream at a time. Yours plays Angie Mitchell on repeat."
+		},
+		"wiz_stash": {
+			"name": "Wiz",
+			"type": "misc",
+			"price": 60,
+			"desc": "Cleveland pharmaceuticals, retail grade. Makes the edges bright and the hours short. Lanette said never on an empty stomach."
+		},
+		"cutting_torch": {
+			"name": "Cutting torch",
+			"type": "misc",
+			"price": 400,
+			"desc": "Factory-standard plasma cutter. Builds Judges, opens hovers, settles arguments."
+		},
+		"factory_trodes": {
+			"name": "Factory trode set",
+			"type": "hardware",
+			"price": 300,
+			"desc": "Gentry's spare trodes, patched into the Count's tap. A borrowed window on a stolen universe."
+		},
+		"judge_remote": {
+			"name": "Judge remote",
+			"type": "misc",
+			"key": true,
+			"price": 0,
+			"desc": "Deadman trigger for the Judge: two meters of blades and verdicts, wired to answer only you."
+		},
+		"tick_rig_pass": {
+			"name": "Tick's guest line",
+			"type": "hardware",
+			"price": 0,
+			"key": true,
+			"desc": "A jack on Tick's rig in Brixton, opened for you against every instinct the little man has."
+		},
+		"monitor_kit": {
+			"name": "Cherry's monitor kit",
+			"type": "misc",
+			"key": true,
+			"price": 0,
+			"desc": "Med-tech telemetry scavenged into a shoebox: the Count's pulse, pressure, and dreams, in amber numbers."
+		},
+		"hotel_key": {
+			"name": "New Suzuki Envoy key",
+			"type": "misc",
+			"key": true,
+			"price": 0,
+			"desc": "Chipped key to a suite registered to a name that photographs like somebody else's."
+		},
+		"angie_stim": {
+			"name": "Angie Mitchell stim cassette",
+			"type": "misc",
+			"price": 30,
+			"desc": "Top of the charts, every week, forever. Her life, warm-slotted. Better than yours by design."
+		},
+		"makeup_kit": {
+			"name": "Pro makeup kit",
+			"type": "misc",
+			"price": 120,
+			"desc": "Stage-grade paint. Can make anyone into almost anyone, which turns out to be a growth industry."
+		},
+		"security_badge": {
+			"name": "Sense/Net crew badge",
+			"type": "misc",
+			"key": true,
+			"price": 0,
+			"desc": "Laminated access, PRODUCTION — ALL AREAS. In the right lobby, worth more than a gun."
+		},
+		"skill_streetdeal": {
+			"name": "Street Deal skillsoft",
+			"type": "skill",
+			"skill": "Street Deal",
+			"rating": 2,
+			"price": 500,
+			"desc": "Chipped hustle: reading buyers, pricing trouble, spotting the exit."
+		},
+		"skill_icebreaking": {
+			"name": "ICE Breaking skillsoft",
+			"type": "skill",
+			"skill": "ICE Breaking",
+			"rating": 2,
+			"price": 1800,
+			"desc": "Chipped intrusion technique, for heads that didn't grow their own."
+		},
+		"gentry_soft": {
+			"name": "Gentry's probe suite",
+			"type": "software",
+			"rating": 3,
+			"price": 2000,
+			"desc": "Hand-rolled matrix probes, tuned for reading Shapes. Gentry would want it back."
+		},
+		"loa_veve": {
+			"name": "Drawn vévé",
+			"type": "misc",
+			"key": true,
+			"price": 0,
+			"desc": "Mamman Brigitte's sign, copied from a dream onto hotel stationery. The ink shouldn't matter. It matters."
+		},
+		"thermos": {
+			"name": "Thermos of real coffee",
+			"type": "misc",
+			"price": 25,
+			"desc": "Factory currency. Worth more than money on Dog Solitude; almost worth the walk to Marvin's."
+		},
+		"flechette_pistol": {
+			"name": "Flechette pistol",
+			"type": "misc",
+			"price": 800,
+			"desc": "Quiet, fast, and absolutely against the terms of everyone's parole."
+		}
+	}
+}

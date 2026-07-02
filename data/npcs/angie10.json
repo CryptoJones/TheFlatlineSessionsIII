@@ -1,0 +1,32 @@
+{
+	"id": "angie10",
+	"name": "Angie Mitchell",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "She studies you across the garage's cordite quiet — your face, her face, the mint under the coin. Up close she's smaller than the screens and steadier than the magazines, and her eyes do a thing you recognize from mirrors: inventorying the damage, saving the feelings for later. \"They made you into me,\" she says. Not a question. \"Does it hurt?\"",
+			"options": [
+				{ "text": "\"The surgery? No. The rest of it, kind of.\"", "next": "honest" },
+				{ "text": "\"You're asking if I'M okay? Lady, they were going to—\"", "next": "protect" }
+			]
+		},
+		"protect": {
+			"text": "\"I know what they were going to do.\" She says it evenly, and the evenness costs her something you can see being paid. \"I've been dreaming this garage for a week — you were in the dreams, and I couldn't ever warn you, and I hated that part the most.\" She glances at the mirror-eyed woman, then back. \"Nobody spends you tonight. That's done. Come north with us — I think... I think you're supposed to come north. The dreams have you in them there, too.\"",
+			"set_flag": "ch10_switch_broken",
+			"options": [
+				{ "text": "\"...Yeah. Okay. North.\" (end)", "next": "bye" }
+			]
+		},
+		"honest": {
+			"text": "A short, real laugh — HER laugh, the famous one, and it's so much better unrehearsed. \"Honest. Good. Everyone I know is paid to lie to me; I collect honest people now.\" She looks at your shared face once more and something settles in her, a decision with roots. \"I can't give you your old face back. But nobody spends you tonight, and where we're going, being me is my job again. You'll just be — new. Is Mona right? Come north, Mona.\"",
+			"set_flag": "ch10_switch_broken",
+			"options": [
+				{ "text": "\"...Yeah. North.\" (end)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "She slides over to make room like it's nothing, like she isn't the most protected face on Earth sitting in an unscheduled car with her own ghost — and pats the seat, once, impatient. The century's strangest sisterhood pulls out of the garage doing ninety.",
+			"options": []
+		}
+	}
+}

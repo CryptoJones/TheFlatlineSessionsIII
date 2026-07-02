@@ -1,0 +1,57 @@
+{
+	"_note": "Chapter 1 — Kumiko arrives in London. Swain's house -> Colin -> Sally -> Portobello.",
+	"start": "c1_carriage",
+	"rooms": {
+		"c1_carriage": {
+			"name": "Jaguar — Heathrow Run",
+			"bg": "K1_carriage",
+			"desc": "Grey motorway, grey rain, a driver who has not spoken since the airport. In your pocket the Maas-Neotek unit is warm as a sparrow. London assembles itself outside the glass, stone by wet stone.",
+			"exits": { "east": "c1_hall" }
+		},
+		"c1_hall": {
+			"name": "Swain's Townhouse — Hall",
+			"bg": "K1_hall",
+			"desc": "Notting Hill money, old and recently laundered: parquet, hunting prints nobody ever hunted, and a very large man named Petal materializing to take your coat with terrifying delicacy.",
+			"exits": { "west": "c1_carriage", "north": "c1_study", "east": "c1_guest", "south": "c1_kitchen" }
+		},
+		"c1_study": {
+			"name": "Swain's Study",
+			"bg": "K1_study",
+			"desc": "Leather, brandy, a fire kept lit for effect. Swain wears his obligation to your father like a suit one size too small, and his smile does arithmetic behind its teeth.",
+			"npcs": ["swain"],
+			"exits": { "south": "c1_hall" }
+		},
+		"c1_guest": {
+			"name": "Guest Room",
+			"bg": "K1_guest",
+			"desc": "A high cold room with a view of a private square. Your bags stand unopened. In this house you are a parcel awaiting instructions, and the room knows it.",
+			"npcs": ["colin"],
+			"exits": { "west": "c1_hall" }
+		},
+		"c1_kitchen": {
+			"name": "Kitchen — Petal's Domain",
+			"bg": "K1_kitchen",
+			"desc": "Copper pans, a professional kettle, and Petal reading a racing form with a shotgun's calm. The warmest room in the house, which tells you everything about the house.",
+			"npcs": ["petal"],
+			"exits": { "north": "c1_hall", "east": "c1_parlor" }
+		},
+		"c1_parlor": {
+			"name": "Back Parlor",
+			"bg": "K1_parlor",
+			"desc": "A television older than your father mutters market reports to empty chairs. The woman by the window stands like a blade at rest, and her eyes, when she turns, are mirrors: Sally Shears, sent to mind you, furious about it somewhere too deep to show.",
+			"npcs": ["sally_intro"],
+			"exits": { "west": "c1_kitchen", "south": "c1_market" }
+		},
+		"c1_market": {
+			"name": "Portobello Road — Snow",
+			"bg": "K1_market",
+			"desc": "Stalls of dead technology and live silver under falling snow, breath-clouds and barrow cries. Sally buys you tea in a paper cup and a steel star from a stall of edges, and for one hour London is a city instead of a container.",
+			"requires_flag": "ch01_met_sally",
+			"locked_text": "Not alone. Not this city. Wait for Sally.",
+			"on_enter_flag": "ch01_portobello",
+			"shop": "portobello_stall",
+			"pickups": [ { "item": "shuriken", "label": "Accept Sally's souvenir" } ],
+			"exits": { "north": "c1_parlor" }
+		}
+	}
+}

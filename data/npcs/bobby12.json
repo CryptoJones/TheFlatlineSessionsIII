@@ -1,0 +1,36 @@
+{
+	"id": "bobby12",
+	"name": "Bobby — through the lace",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "You rest your hand on the gray slab and he's THERE, in the lace, clear as a voice in the next room — the boy from Jammer's, grown into something patient. \"Hey, Miz Mitchell.\" You can hear the grin. \"Took the scenic route, huh. I watched every mile — sorry about the dreams, distance was never my thing. You seen the place yet? I built you a porch.\"",
+			"options": [
+				{ "text": "\"A porch, Newmark? I left a WORLD for a porch?\"", "next": "porch" },
+				{ "text": "\"Tell me the truth first. What happens to my body?\"", "next": "truth" }
+			]
+		},
+		"porch": {
+			"text": "\"A porch, fields, weather I finally got right — took me a month to make rain smell like rain.\" His voice steadies, all the Barrytown swagger set down like a tool that did its job. \"It's everything, Angie. The whole matrix, folded in — and it's OURS. The loa walk the fencelines. The Finn's got an alley. There's even a beach, if you ever want to meet the ones who started it all.\" A pause. \"One knot left between you and the door. You know her name.\"",
+			"options": [
+				{ "text": "\"3Jane. I know. — What happens to my body, Bobby?\"", "next": "truth" }
+			]
+		},
+		"truth": {
+			"text": "\"It stops.\" No swagger at all now; he'd never dress this up, not for you. \"Gently. Brigitte says like falling asleep on a porch, and I made SURE there's a porch. The meat stays here with people who'll be kind to it, and the tabloids cry, and Mona keeps the lights on out there.\" The lace hums, close as held hands. \"I'm not selling you anything, Angie. It's just — the door's open, the knot's waiting, and I've loved you since a nightclub with the power out. Whenever you're ready. Or never. It'd still be worth it, building it, just in case.\"",
+			"options": [
+				{ "text": "\"...Jack me in, Count. Let's go untie a ghost.\" (end — the gate awaits)", "next": "gate" },
+				{ "text": "\"I'm crossing over. Meet me at the crossroads.\"", "next": "wedding", "require_flag": "cracked_3jane_knot" }
+			]
+		},
+		"gate": {
+			"text": "\"Yes MA'AM.\" The old Barrytown crow, one last time, pure joy in it — and the lace opens under your attention like a road remembering your feet. The gate is ahead, and the knot, and the porch light past both of them. (Jack in. Run the gate. Untie her.)",
+			"options": []
+		},
+		"wedding": {
+			"text": "The knot is gone; the gray country stands open; and the loa come up the roads from every direction at once, drums in the wire, Legba laughing at his crossroads, Brigitte scattering grave-flowers that become fireflies. Bobby's waiting on the porch steps in the world he built for two — and you step out of the meat like a woman stepping out of a long, strange dress, and take his hand, and the matrix itself stands witness. What the gods promised. What the tabloids will mourn. What it actually is, in the bright forever: home.",
+			"set_flag": "ch12_wedding",
+			"options": []
+		}
+	}
+}

@@ -1,0 +1,33 @@
+{
+	"_note": "Mona Lisa Overdrive matrix targets, gated per chapter. Angie's lace and the Factory trodes count as 'hardware' so the Jack In button appears. ICE here is story-scaled, not tactical.",
+	"databases": [
+		{
+			"id": "aleph_tap", "name": "The Aleph — Count's Tap", "chapter": "ch07",
+			"ice": 80, "bg": "CYBER_aleph", "requires_flag": "ch07_gentry_theory",
+			"set_flag": "ch07_met_bobby",
+			"content": "Past the tap the grid folds inward and you're standing in a gray house under a gray sky that goes on forever, and a boy is waiting on the porch like he's been expecting you for a week. Bobby. The Count. 'Tell Gentry he's half right,' he says. 'It's not an approximation of everything. It's a PLACE. And it's almost ready — tell whoever's coming that it's MINE.' Behind him, at the treeline of the world, a dead woman watches with proprietary eyes."
+		},
+		{
+			"id": "loa_channel", "name": "The Walled Channel", "chapter": "ch08",
+			"ice": 120, "bg": "CYBER_channel", "requires_flag": "ch08_dreams_reviewed",
+			"set_flag": "ch08_brigitte_truth",
+			"content": "The wall inside your lace is real: bought code, medical-grade, laid while you slept in a clinic that billed itself as rescue. You go through it like weather through a fence — and she is there in the ruins, Mamman Brigitte, mistress of cemeteries, walking your channel like a widow through fire damage. 'Child,' she says, 'the dust was a LOCK, and the buyer is dead and hateful and lives now in a gray country she means to rule. The boy builds it for you instead. Go north. Go to your wedding.'"
+		},
+		{
+			"id": "aleph_macroform", "name": "Aleph Macroform — Remote View", "chapter": "ch09",
+			"ice": 60, "bg": "CYBER_macroform", "requires_flag": "ch09_reached_tick",
+			"content": "Tick's rig lifts you over the grid and there it hangs: a gray sphere the matrix itself seems to lean toward, non-addressable, non-indexed, gravitationally RICH. 'That's not a databank,' Tick whispers, somewhere behind your eyes. 'That's a bloody COUNTRY. And half the dead money in orbit is trying to buy the border crossing.'"
+		},
+		{
+			"id": "aleph_gate", "name": "The Aleph — Open Gate", "chapter": "ch12",
+			"ice": 100, "bg": "CYBER_gate", "requires_flag": "ch12_molly_blessing",
+			"set_flag": "ch12_entered_aleph",
+			"content": "The lace opens like it was always a door and the gray country takes you in: fields under television skies, a house Bobby built from every place either of you was ever safe. The loa walk the fencelines like guests arriving early. Only one shadow left between you and the porch — a dead woman's knot of spite, coiled around the gate's deed of title."
+		},
+		{
+			"id": "3jane_knot", "name": "3Jane's Knot", "chapter": "ch12",
+			"ice": 220, "ai": "3Jane", "requires": "aleph_gate", "bg": "CYBER_3jane",
+			"content": "She fights the way old money litigates — cold, recursive, certain the world owes her its deference. But the Finn's construct filed its own brief from an alley in the Sprawl, and Brigitte stands over her dead estate, and the boy holds the deed, and you — you have spent your whole life learning that gods only ride the WILLING. The knot unwinds. The gray country exhales. The gate stands open, and the porch light is on."
+		}
+	]
+}

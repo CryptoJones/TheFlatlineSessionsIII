@@ -1,0 +1,40 @@
+{
+	"id": "colin",
+	"name": "Colin",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "You thumb the Maas-Neotek unit and Colin resolves by the window — tweed, good bones, an expression of permanent gentle amusement. Nobody else will ever see him. \"Ah. Privacy at last.\" He glances around the guest room. \"Shall I begin with the house, or with the lies? There's considerable overlap.\"",
+			"options": [
+				{ "text": "\"Begin with the house.\"", "next": "house" },
+				{ "text": "\"The lies, please.\"", "next": "lies" }
+			]
+		},
+		"house": {
+			"text": "\"Seven exterior cameras, four interior that I've found, and a gentleman's agreement between the walls and the phones that nothing said here stays private.\" He strolls the room, hands behind his back. \"Petal is dangerous and decent. Swain is neither, in reverse order. And the house takes more incoming calls after midnight than a betting shop.\"",
+			"set_flag": "ch01_colin_briefed",
+			"options": [
+				{ "text": "\"And the lies?\"", "next": "lies" },
+				{ "text": "\"Thank you, Colin.\" (put him away)", "next": "bye" }
+			]
+		},
+		"lies": {
+			"text": "\"Swain told you this arrangement honors your father. Notice: the honor flows upward. Someone above Swain has recently made him rich — the carpets are new, the paintings are newer, and gratitude that fresh always has a creditor.\" Colin stops at the window. \"Your father sent you here to be safe, Miss Yanaka. I compute a rising probability that you have been sent somewhere merely *convenient*.\"",
+			"set_flag": "ch01_colin_briefed",
+			"options": [
+				{ "text": "\"Then we watch, and learn the creditor's name.\"", "next": "watch" },
+				{ "text": "\"Thank you, Colin.\" (put him away)", "next": "bye" }
+			]
+		},
+		"watch": {
+			"text": "\"*There's* the blood of the Yanakas.\" He smiles like a term beginning. \"Cultivate the woman with the mirrors — she despises this house as much as I do, and unlike me she can hit things. And do buy something warm; London is about to demonstrate why the Empire drank.\"",
+			"options": [
+				{ "text": "(put him away)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"At your shoulder, always,\" says Colin, and folds himself back into the warm slab in your pocket like a bookmark keeping your place in the city.",
+			"options": []
+		}
+	}
+}

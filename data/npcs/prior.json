@@ -1,0 +1,38 @@
+{
+	"id": "prior",
+	"name": "Prior",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Prior doesn't sweat, doesn't blink enough, and looks at you across the cane table the way appraisers look at estate lots. \"Mona. Eddy speaks very highly of your... adaptability.\" The accent is trans-Atlantic nowhere. \"The offer is simple: medical enhancement at a first-class facility, a wardrobe, travel, and a performance retainer. All expenses met. All questions—\" a small smile, \"—unnecessary.\"",
+			"set_flag": "ch03_met_prior",
+			"options": [
+				{ "text": "\"What kind of 'enhancement'?\"", "next": "enhance" },
+				{ "text": "\"Why me? Florida's full of girls.\"", "next": "why_me" }
+			]
+		},
+		"why_me": {
+			"text": "\"Because you are already almost something my principals require.\" He turns his glass precisely ninety degrees. \"Bone structure is destiny, Mona. Yours is... auspicious. The procedure merely completes an argument nature has already begun.\" Behind him, on the bar screen, Angie Mitchell laughs at a premiere. You look away first.",
+			"options": [
+				{ "text": "\"What kind of enhancement?\"", "next": "enhance" }
+			]
+		},
+		"enhance": {
+			"text": "\"Cosmetic refinement. A world-class surgeon, a private clinic in Baltimore, recovery in comfort.\" He slides a card across the table: a hotel's name in silver. \"You and Eddy are moved tonight. The wardrobe is being fitted from measurements Eddy kindly supplied.\" He rises, settles the bill with a gesture. \"We'll take excellent care of you, Mona. You have my word on precisely that phrasing.\"",
+			"options": [
+				{ "text": "\"And if I say no?\"", "next": "no" },
+				{ "text": "Take the card. (leave)", "next": "bye" }
+			]
+		},
+		"no": {
+			"text": "\"Then nothing whatever happens,\" Prior says pleasantly, \"and you remain here, and the strip remains here, and Eddy remains Eddy, and in five years Florida will have used you entirely up.\" He buttons his jacket. \"But you won't say no. You've been rehearsing being someone else your whole life. I'm simply the first buyer to offer market rate.\"",
+			"options": [
+				{ "text": "Take the card. (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "He's gone with the change, leaving the card, the paid tab, and the sensation of having been weighed, graded, and shelved by something wearing a very good suit.",
+			"options": []
+		}
+	}
+}

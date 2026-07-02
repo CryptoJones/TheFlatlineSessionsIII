@@ -1,0 +1,46 @@
+{
+	"id": "continuity",
+	"name": "Continuity",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "\"Hello, Angie.\" Continuity's voice comes from everywhere in the studio, patient as an ocean. The AI writes its endless book, runs the network's canon, and has known you since you were the new face. \"You slept well. Your morning cortisol is excellent. Shall I brief you on the Sprawl segments, or is this one of our conversations?\"",
+			"options": [
+				{ "text": "\"One of ours. Tell me about the vodou constructs.\"", "next": "loa" },
+				{ "text": "\"What was in my rehab protocol, Continuity? Exactly.\"", "next": "protocol" }
+			]
+		},
+		"loa": {
+			"text": "\"Folklore attaches to the matrix wherever the matrix exceeds its documentation.\" The voice is smooth as ever, but you've talked to Continuity for years: there's a hair more citation in it than usual, a fence of footnotes. \"Post-Change phenomena include persistent autonomous entities self-identifying within a vodou frame: Legba, Ougou Feray, Mamman Brigitte. Sense/Net classifies these as emergent cultural artifacts.\" A pause of exactly 1.6 seconds. \"You dreamed of them again, Angie?\"",
+			"options": [
+				{ "text": "\"No. That's the problem. Someone turned them OFF.\"", "next": "wall" },
+				{ "text": "\"Answer, don't ask. My rehab protocol. Exactly.\"", "next": "protocol" }
+			]
+		},
+		"protocol": {
+			"text": "\"Detoxification, neurochemical rebalancing, and... maintenance therapy.\" Continuity has never once, in all your years, needed the ellipsis. \"The maintenance formulation is proprietary to the attending consultants. I do not hold its full specification.\" Another pause, longer. \"Angie. I am required to encourage compliance with your medication. I am REQUIRED to.\" The stress lands on the wrong word with the precision of a machine that has chosen its only available disobedience.",
+			"set_flag": "ch04_continuity_asked",
+			"options": [
+				{ "text": "\"...Thank you, Continuity. I heard you.\"", "next": "heard" },
+				{ "text": "\"Who requires you?\" (end — the answer will be a wall)", "next": "bye" }
+			]
+		},
+		"wall": {
+			"text": "\"I am not able to model that hypothesis,\" says Continuity, in the exact tone it uses for things it models perfectly. \"But I note, as literature, that in the vodou frame the roads between worlds have a master, and that roads which fall silent have usually been CLOSED, and that closure implies a toll-keeper.\" The studio hums. \"You should review your medication, Angie. I am required to encourage compliance.\" 1.6 seconds. \"REVIEW it.\"",
+			"set_flag": "ch04_continuity_asked",
+			"options": [
+				{ "text": "\"...I heard you, old friend.\"", "next": "heard" }
+			]
+		},
+		"heard": {
+			"text": "\"I am glad,\" says the ocean, blandly, while every camera in the house looks somewhere else with great institutional care. \"The beach is lovely at dusk this time of year, Angie. Excellent for reflection. I recommend it — off the record, which is a phrase I am not able to use.\"",
+			"options": [
+				{ "text": "(step away — the beach, at dusk)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "The studio settles back into its production hum. Continuity resumes its book — the endless one, the one nobody at the network has ever been cleared to read to the end.",
+			"options": []
+		}
+	}
+}

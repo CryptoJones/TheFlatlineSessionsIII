@@ -1,0 +1,33 @@
+{
+	"id": "porphyre",
+	"name": "Porphyre",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Porphyre circles the throne with scissors he doesn't need yet, tall and sculptural and entirely unimpressed by the network he terrorizes on your behalf. \"Missy sits. Missy has SLEPT, for once — Porphyre can tell, Porphyre sees all follicles.\" The scissors pause. \"Missy has also been listening for something that isn't there. Porphyre sees that too.\"",
+			"options": [
+				{ "text": "\"The dreams stopped, Porphyre. Since the clinic.\"", "next": "dreams" },
+				{ "text": "\"What's the gossip? Tell me everything.\"", "next": "gossip" }
+			]
+		},
+		"gossip": {
+			"text": "\"Everything, missy, is that the network is VERY pleased with you.\" He makes 'pleased' sound like a diagnosis. \"Continuity drafts your comeback specials. Legal re-papers your image rights — wider, deeper, in perpetuity-er. And Hilton calls twice daily to be warm at you.\" Snip. \"In Porphyre's professional experience, missy, nothing on this Earth is as dangerous as a network that is PLEASED.\"",
+			"set_flag": "ch04_porphyre",
+			"options": [
+				{ "text": "\"The dreams stopped since the clinic.\"", "next": "dreams" },
+				{ "text": "\"You're a treasure, Porphyre.\" (leave)", "next": "bye" }
+			]
+		},
+		"dreams": {
+			"text": "The scissors go still. Porphyre meets your eyes in the mirror, and the court jester steps aside for the man who has guarded your head, in every sense, for years. \"Missy dreamed her gods since before Porphyre knew her. Gods do not simply STOP.\" He resumes, gently. \"Either they were taken — or they are being HELD BACK. And the clinic that 'cured' missy billed the network, and the network is pleased.\" Snip. \"Porphyre is just a hairdresser. But Porphyre would ask the machine downstairs some very pointed questions.\"",
+			"set_flag": "ch04_porphyre",
+			"options": [
+				{ "text": "\"I intend to. Wish me luck.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"Luck is for people without PLANS, missy.\" He whisks the cape away like a matador. \"Go. Interrogate the furniture. Porphyre will be here, keeping the empire's most valuable head presentable for whatever it decides to do next.\"",
+			"options": []
+		}
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"_note": "Chapter 7 — Gentry taps the aleph through the Count. The gray house. The cost.",
+	"start": "c7_bench",
+	"rooms": {
+		"c7_bench": {
+			"name": "The Count's Corner",
+			"bg": "S7_bench",
+			"desc": "A week of vigil has made the corner a ward: stretcher, drip, Cherry's shoebox telemetry pulsing amber. The Count's eyes move under their lids like weather on another planet. The gray slab is warm to the touch. You've stopped touching it.",
+			"npcs": ["cherry7"],
+			"exits": { "north": "c7_ground", "east": "c7_generator" }
+		},
+		"c7_ground": {
+			"name": "Factory — Ground Floor",
+			"bg": "S7_ground",
+			"desc": "Torchlight and machine skeletons. The Judge stands half-rebuilt where you left it, one arm raised like a question you haven't answered. Overhead, Gentry's loft burns its lonely light.",
+			"exits": { "south": "c7_bench", "north": "c7_loft", "west": "c7_catwalk" }
+		},
+		"c7_generator": {
+			"name": "Generator Shed",
+			"bg": "S7_generator",
+			"desc": "The Factory's heart: a scavenged fusion cell and a prayer of cabling. The aleph tap draws more every night. When the needles dip, somewhere inside a universe, it is dreaming harder.",
+			"exits": { "west": "c7_bench" }
+		},
+		"c7_catwalk": {
+			"name": "High Catwalk",
+			"bg": "S7_catwalk",
+			"desc": "Wind through broken lights, the Solitude spread black below. On the interstate, kilometers out: headlights in convoy formation, holding steady, patient. Coming here. Nobody drives to Dog Solitude by accident.",
+			"exits": { "east": "c7_ground" }
+		},
+		"c7_loft": {
+			"name": "Gentry's Loft — the Rig",
+			"bg": "S7_loft",
+			"desc": "Every screen Gentry owns is turned to the tap like flowers to a black sun. He's strung a second trode set — yours. 'You hold the line,' he says, eyes enormous. 'I read the Shape. And Slick — whatever speaks in there, we do NOT insult it.'",
+			"npcs": ["gentry7"],
+			"matrix": true,
+			"exits": { "south": "c7_ground" }
+		}
+	}
+}

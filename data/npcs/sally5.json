@@ -1,0 +1,30 @@
+{
+	"id": "sally5",
+	"name": "Sally Shears",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Sally watches you work the noodles, mirrors unreadable as ever. \"Eat. Oracle after.\" A pause, then, grudging as a tooth coming out: \"What you hear in that alley, kid — that's mine. Not Swain's, not your father's. Mine. I'm telling you 'cause you'll hear it anyway, and 'cause you're the only one in that whole house who hasn't tried to bill me.\"",
+			"options": [
+				{ "text": "\"Why show me any of this?\"", "next": "why" },
+				{ "text": "\"I keep what's yours, yours. My word.\"", "next": "word" }
+			]
+		},
+		"why": {
+			"text": "The mirrors tilt toward the window, the snow, the crowd. \"Somebody smart once did that for me — took me along, let me see how the real machine worked, didn't charge tuition.\" She goes back to her bowl. \"Besides. Way this job's shaped, kid, you might have to find me someday, fast, with nobody's help. Better you know the doors.\"",
+			"options": [
+				{ "text": "\"I keep what's yours, yours. My word.\"", "next": "word" }
+			]
+		},
+		"word": {
+			"text": "\"Yeah.\" One syllable, but the mirrors hold on you a second longer than they need to, and something in the set of her shoulders unclenches by a millimeter. \"Okay. Finish your soup, Yanaka. Dead man hates cold customers.\"",
+			"options": [
+				{ "text": "(finish, and go) ", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "She pays in paper, tips like a felony, and walks you toward the alley through the machine snow — one hand light on your shoulder, steering, the whole street cataloged behind her mirrors.",
+			"options": []
+		}
+	}
+}

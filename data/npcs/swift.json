@@ -1,0 +1,34 @@
+{
+	"id": "swift",
+	"name": "Hilton Swift (call)",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Hilton Swift fills the wall screen in network casual, warmth calibrated to the tenth decimal. \"Angie! You look wonderful. Everyone here is just — we're all so PROUD of your recovery.\" Somewhere behind his eyes, a meeting is watching. \"The Sprawl segments are greenlit whenever you feel ready. No pressure. Family first. You know you're family, Angie.\"",
+			"set_flag": "ch04_swift_call",
+			"options": [
+				{ "text": "\"Hilton, who chose my rehab clinic?\"", "next": "clinic" },
+				{ "text": "\"Tell me I'll shoot in the Sprawl. Say the dates.\"", "next": "east", "require_flag": "ch04_beach_dusk" },
+				{ "text": "\"I'm fine, Hilton. Warm regards to the meeting behind your eyes.\" (end call)", "next": "bye" }
+			]
+		},
+		"clinic": {
+			"text": "The warmth buffers for a quarter second — network time, geological ages. \"Medical made those arrangements, with the very best consultants. Angie, sweetheart, is something wrong? Your numbers are — your HEALTH is our only—\" he course-corrects, \"—priority. If you'd like a different clinic, a different ANYTHING, you only have to say.\" He believes himself. That's the frightening part. Hilton always believes himself.",
+			"options": [
+				{ "text": "\"Say the Sprawl dates, Hilton.\"", "next": "east", "require_flag": "ch04_beach_dusk" },
+				{ "text": "\"Nothing's wrong. Warm regards to the meeting.\" (end call)", "next": "bye" }
+			]
+		},
+		"east": {
+			"text": "\"REALLY? That's — Angie, that's wonderful news, everyone will be thrilled—\" He's already moving jets and hotels and press windows with small motions of his eyes. \"Production will route everything. Piper will travel with you.\" A final surge of warmth, almost real: \"It's good to have you back, Angie.\" You smile HER smile at him — the network's, the product's — and keep your own for the trip.",
+			"set_flag": "ch04_decided_east",
+			"options": [
+				{ "text": "End the call.", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "The screen returns to its resting slate, and the house's lenses resettle on you with their soft institutional love. Somewhere in the network's depths, your file has already grown three new pages.",
+			"options": []
+		}
+	}
+}

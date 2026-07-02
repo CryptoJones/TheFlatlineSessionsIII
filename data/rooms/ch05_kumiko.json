@@ -1,0 +1,44 @@
+{
+	"_note": "Chapter 5 — Sally takes Kumiko to the Sprawl to consult the Finn's construct.",
+	"start": "c5_suborbital",
+	"rooms": {
+		"c5_suborbital": {
+			"name": "Suborbital — London to the Sprawl",
+			"bg": "K5_suborbital",
+			"desc": "Sally sleeps like a knife in a drawer, upright, eyes closed behind the mirrors. Colin admires the drink service. Below, the Atlantic slides past in forty minutes. Nobody told Swain you were leaving. That, Colin observes, is the most educational fact of the week.",
+			"exits": { "east": "c5_street" }
+		},
+		"c5_street": {
+			"name": "Sprawl — Market Street, Snow",
+			"bg": "K5_street",
+			"desc": "The geodesics shut out the sky and snow falls anyway, machine-made, gray before it lands. Stalls, steam, ten languages a minute. Sally moves through it like current through water, and the crowd unknowingly makes way.",
+			"on_enter_flag": "ch05_arrived_sprawl",
+			"net": true,
+			"exits": { "west": "c5_suborbital", "east": "c5_alley", "south": "c5_noodles" }
+		},
+		"c5_noodles": {
+			"name": "Noodle Counter",
+			"bg": "K5_noodles",
+			"desc": "Broth-steam and elbow room for six. Sally orders for you in Sprawl-accented Japanese that startles you both. Over the bowls, quietly: 'Where we're going, kid — it's a dead man. Mind your manners. He bites.'",
+			"npcs": ["sally5"],
+			"exits": { "north": "c5_street" }
+		},
+		"c5_alley": {
+			"name": "The Alley — Shrine of the Finn",
+			"bg": "K5_alley",
+			"desc": "A slot between buildings, snow-choked, dead-ended by an armored bulk the size of a delivery van, all gun ports and graffiti wards. The locals leave offerings: cigarettes, hardware, small change. The speaker crackles like frying. It knows Sally's step.",
+			"on_enter_flag": "ch05_found_alley",
+			"npcs": ["finn_construct"],
+			"exits": { "west": "c5_street", "north": "c5_walk" }
+		},
+		"c5_walk": {
+			"name": "The Walk Back — Snow",
+			"bg": "K5_walk",
+			"desc": "Machine snow settling on Sally's shoulders and your hair, the market noise fading behind. She doesn't talk for three blocks. When she does, it's the truest voice you've heard from an adult since your mother died — and what it says is: none of what's coming will be what it looks like.",
+			"requires_flag": "ch05_3jane_named",
+			"locked_text": "Not yet. The oracle hasn't finished with Sally — or with you.",
+			"on_enter_flag": "ch05_snow_walk",
+			"exits": { "south": "c5_alley" }
+		}
+	}
+}

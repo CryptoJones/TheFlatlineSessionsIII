@@ -1,0 +1,52 @@
+{
+	"_note": "Chapter 9 — Kumiko flees Swain's house, crosses London, reaches Tick, sees the aleph, warns Sally.",
+	"start": "c9_landing",
+	"rooms": {
+		"c9_landing": {
+			"name": "Swain's House — Upstairs Landing",
+			"bg": "K9_landing",
+			"desc": "The house has changed voice: new men below, crates in the hall, phones that ring once and stop. Down through the old heating grate, Swain's study leaks conversation like gas. Colin holds up one finger: LISTEN.",
+			"exits": { "east": "c9_grate" }
+		},
+		"c9_grate": {
+			"name": "The Heating Grate",
+			"bg": "K9_grate",
+			"desc": "Swain's voice, brandy-smooth, itemizing: the woman delivered north, the substitute in place, payment in wholesale intelligence from 'her ladyship up the well.' They are selling Sally. They are selling the most famous face on Earth. And they are keeping you, Miss Yanaka, as a courtesy to a man they mean to outlive.",
+			"on_enter_flag": "ch09_overheard",
+			"exits": { "west": "c9_landing", "south": "c9_backstairs" }
+		},
+		"c9_backstairs": {
+			"name": "Servants' Stairs",
+			"bg": "K9_backstairs",
+			"desc": "Narrow, cold, smelling of polish and a century of discretion. Colin knows which steps creak — he read the house's bones the first night. Petal's television murmurs behind the kitchen door. You go past like a held breath.",
+			"requires_flag": "ch09_overheard",
+			"locked_text": "Not yet. You need to know what the house is before you leave it.",
+			"on_enter_flag": "ch09_slipped_house",
+			"npcs": ["colin9"],
+			"exits": { "north": "c9_grate", "south": "c9_tube" }
+		},
+		"c9_tube": {
+			"name": "The Underground — Night Service",
+			"bg": "K9_tube",
+			"desc": "Sodium light, wind from black tunnels, a carriage of strangers minding centuries of their own business. Colin rides beside you reading advertisements with delight. 'Brixton,' he says. 'Three stops. Your father would be appalled, which I find rather bracing.'",
+			"on_enter_flag": "ch09_crossed_london",
+			"exits": { "north": "c9_backstairs", "south": "c9_brixton" }
+		},
+		"c9_brixton": {
+			"name": "Brixton — Tick's Street",
+			"bg": "K9_brixton",
+			"desc": "Curry steam, rain instead of snow, music through a dozen bricked-up windows. Tick's door has four locks and a camera disguised as a dead plant. It opens before you knock. 'Sally's kid,' says the small man inside, resigned. 'Course you are. In. IN.'",
+			"on_enter_flag": "ch09_reached_tick",
+			"exits": { "north": "c9_tube", "east": "c9_flat" }
+		},
+		"c9_flat": {
+			"name": "Tick's Flat — the Rig",
+			"bg": "K9_flat",
+			"desc": "Solder smoke, takeaway cartons, and a matrix rig that would embarrass a bank. Tick cracks his knuckles like a concert pianist with a grudge. On the main screen, the grid stretches out — and leans, all of it, toward something gray and new.",
+			"npcs": ["tick"],
+			"matrix": true,
+			"pickups": [ { "item": "tick_rig_pass", "label": "Take the guest line Tick opens for you" } ],
+			"exits": { "west": "c9_brixton" }
+		}
+	}
+}

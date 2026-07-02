@@ -1,0 +1,48 @@
+{
+	"_note": "Chapter 4 — Angie in Malibu. Porphyre -> Swift -> Continuity -> the beach -> decide east.",
+	"start": "c4_bedroom",
+	"rooms": {
+		"c4_bedroom": {
+			"name": "Malibu House — Bedroom",
+			"bg": "A4_bedroom",
+			"desc": "Glass on three sides, the Pacific doing its endless expensive thing beyond. You wake clean for the sixtieth straight morning and lie still, listening for gods, and hear only surf and the house's polite machinery.",
+			"exits": { "east": "c4_livingroom" }
+		},
+		"c4_livingroom": {
+			"name": "Living Room — Camera Country",
+			"bg": "A4_living",
+			"desc": "Sense/Net taste: nothing in this room chose itself, including, some mornings, you. The house system's lenses track you with affectionate diligence. Continuity is always watching. Continuity is always writing.",
+			"exits": { "west": "c4_bedroom", "east": "c4_studio", "south": "c4_deck", "north": "c4_dressing" }
+		},
+		"c4_dressing": {
+			"name": "Dressing Room",
+			"bg": "A4_dressing",
+			"desc": "Racks of clothes that photograph well and a chair like a throne, because Porphyre insists thrones are ergonomic. The hairdresser to the most famous head on Earth is already laying out his instruments like a duelist.",
+			"npcs": ["porphyre"],
+			"exits": { "south": "c4_livingroom" }
+		},
+		"c4_studio": {
+			"name": "Home Studio — the Wall of Screens",
+			"bg": "A4_studio",
+			"desc": "Edit bays, a stim rig worth a small nation, and the soft-spoken omnipresence of the network's AI. You can ask Continuity anything. Getting an answer that hasn't been focus-grouped is the trick.",
+			"npcs": ["continuity", "swift"],
+			"matrix": true,
+			"exits": { "west": "c4_livingroom" }
+		},
+		"c4_deck": {
+			"name": "Ocean Deck",
+			"bg": "A4_deck",
+			"desc": "Weathered teak over private sand. The network measures even this view in audience share. Below, the tide drags its combs through the kelp, indifferent to sweeps week.",
+			"exits": { "north": "c4_livingroom", "south": "c4_beach" }
+		},
+		"c4_beach": {
+			"name": "The Beach at Dusk",
+			"bg": "A4_beach",
+			"desc": "Cold sand, the sun going down like a struck set. You walk the tideline and reach inward, deliberately, for the crossroads where Legba always waited — and find the road bare, swept, and fenced. Not empty: EMPTIED. Somebody built this silence, and paid well for it.",
+			"requires_flag": "ch04_continuity_asked",
+			"locked_text": "Not yet. First shake the tree up at the house — Continuity knows more than it's saying.",
+			"on_enter_flag": "ch04_beach_dusk",
+			"exits": { "north": "c4_deck" }
+		}
+	}
+}

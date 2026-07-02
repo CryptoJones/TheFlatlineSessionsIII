@@ -1,0 +1,51 @@
+{
+	"_note": "Chapter 6 — Mona at Gerald's Baltimore clinic. Check in -> the truth -> surgery -> the mirror.",
+	"start": "c6_van",
+	"rooms": {
+		"c6_van": {
+			"name": "The Van — Baltimore",
+			"bg": "M6_van",
+			"desc": "No windows in the back, which says plenty. Prior drives like a man with an appointment he doesn't fear being late for, because the appointment is you and you're already in the van.",
+			"exits": { "north": "c6_reception" }
+		},
+		"c6_reception": {
+			"name": "Clinic — Reception",
+			"bg": "M6_reception",
+			"desc": "No sign outside, no magazines inside, a receptionist who never learns names as a professional courtesy. The consent forms are printed in a language of liability that isn't quite English. You sign somebody else's name. It's that kind of clinic.",
+			"on_enter_flag": "ch06_checked_in",
+			"npcs": ["prior6"],
+			"exits": { "south": "c6_van", "east": "c6_consult", "north": "c6_room" }
+		},
+		"c6_consult": {
+			"name": "Consulting Room",
+			"bg": "M6_consult",
+			"desc": "Light like the inside of a refrigerator, a wall of before-and-afters with the eyes blacked out. Gerald studies your face the way Slick... the way an artist studies raw material: kindly, and entirely in terms of what it's about to become.",
+			"npcs": ["gerald"],
+			"exits": { "west": "c6_reception" }
+		},
+		"c6_room": {
+			"name": "Recovery Room — Before",
+			"bg": "M6_room",
+			"desc": "A bed, a drip stand, a ceiling with forty-one tiles. On the side table somebody left a fan magazine: ANGIE — AMERICA'S DREAM, COMING EAST. She smiles up at the girl who is about to be spent like her loose change.",
+			"exits": { "south": "c6_reception", "east": "c6_theater" }
+		},
+		"c6_theater": {
+			"name": "Surgical Theater",
+			"bg": "M6_theater",
+			"desc": "The table takes you the way water takes a swimmer. Gerald's voice counts backward through a warm gray tide — and the last thing that is entirely Mona thinks, clear as Cleveland rain: remember your own face, girl. Somebody has to.",
+			"requires_flag": "ch06_gerald_talk",
+			"locked_text": "Not until you've made the surgeon say out loud what he's been paid to do.",
+			"on_enter_flag": "ch06_surgery_done",
+			"exits": { "west": "c6_room", "north": "c6_mirror" }
+		},
+		"c6_mirror": {
+			"name": "Recovery Room — the Mirror",
+			"bg": "M6_mirror",
+			"desc": "They saved the unveiling for day four, like a gift. In the glass: HER. The face from the magazine, the face from ten thousand screens, laid over your bones with terrible skill. You look for Mona and find her in the eyes — only the eyes. Hold onto the eyes.",
+			"requires_flag": "ch06_surgery_done",
+			"locked_text": "There's nothing to see yet. There's barely a you.",
+			"on_enter_flag": "ch06_faced_mirror",
+			"exits": { "south": "c6_theater" }
+		}
+	}
+}

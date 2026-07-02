@@ -1,0 +1,33 @@
+{
+	"id": "swain",
+	"name": "Roger Swain",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Swain rises from the fire with both hands out, hospitality laid on with a trowel. \"Miss Yanaka. Your father honors my house.\" The bow is millimeter-perfect and means nothing. \"You'll be quite safe here until the... unpleasantness at home resolves. My man Petal will see to your needs. My associate Miss Shears will see to your person.\"",
+			"set_flag": "ch01_met_swain",
+			"options": [
+				{ "text": "\"How long am I to stay, Mr. Swain?\"", "next": "how_long" },
+				{ "text": "\"What is it you do for my father?\"", "next": "business" },
+				{ "text": "Bow. Say nothing. (leave)", "next": "bye" }
+			]
+		},
+		"how_long": {
+			"text": "\"As long as wisdom requires, and not an hour more.\" The smile does not involve the eyes. \"Wars end, Miss Yanaka. Your father's enemies are ambitious, but ambition in the Yakuza has a short half-life. Enjoy London. It's at its best in the snow — everything looks buried already.\"",
+			"options": [
+				{ "text": "\"What is it you do for my father?\"", "next": "business" },
+				{ "text": "Withdraw. (leave)", "next": "bye" }
+			]
+		},
+		"business": {
+			"text": "\"Facilitation.\" He warms the word by the fire. \"Introductions, arrangements, the quiet oiling of hinges between his world and this one. A man in my position trades in trust, Miss Yanaka.\" Somewhere behind the house's walls, a phone rings once and stops. \"You'll forgive me — hinges to oil.\"",
+			"options": [
+				{ "text": "Withdraw. (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "He turns back to the fire before you've fully left the room — a man crossing you off one list and onto another.",
+			"options": []
+		}
+	}
+}

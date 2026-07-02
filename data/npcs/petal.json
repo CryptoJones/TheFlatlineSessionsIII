@@ -1,0 +1,39 @@
+{
+	"id": "petal",
+	"name": "Petal",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Petal looks up from the racing form, a mountain in carpet slippers, and puts the kettle on because you exist. \"Miss.\" He produces biscuits from somewhere with sleight-of-hand incongruous in hands that size. \"Settling in all right? House takes getting used to. Creaks with opinions, this house.\"",
+			"options": [
+				{ "text": "\"How long have you worked for Mr. Swain?\"", "next": "swain" },
+				{ "text": "\"What should I know about the house?\"", "next": "house" }
+			]
+		},
+		"swain": {
+			"text": "\"Long enough to stop asking questions, which is the pension plan in this trade.\" He pours proper tea, milk first, no ceremony. \"Mr. Swain's business runs on introductions. Lately the introductions come with... homework.\" A shrug like a hill settling. \"Not my floor of the house, miss.\"",
+			"options": [
+				{ "text": "\"What should I know about the house?\"", "next": "house" },
+				{ "text": "\"Thank you for the tea.\" (leave)", "next": "bye" }
+			]
+		},
+		"house": {
+			"text": "\"Breakfast's at eight, the third stair sings, and the study's off-limits when the door's shut — that's for your comfort more than his.\" He taps the racing form flat. \"Kitchen's always warm and I'm always in it. Anything worries you in the night, miss — anything — you come down here first, and we'll decide together whether it needs waking anyone posher.\"",
+			"set_flag": "ch01_petal_talk",
+			"options": [
+				{ "text": "\"And Miss Shears?\"", "next": "sally" },
+				{ "text": "\"Thank you, Petal.\" (leave)", "next": "bye" }
+			]
+		},
+		"sally": {
+			"text": "For the first time the pleasantness goes a bit careful. \"Miss Shears is minding you as a favor she wasn't given the option of refusing.\" He rinses a cup with great attention. \"Don't mistake me — there's no safer company in England. Just don't ask her who she's cross with. The list is structural.\"",
+			"options": [
+				{ "text": "\"Thank you, Petal.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"Biscuits travel,\" says Petal, wrapping two in a napkin and posting them into your hand like contraband kindness.",
+			"options": []
+		}
+	}
+}

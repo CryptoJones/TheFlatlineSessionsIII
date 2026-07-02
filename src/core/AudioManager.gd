@@ -20,7 +20,7 @@ const CHAPTER_TRACKS := {
 	"ch09": "ch09_underground",
 	"ch10": "ch10_the_switch",
 	"ch11": "ch11_siege_dog_solitude",
-	"ch12": "ch12_mona_lisa_overdrive",
+	"ch12": "ch12_mona_lisa_underdrive",
 }
 
 signal track_changed(track)

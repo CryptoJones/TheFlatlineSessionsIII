@@ -43,6 +43,9 @@ rotoscoped, painted-over-live-action plates with graphic-novel realism, flattene
 planes, visible ink contours, warm 35mm grain, and violet/magenta cyberpunk accents. See
 [`docs/art-style-prompt.md`](docs/art-style-prompt.md) for the locked style prompt.
 
+The first soundtrack pass is in `assets/audio/music/`, with chapter cues plus title,
+shops, cyberspace, and ICE-combat loops. See [`docs/soundtrack.md`](docs/soundtrack.md).
+
 For review from a tablet/phone, see
 [`docs/The_Art_of_The_Flatline_Sessions_III.pdf`](docs/The_Art_of_The_Flatline_Sessions_III.pdf).
 

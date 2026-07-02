@@ -1,0 +1,45 @@
+{
+	"id": "kid_afrika",
+	"name": "Kid Afrika",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "The Kid unfolds from the leopard seats like a magazine spread, gold at his throat, sorrow in his voice, larceny in the mix somewhere always. \"Slick Henry. My man. My artist.\" He gestures at the stretcher, the wired sleeper, the gray slab. \"I need the Factory's hospitality, and I need your word, and then, swiftly, I need to be somewhere very else.\"",
+			"options": [
+				{ "text": "\"Who is he, Kid?\"", "next": "who" },
+				{ "text": "\"Atlantic City was ONE favor.\"", "next": "favor" }
+			]
+		},
+		"favor": {
+			"text": "\"One favor, Slick, but a *load-bearing* one.\" The Kid lays a hand over his heart. \"Did I not haul your bleeding self out of that parking structure? Did I not misremember your name to certain interested parties for three consecutive years?\" A pause, calibrated. \"The books balance tonight. After this, we start clean, you and me.\"",
+			"options": [
+				{ "text": "\"...Who is he?\"", "next": "who" }
+			]
+		},
+		"who": {
+			"text": "\"They call him the Count. Cowboy royalty, retired young.\" The Kid's voice drops to the honest register he saves for danger. \"The slab is his — bought with everything he had, and jacked in at the root. He is not sick, Slick. He is *occupied elsewhere*. Keep the drip going, keep the slab connected, keep the whole arrangement dark. Cherry knows the med side.\"",
+			"options": [
+				{ "text": "\"Who's looking for him?\"", "next": "heat" },
+				{ "text": "\"Terms. Say the terms.\"", "next": "terms" }
+			]
+		},
+		"heat": {
+			"text": "\"Persons of orbital means and terrestrial manners.\" The Kid glances at the flat gray horizon as if it had windows. \"The kind that hires convoys, Slick. If they knew where he was, I would not be here — I would be a rumor. Keep him dark and they've got no thread to pull.\" He does not say YET. You both hear it anyway.",
+			"options": [
+				{ "text": "\"Terms. Say the terms.\"", "next": "terms" }
+			]
+		},
+		"terms": {
+			"text": "\"Cherry stays with the patient — she's paid through. You get this—\" a fold of certified chips lands in your palm, \"—and my markers, all of them, torn up. Two weeks, maybe three, and a man comes with a code phrase to collect him breathing.\" The Kid resettles his coat like a curtain call. \"Do we have an arrangement, artist?\"",
+			"set_flag": "ch02_kid_terms",
+			"credits": 500,
+			"options": [
+				{ "text": "\"...Get him inside. And Kid — we're CLEAN after this.\" (end)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"Cleaner than rain,\" swears Kid Afrika, already reversing the hover, already halfway to being a rumor himself, leaving you a coma, a countess's ransom in biosoft, and the particular silence of a done deal on Dog Solitude.",
+			"options": []
+		}
+	}
+}

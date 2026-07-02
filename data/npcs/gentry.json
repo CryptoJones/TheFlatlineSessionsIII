@@ -1,0 +1,37 @@
+{
+	"id": "gentry",
+	"name": "Gentry",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Gentry comes down the stairs already furious — thin, electric, coat flapping like a prophet's. \"You brought PEOPLE, Slick Henry. Into MY Factory. People, a medical situation, and—\" he sees the gray slab and stops as if unplugged. A long silence. \"...Where,\" he says, in an entirely new voice, \"did that come from.\"",
+			"set_flag": "ch02_gentry_faced",
+			"options": [
+				{ "text": "\"Kid Afrika. Two weeks' hospitality. I owed him.\"", "next": "owed" },
+				{ "text": "\"You know what it is, don't you.\"", "next": "aleph" }
+			]
+		},
+		"owed": {
+			"text": "\"You OWED him.\" Gentry circles the stretcher without touching, the anger fighting the hunger and losing by lengths. \"You mortgaged my Factory for a parking-structure favor. I should throw all three of you to the Solitude.\" His eyes never leave the slab. \"...What's the storage rating on that unit, do you suppose? No. No, it can't be. There ISN'T a rating for that.\"",
+			"options": [
+				{ "text": "\"Say what you think it is, Gentry.\"", "next": "aleph" }
+			]
+		},
+		"aleph": {
+			"text": "\"An aleph.\" He says it the way other men say a saint's name. \"Theoretical. A biosoft dense enough to hold an *approximation of everything* — the matrix, folded, WHOLE, in a brick you could carry in a duffel.\" He finally looks at you, and his eyes are terrible with joy. \"I have spent nine years hunting the Shape of the matrix from a loft in a ruin, Slick Henry — and you have just carried the Shape in through my LOADING DOCK. Nobody touches it. Nobody moves it. And nobody,\" the fury snapping back like a circuit closing, \"tells ANYONE it's here.\"",
+			"set_flag": "ch02_aleph_named",
+			"options": [
+				{ "text": "\"The Kid already knows. And whoever's hunting the Count.\"", "next": "grim" },
+				{ "text": "\"Your Factory, your rules.\" (leave)", "next": "bye" }
+			]
+		},
+		"grim": {
+			"text": "The joy banks itself behind the usual wire. \"Then we have two weeks to learn what God's suitcase contains,\" Gentry says, \"before somebody arrives to repossess it. Efficient. I work best against a deadline.\" He's already climbing back to the loft, coat swirling, mind gone on ahead of him.",
+			"options": []
+		},
+		"bye": {
+			"text": "\"MY rules,\" Gentry agrees from the stairs, ascending, aglow. \"Rule one: full power to the loft. Rule two: nobody dusts anything. Rule three—\" the loft door slams on the rest, but you know rule three. Rule three is always the Shape.",
+			"options": []
+		}
+	}
+}

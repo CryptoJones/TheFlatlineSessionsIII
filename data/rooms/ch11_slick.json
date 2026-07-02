@@ -1,0 +1,59 @@
+{
+	"_note": "Chapter 11 — the siege of the Factory. Spot -> wire -> secure -> loose the Judge -> hold -> Molly arrives.",
+	"start": "c11_catwalk",
+	"rooms": {
+		"c11_catwalk": {
+			"name": "High Catwalk — Dawn",
+			"bg": "S11_catwalk",
+			"desc": "First light the color of solder, and out on the Solitude: hovers in convoy formation, fanning wide the way professionals fan when they've bought the map in advance. They've come for the gray box. They've budgeted for everyone who knows it exists.",
+			"on_enter_flag": "ch11_convoy_spotted",
+			"exits": { "south": "c11_loft" }
+		},
+		"c11_loft": {
+			"name": "Gentry's Loft — War Room",
+			"bg": "S11_loft",
+			"desc": "Gentry has stopped being fragile. Every screen carries a sightline now; the Factory's dead wiring is waking up under his hands, floodlights and fence current and things you welded years ago for reasons you lost. 'They want my Shape,' he says. 'They may not HAVE it.'",
+			"npcs": ["gentry11"],
+			"exits": { "north": "c11_catwalk", "south": "c11_ground" }
+		},
+		"c11_ground": {
+			"name": "Factory — Ground Floor",
+			"bg": "S11_ground",
+			"desc": "Torchlight on steel and everything that cuts, rolled to the doors. The Judge stands finished in the center of the floor — two and a half meters of blades and verdicts — waiting for the only permission it's ever wanted.",
+			"exits": { "north": "c11_loft", "east": "c11_bench", "south": "c11_yard", "west": "c11_marvins" }
+		},
+		"c11_bench": {
+			"name": "The Count's Corner — Secured",
+			"bg": "S11_bench",
+			"desc": "You and Cherry drag plate steel into a redoubt around the stretcher. The Count dreams on, oblivious, his universe humming in its gray brick. Cherry checks his lines, then checks the shotgun you gave her, in that order. 'He stays breathing,' she says. It's not a question.",
+			"npcs": ["cherry11"],
+			"exits": { "west": "c11_ground" }
+		},
+		"c11_marvins": {
+			"name": "Marvin's — Parts & Salvage",
+			"bg": "S11_marvins",
+			"desc": "Marvin sells to both sides of every trouble on the Solitude, which is why he's still alive, and today he's selling to you at panic prices with the shutters half down. 'Whatever's coming,' he says, weighing your credit, 'buy it now.'",
+			"shop": "marvins_parts",
+			"exits": { "east": "c11_ground" }
+		},
+		"c11_yard": {
+			"name": "The Yard — Contact",
+			"bg": "S11_yard",
+			"desc": "The Judge takes the first hover the way it took your nightmares: entirely. The Witch spins wire and murder through the second. You work the remote with both hands, and for once the lost time works FOR you — you are all reflex, all art, and the yard is your gallery opening.",
+			"requires_flag": "ch11_defenses_wired",
+			"locked_text": "Not into the open yet — Gentry's still wiring the yard. Go up and help him first.",
+			"npcs": ["judge"],
+			"exits": { "north": "c11_ground", "east": "c11_perimeter" }
+		},
+		"c11_perimeter": {
+			"name": "Perimeter — Aftermath",
+			"bg": "S11_perimeter",
+			"desc": "Burned hulls smoking on the flats, the convoy's discipline gone the way of its paymaster's budget. And out of the north, unannounced: one battered car, driving like physics owes it money, headlights flashing an old cowboy code Gentry says means DON'T SHOOT, YOU IDIOTS.",
+			"requires_flag": "ch11_judge_loosed",
+			"locked_text": "The Judge hasn't spoken yet. Nothing out there is finished being dangerous.",
+			"on_enter_flag": "ch11_yard_held",
+			"npcs": ["molly11"],
+			"exits": { "west": "c11_yard" }
+		}
+	}
+}

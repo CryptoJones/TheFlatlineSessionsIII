@@ -1,0 +1,30 @@
+{
+	"id": "colin9",
+	"name": "Colin",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Colin materializes on the servants' stairs, and the permanent amusement has been put away in favor of something crisp and operational. \"Third step from the bottom sings in the key of disaster — skip it. Petal is in the kitchen with the racing form and, I calculate, no orders concerning you YET. The back door's camera sweeps on a nine-second cycle.\" A beat. \"Frightened?\"",
+			"options": [
+				{ "text": "\"Yes.\"", "next": "yes" },
+				{ "text": "\"My father's daughter doesn't get frightened.\"", "next": "father" }
+			]
+		},
+		"yes": {
+			"text": "\"Good. Fear is data.\" He glides down the stairs ahead of you, immune to the steps' opinions. \"Attend: you are not fleeing, Miss Yanaka. You are REPOSITIONING, with intent, toward an ally's stronghold. The distinction will matter to your posture, and your posture will matter to every camera between here and Brixton. Chin up. Bored eyes. You are a schoolgirl who has snuck out for chips. London is FULL of them.\"",
+			"options": [
+				{ "text": "\"Chin up. Bored eyes. Chips.\" (go)", "next": "bye" }
+			]
+		},
+		"father": {
+			"text": "\"Your father's daughter,\" Colin says gently, \"watched her mother's funeral arrangements made by committee, was shipped abroad as a line item, and has navigated a hostile house for weeks with a ghost for a friend. She is ENTITLED to fear. She simply declines to be governed by it.\" The old warmth flickers back for a moment. \"Which, for the record, is the working definition of courage. Now — nine-second sweep. On my mark.\"",
+			"options": [
+				{ "text": "(on his mark — go)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"Mark,\" murmurs Colin, and you are out the door and into the London dark, a schoolgirl out for chips, with a dead man's construct pacing you like a guardian written in someone else's memory.",
+			"options": []
+		}
+	}
+}

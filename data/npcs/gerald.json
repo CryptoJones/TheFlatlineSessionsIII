@@ -1,0 +1,33 @@
+{
+	"id": "gerald",
+	"name": "Gerald",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Gerald examines your face with cool fingertips and a penlight, humming something classical. \"Good bones. Excellent canvas.\" He makes a note. \"You may ask me questions. Patients heal better informed, whatever my clients believe. I bill them for the philosophy either way.\"",
+			"options": [
+				{ "text": "\"What exactly are you going to do to me?\"", "next": "work" },
+				{ "text": "\"Whose face am I getting?\"", "next": "whose" }
+			]
+		},
+		"work": {
+			"text": "\"Restructuring: cheekbones, jawline, hairline, vocal cords a quarter-tone. Dermal work throughout. Nothing irreversible—\" he pauses, honest by the gram, \"—nothing PRACTICALLY irreversible, given equivalent money in the other direction.\" The penlight clicks off. \"Five days here, then bandages off. My work is very good. That is not vanity; it is your only relevant warranty.\"",
+			"set_flag": "ch06_gerald_talk",
+			"options": [
+				{ "text": "\"Whose face, Gerald?\"", "next": "whose" },
+				{ "text": "\"Then let's get it done.\" (leave)", "next": "bye" }
+			]
+		},
+		"whose": {
+			"text": "Gerald's humming stops. \"I am paid not to recognize her, which is difficult, as my waiting room plays her network.\" He meets your eyes — the only part of you he isn't being paid to change. \"Girl. Listen to a man who has made many people into other people: the ones who survive it keep something back. A gesture. A memory. A face they make only in the dark.\" He resumes the humming, gentler. \"Keep Mona somewhere they can't bill. Now — shall we?\"",
+			"set_flag": "ch06_gerald_talk",
+			"options": [
+				{ "text": "\"...Yeah. Let's get it done.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "He preps with the unhurried economy of real skill, laying out instruments like a man setting a table for the only guest he answers to: the work itself.",
+			"options": []
+		}
+	}
+}

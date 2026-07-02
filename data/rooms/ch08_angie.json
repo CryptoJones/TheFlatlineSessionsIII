@@ -1,0 +1,39 @@
+{
+	"_note": "Chapter 8 — Angie on the Sense/Net jet: palm the dust, jack the lace raw, meet Brigitte, turn the plane.",
+	"start": "c8_cabin",
+	"rooms": {
+		"c8_cabin": {
+			"name": "Sense/Net Jet — Main Cabin",
+			"bg": "A8_cabin",
+			"desc": "Leather and hush at eleven kilometers, the continent crawling beneath. Piper Hill works three screens of call sheets and watches you take your 'medication' with a warmth that files reports. The dose sits in your palm like a small white lie.",
+			"npcs": ["piper"],
+			"exits": { "east": "c8_aft", "west": "c8_cockpit" }
+		},
+		"c8_aft": {
+			"name": "Aft Cabin — Dark",
+			"bg": "A8_aft",
+			"desc": "You kill the lights and let the dreams line up for review: the factory dark, torchlight on rust, a gray box breathing, a boy's voice with a nightclub in it, saying your name like a place he's keeping for you. The dreams have continuity errors. Real memories always do.",
+			"requires_flag": "ch08_palmed_dose",
+			"locked_text": "Not with the network dust in your blood. Palm the dose first — make Piper believe.",
+			"on_enter_flag": "ch08_dreams_reviewed",
+			"matrix": true,
+			"exits": { "west": "c8_cabin", "east": "c8_galley" }
+		},
+		"c8_galley": {
+			"name": "Galley — 3 A.M. Coffee",
+			"bg": "A8_galley",
+			"desc": "The one camera on the jet with a blind spot, which Porphyre mapped for you years ago as a going-away present. You drink real coffee in the dead angle and write Mamman Brigitte's vévé on hotel stationery from memory. The ink shouldn't matter. It matters.",
+			"pickups": [ { "item": "loa_veve", "label": "Keep the drawn vévé" } ],
+			"exits": { "west": "c8_aft" }
+		},
+		"c8_cockpit": {
+			"name": "Cockpit — Flight Plan",
+			"bg": "A8_cockpit",
+			"desc": "The pilots are network people, but the aircraft, technically, answers to the talent. You give the word with your father's calm in your voice: east, then north. File it as location scouting. Sense/Net will bill the revolution as a production expense.",
+			"requires_flag": "ch08_brigitte_truth",
+			"locked_text": "Not yet. You don't know where you're going — only that it's not where they're taking you.",
+			"on_enter_flag": "ch08_flightplan_east",
+			"exits": { "east": "c8_cabin" }
+		}
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"id": "sally10",
+	"name": "The Mirror-Eyed Woman",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "The garage has gone quiet except for cooling engines and Prior's crew learning to breathe concrete. The woman with mirrored eyes stands between you and the other you, blades away, chrome lenses running the odds. \"Two of them,\" she says, flat. \"Great. The dead woman's plan needs a body wearing that face. Guess whose it was supposed to be, kid.\"",
+			"options": [
+				{ "text": "\"Mine. It was always going to be mine.\"", "next": "mine" },
+				{ "text": "\"Who ARE you?\"", "next": "who" }
+			]
+		},
+		"who": {
+			"text": "\"Sally. Molly, once, if you read the old boards.\" The mirrors tilt toward Angie, then back to you. \"I got squeezed into this job by a ghost with a grudge. She wants the star in a box and a body for the cameras. That second part—\" a nod at your borrowed face, \"—that's you, Cleveland. Nothing personal. It's ALWAYS nothing personal, and that's what's wrong with this whole century.\"",
+			"options": [
+				{ "text": "\"Mine. The body was going to be mine.\"", "next": "mine" }
+			]
+		},
+		"mine": {
+			"text": "\"Was. Past tense. I've been squeezed exactly as far as I squeeze.\" She snaps a blade back into its housing like punctuation. \"New plan: nobody wears a toe tag tonight. Both of you, in the car — the ghost can renegotiate with ME.\" Angie Mitchell — the real one, your face on her bones — looks at the mirror woman, then at you, and does the last thing the plan allows: she opens the door herself and slides over to make room. \"Well,\" she says, to you, to the garage, to the century. \"Sisters, apparently. Get in.\"",
+			"set_flag": "ch10_switch_broken",
+			"options": [
+				{ "text": "Get in the car.", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "The mirror woman takes the wheel like it owes her money. Behind you the garage stays down and stays quiet, and the plan — the whole elegant, dead-woman's plan — stays there with it.",
+			"options": []
+		}
+	}
+}

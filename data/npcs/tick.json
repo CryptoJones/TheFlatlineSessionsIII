@@ -1,0 +1,38 @@
+{
+	"id": "tick",
+	"name": "Tick",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Tick is small, fast-handed, and constitutionally aggrieved, and he triple-locks the door behind you while complaining continuously. \"Sally's KID. In my FLAT. While Swain's lot are carving up the town.\" He drops into his rig chair. \"Right. You're here, so it's bad. Tell Tick the shape of it, and leave nothing out, 'cause I'll only find it anyway.\"",
+			"options": [
+				{ "text": "Tell him everything you overheard at Swain's.", "next": "intel" },
+				{ "text": "\"Sally said you owe her everything. Do you?\"", "next": "owes" }
+			]
+		},
+		"owes": {
+			"text": "\"Owe her—\" Tick's outrage dies mid-launch, which tells you it's true. \"...She pulled me out of a hole once, all right? A deep one, with my name on the deed.\" He cracks his knuckles. \"So yeah. Whatever the kid of the razorgirl needs, the management's answer is yes. NOW: the shape of it.\"",
+			"options": [
+				{ "text": "Tell him everything you overheard.", "next": "intel" }
+			]
+		},
+		"intel": {
+			"text": "You give it precisely, the way your father taught: the crates, the phones, the grate, Swain's brandy voice itemizing a kidnapping. Tick goes still and professional halfway through. \"Her ladyship up the well,\" he repeats softly. \"Swain's selling Sally TO the job and the town for wholesale data. Right.\" He spins to the rig. \"Two things happen now. One: I show you what all this is ABOUT — it's parked in the matrix, big as a moon. Two: we get word to Sally before she's standing in the middle of it blind. Jack's there. Guest line's live. Don't touch anything red.\"",
+			"options": [
+				{ "text": "(jack in — see the macroform)", "next": "bye" },
+				{ "text": "\"Send this to Sally, exactly: SWAIN SELLS YOU. 3JANE BUYS.\"", "next": "warn", "require_flag": "cracked_aleph_macroform" }
+			]
+		},
+		"warn": {
+			"text": "\"Compressed, encrypted, and riding a remittance channel even Swain's new friends don't audit.\" Tick's hands blur; the burst goes with a sound like a struck match. The reply comes back in ninety seconds, terse as its sender: RECEIVED. GOOD WORK KID. STAY WITH TICK. WATCH WHAT HAPPENS TO PEOPLE WHO SQUEEZE ME. Tick reads it over your shoulder and blows out a long breath. \"God help the management,\" he says, with feeling, \"I do love her when she's like this.\"",
+			"set_flag": "ch09_warned_sally",
+			"options": [
+				{ "text": "\"Thank you, Tick. Colin approves of you, incidentally.\" (end)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"Kettle's on, couch folds out, and nobody finds this flat what I don't want finding it,\" Tick declares, re-checking his locks anyway — a small man holding a small fort on the edge of a war between ghosts, and holding it rather well.",
+			"options": []
+		}
+	}
+}

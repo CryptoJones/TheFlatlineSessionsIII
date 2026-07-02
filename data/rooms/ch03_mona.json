@@ -1,0 +1,44 @@
+{
+	"_note": "Chapter 3 — Mona in Florida. The strip -> Eddy's pitch -> Prior -> leaving.",
+	"start": "c3_squat",
+	"rooms": {
+		"c3_squat": {
+			"name": "The Squat",
+			"bg": "M3_squat",
+			"desc": "A room over a dead arcade: mattress, hotplate, Eddy's schemes taped to the wall in his careful loser's handwriting. The ocean comes through the floorboards as a smell. Home, insofar as the word applies.",
+			"npcs": ["eddy", "stim_deck"],
+			"exits": { "south": "c3_strip" }
+		},
+		"c3_strip": {
+			"name": "The Strip — Night",
+			"bg": "M3_strip",
+			"desc": "Neon syrup over cracked stucco, security drones like patient wasps, music from three bars fighting over the same block. You know every doorway's angle and every cop's schedule. Working knowledge, in the exact sense.",
+			"on_enter_flag": "ch03_worked_strip",
+			"shop": "florida_strip",
+			"net": true,
+			"exits": { "north": "c3_squat", "east": "c3_bar", "south": "c3_beach", "west": "c3_lobby" }
+		},
+		"c3_bar": {
+			"name": "Hooky Green's",
+			"bg": "M3_bar",
+			"desc": "Cane furniture going gray, a ceiling fan stirring the heat around, and a suit at the corner table who doesn't sweat: Prior. English, maybe. Money, definitely. He looks at you the way buyers look at samples.",
+			"npcs": ["prior"],
+			"exits": { "west": "c3_strip" }
+		},
+		"c3_beach": {
+			"name": "Dead Ocean Boardwalk",
+			"bg": "M3_beach",
+			"desc": "Grey waves that leave a film, gulls that learned not to bother. You come here when Eddy's voice gets too loud in the squat. The horizon doesn't want anything from you, which makes it the best company in Florida.",
+			"exits": { "north": "c3_strip" }
+		},
+		"c3_lobby": {
+			"name": "Hotel — Real Lobby",
+			"bg": "M3_lobby",
+			"desc": "Air conditioning like a verdict, marble that's never had blood on it, staff who look through Eddy and see exactly what he is. Prior's card opens everything. Nobody has ever spent this kind of money on you without an invoice attached.",
+			"requires_flag": "ch03_met_prior",
+			"locked_text": "No suit, no suite. The meeting at Hooky's comes first.",
+			"on_enter_flag": "ch03_left_florida",
+			"exits": { "east": "c3_strip" }
+		}
+	}
+}

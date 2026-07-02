@@ -1,0 +1,31 @@
+{
+	"id": "molly11",
+	"name": "Sally Shears",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "The car slews to a stop in the wreckage-strewn yard and the mirror-eyed woman is out before it settles, hands empty and visible — a professional courtesy from one dangerous thing to another. Behind her: two girls with one famous face. \"Nice yard,\" she says, taking in the Judge, the smoke, the general jurisprudence. \"Sally Shears. The one you want is in the car. She's expected. Ask your box.\"",
+			"options": [
+				{ "text": "\"Expected by WHO? Nobody here sent invitations.\"", "next": "expected" },
+				{ "text": "\"That face is on every screen on Earth. You brought HEAT.\"", "next": "heat" }
+			]
+		},
+		"heat": {
+			"text": "\"Heat was already coming, or did you burn those hovers for ventilation?\" The mirrors sweep the yard, pricing your afternoon, and something in her stance approves. \"The dead woman who hired that convoy hired me too. I retired mid-contract. She'll be along in her own way — she lives in your gray box's walls now. Consider us the relief column.\"",
+			"options": [
+				{ "text": "\"Expected by who?\"", "next": "expected" }
+			]
+		},
+		"expected": {
+			"text": "\"By the Count.\" She nods at the Factory, at the corner where the amber numbers pulse. \"Your sleeper's been building a world for one specific guest, and she's been dreaming his driveway for weeks. Check with your prophet upstairs if you want the theology.\" The famous face steps out of the car into the torchlight, and somewhere inside the Factory the gray slab begins, audibly, to hum. \"See?\" says Sally Shears. \"Expected.\"",
+			"set_flag": "ch11_molly_arrived",
+			"options": [
+				{ "text": "\"...Bring her in. Mind the Corpsegrinder.\" (end)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "She walks the three of them in through your yard of cooling verdicts without flinching once, which even Gentry will admit, later, was style.",
+			"options": []
+		}
+	}
+}

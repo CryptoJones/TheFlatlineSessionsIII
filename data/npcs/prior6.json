@@ -1,0 +1,31 @@
+{
+	"id": "prior6",
+	"name": "Prior",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Prior signs the clinic's paperwork with a pen that costs more than Eddy, checking items off a list on which you are several of the items. \"Ah. Mona. Settling in? Gerald is the finest in his field. You're in excellent hands.\" He does not look up.",
+			"options": [
+				{ "text": "\"Where's Eddy?\"", "next": "eddy" },
+				{ "text": "\"When do I get told what the job actually is?\"", "next": "job" }
+			]
+		},
+		"job": {
+			"text": "\"When knowing it improves your performance, and not one hour sooner.\" He caps the pen. \"You'll make appearances. You'll be seen at certain places, certain times, photographed at certain angles. Undemanding work, well paid.\" The smile arrives on schedule and leaves early. \"The less you know, Mona, the more natural you'll look. Consider ignorance a technique.\"",
+			"options": [
+				{ "text": "\"Where's EDDY, Prior?\"", "next": "eddy" }
+			]
+		},
+		"eddy": {
+			"text": "\"Eddy has been paid.\" Three words, closed like a ledger. Something in how he says PAID has a floor under it, and a river under the floor. \"He elected to pursue opportunities elsewhere. He was quite happy with the terms — Eddy's happiness was always the most purchasable thing about him.\" Prior pockets the pen. \"You're better off, though it's not my department. Rest. Surgery's at seven.\"",
+			"set_flag": "ch06_pressed_prior",
+			"options": [
+				{ "text": "Say nothing. File it where Prior can't see. (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "He's already back in the paperwork, initialing you page by page. Lanette's voice, from years back, clear as wiz: 'When they stop letting you see your people, honey — that's not a job anymore. That's inventory control.'",
+			"options": []
+		}
+	}
+}

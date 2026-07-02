@@ -1,0 +1,46 @@
+{
+	"id": "finn_construct",
+	"name": "The Finn (construct)",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "The speaker crackles like grease in a pan, and a voice comes out of the armored bulk — dead man's cadence, alive with irritation. \"Moll. Long time. Still got the mirrors, or you upgrade to somethin' tasteful?\" A lens the size of a coin swivels to you. \"An' you brought a kid. Yanaka's kid, outta Tokyo by way of a bad decision. Yeah, I read the shipping news. Bein' dead don't make a guy incurious.\"",
+			"options": [
+				{ "text": "(Sally) \"Need a read, Finn. Somebody's squeezing me.\"", "next": "squeeze" },
+				{ "text": "(you) \"He called you Moll. Your name is Sally.\"", "next": "molly" }
+			]
+		},
+		"molly": {
+			"text": "The construct laughs like a drawer of knives. \"Sally, Moll, Misty — girl's had more names than I had lawsuits. Molly Millions, kid. Chiba razorgirl, back when the razors was NEWS. Ran with a cowboy called Case on the big one — the run that changed the weather. You wanna know why the matrix has GODS in it now, you're standin' next to a founding member.\" The mirrors, for once, don't argue.",
+			"set_flag": "ch05_molly_named",
+			"options": [
+				{ "text": "(Sally) \"Ancient history. The SQUEEZE, Finn.\"", "next": "squeeze" }
+			]
+		},
+		"squeeze": {
+			"text": "\"Yeah, yeah. Gimme your week.\" Sally talks; the construct listens like a meter running. \"...Okay. Whoever's got you does it through Swain, an' Swain's new money smells orbital. They're holdin' your back-file — stuff nobody living should have. Prices, Moll. Runs. The STRAYLIGHT run.\" The fan kicks; the voice drops. \"Ain't but one estate ever held that paper, an' its last owner didn't stay all-the-way dead. Lady 3Jane Tessier-Ashpool. Deceased. LITIGIOUSLY deceased. She's got herself a construct up the well an' a grudge with your name on it, an' she's spendin' real money to make you her errand girl.\"",
+			"set_flag": "ch05_3jane_named",
+			"options": [
+				{ "text": "(Sally) \"Errand. What errand?\"", "next": "errand" },
+				{ "text": "(you) \"Can a dead woman be stopped, Mr. Finn?\"", "next": "stopped" }
+			]
+		},
+		"errand": {
+			"text": "\"The word in the dead-file circles: she wants the Sense/Net star lifted. Mitchell's girl. Wants what's growin' in that girl's head, or wants it STOPPED — with 3Jane them two impulses was never far apart.\" The lens swivels between you. \"You're the crowbar she bought, Moll. An' crowbars that know they're crowbars get real unpredictable, which is the only part of this I like.\"",
+			"options": [
+				{ "text": "(you) \"Can a dead woman be stopped?\"", "next": "stopped" },
+				{ "text": "(Sally) \"...Thanks, Finn. Put it on my tab.\" (leave)", "next": "bye" }
+			]
+		},
+		"stopped": {
+			"text": "The construct is quiet a second — for the Finn, a geological era. \"Kid, I'M a dead man, an' look how stoppable I turned out. But here's the thing about us posthumous types: we're all CONTRACT now. Terms an' conditions. You wanna beat a ghost, you don't fight it — you find who HOLDS ITS PAPER, an' you get the paper voided.\" The lens glitters. \"Remember that. Both of you. No charge on that one — call it estate planning.\"",
+			"options": [
+				{ "text": "(Sally) \"Tab it, Finn. Come on, kid.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"Watch your back, Moll,\" the dead man calls after you down the alley. \"An' hey — Yanaka's kid. When it all goes sideways, an' it will — bet on the razorgirl. House odds say ALWAYS bet on the razorgirl.\" The armored shrine settles back into its snow-quiet, patient as only the dead and the fully-amortized can be.",
+			"options": []
+		}
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"id": "piper",
+	"name": "Piper Hill",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Piper Hill balances three schedules and one professional smile, and hands you the little white dose with the water like every four hours since Malibu. \"Medication, then the call sheet. The Sprawl segments are gorgeous on paper, Angie — production found this incredible ruined mall for the third day...\" She's kind. She reports everything. Both are her job.",
+			"options": [
+				{ "text": "Palm the dose. Swallow the water. Smile HER smile.", "next": "palm" },
+				{ "text": "\"Piper — new flight plan. East, then north.\"", "next": "flightplan", "require_flag": "ch08_brigitte_truth" }
+			]
+		},
+		"palm": {
+			"text": "Stage training pays for itself: the dose rides your palm to a pocket seam while your throat does its little theater and Piper initials the med log without a flicker. \"Perfect. Doctor Mendel will be so pleased with your levels.\" He would be, too — his levels are in your pocket. For the first time in months, the night ahead of you belongs to nobody but you and whatever's been waiting past the wall.",
+			"set_flag": "ch08_palmed_dose",
+			"options": [
+				{ "text": "\"I'm going to rest in the aft cabin. Long day.\" (leave)", "next": "bye" }
+			]
+		},
+		"flightplan": {
+			"text": "\"East then— Angie, the call sheet has us into Newark at—\" She reads your face and something in her chooses, visibly, between the network and the woman in front of her. It takes two seconds. \"...Location scouting,\" Piper says slowly, writing. \"Talent-directed. I'll square production.\" She looks up, and the professional smile has a person behind it. \"Whatever this is — you look more like YOU than you have since the clinic. File that under my medical observations.\"",
+			"set_flag": "ch08_flightplan_east",
+			"options": [
+				{ "text": "\"Thank you, Piper. You just made the right call sheet.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "She returns to her screens, rerouting an empire's evening around one woman's unexplained heading — loyal, on balance, to the asset's face rather than the asset's file, which is more than the network deserves of her.",
+			"options": []
+		}
+	}
+}

@@ -1,0 +1,32 @@
+{
+	"id": "cherry11",
+	"name": "Cherry Chesterfield",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Cherry has the Count's redoubt organized like a field station: lines coiled for fast moves, the shotgun where her right hand lives, the amber numbers steady in the plate-steel gloom. \"We're good here,\" she says, before you ask. \"Pressure's holding, drip's fresh, and anybody who comes through that gap gets triaged the old-fashioned way.\"",
+			"options": [
+				{ "text": "\"If it goes bad, you take him and run for the tunnels.\"", "next": "run" },
+				{ "text": "\"Why are you still here, Cherry? You could walk.\"", "next": "stay" }
+			]
+		},
+		"run": {
+			"text": "\"Already mapped it: stretcher wheels, tunnel grade, eleven minutes to the culvert if I dump the spare batteries.\" She pats the rail. \"But that's plan C. Plan A is your robots eat their convoy, and plan B is the shotgun, and I have grown weirdly confident in plan A, which tells you what this place does to a person.\" A quick grin, first one you've seen from her. \"Go on, Slick. Go make art.\"",
+			"set_flag": "ch11_count_secured",
+			"options": [
+				{ "text": "\"Keep him breathing, Cherry.\" (leave)", "next": "bye" }
+			]
+		},
+		"stay": {
+			"text": "She's quiet a second, hand resting on the stretcher rail in that way she thinks nobody's noticed. \"Started as the Kid's money. Then it was professional pride.\" The amber numbers tick. \"Now? Whoever he is, he's been building something in there for weeks, on his own heartbeat, like it MATTERS more than he does. I want to see who it's for.\" She racks the shotgun with med-tech tidiness. \"So: secured. Go. Art.\"",
+			"set_flag": "ch11_count_secured",
+			"options": [
+				{ "text": "\"Keep him breathing.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "The redoubt settles behind you: one med-tech, one shotgun, one sleeping architect of a world — the smallest garrison on Dog Solitude, and the one that absolutely will not break.",
+			"options": []
+		}
+	}
+}

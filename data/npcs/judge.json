@@ -1,0 +1,31 @@
+{
+	"id": "judge",
+	"name": "The Judge",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "The Judge stands in the yard's center where you built it: two and a half meters of salvaged verdicts, blades folded like a bird of prey at rest. You made it out of the trial you can't remember — out of lost time given a body. The remote is warm in your hands. Out on the flats, the convoy walks into the Witch's wire, and the morning starts to scream.",
+			"options": [
+				{ "text": "Loose the Judge.", "next": "loose" },
+				{ "text": "Hold. One breath. Look at what you made.", "next": "look" }
+			]
+		},
+		"look": {
+			"text": "For one clear second, no lost time at all: you see the Judge whole — every plate you hammered, every joint you bled on, the shape your nightmares took so they'd finally hold still. Gentry hunts his God in the matrix. Yours you welded, out here on the poisoned flats, and taught to stand between. That's the whole difference between a nightmare and a guardian: which way it faces.",
+			"options": [
+				{ "text": "Loose the Judge.", "next": "loose" }
+			]
+		},
+		"loose": {
+			"text": "You thumb the deadman twice — the permission it has waited its whole iron life for — and the Judge UNFOLDS. What happens in the yard for the next four minutes will be retold on Dog Solitude for a generation, by people who weren't there, badly, because the people who were there mostly don't talk about it. The convoy's professionals discover, at contact speed, that their approach brief filed your nightmares under 'sculpture.' The brief is wrong at nine meters a second.",
+			"set_flag": "ch11_judge_loosed",
+			"options": [
+				{ "text": "(walk the yard when it's done)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "The Judge comes to rest at the yard's center, blades refolding, hydraulic fluid dripping like slow applause. It faces the horizon. It always faces the horizon. You built it that way and you've only just now understood why.",
+			"options": []
+		}
+	}
+}

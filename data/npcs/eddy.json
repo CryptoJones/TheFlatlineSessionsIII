@@ -1,0 +1,38 @@
+{
+	"id": "eddy",
+	"name": "Eddy",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Eddy's pacing the squat in his good jacket, high on his own arithmetic. \"Mona. MONA. Sit down, stand up, whatever — listen.\" He frames the air with his hands, showman to an audience of one. \"The suit from the bar? Prior? That's not bar money, baby. That's LONDON money. And it wants US.\"",
+			"options": [
+				{ "text": "\"Wants us for WHAT, Eddy?\"", "next": "what" },
+				{ "text": "\"You said that about Cleveland. And Memphis.\"", "next": "history" }
+			]
+		},
+		"history": {
+			"text": "\"Cleveland was sabotage and Memphis was weather.\" He waves both cities away, unbothered, unbotherable. \"This is different — this found US. Man had a folder, Mona. A folder with your FACE in it.\" He says it like a compliment. It lands like a cold hand on the neck.",
+			"options": [
+				{ "text": "\"Why my face, Eddy?\"", "next": "what" }
+			]
+		},
+		"what": {
+			"text": "\"Medical work, he says. Cosmetic. Top clinic, all paid, and a performance contract after — five figures, RECURRING.\" Eddy's eyes are doing the thing they do when the numbers get bigger than his sense. \"He asked your measurements, your health card, whether you had... people who'd miss you.\" A beat, too short. \"I said it was just me. That's GOOD, Mona — simpler contract!\"",
+			"set_flag": "ch03_eddy_pitch",
+			"options": [
+				{ "text": "\"He asked if anyone would MISS me. Eddy. Think.\"", "next": "think" },
+				{ "text": "\"...When do we meet him?\" (leave)", "next": "bye" }
+			]
+		},
+		"think": {
+			"text": "For one second — one — something honest crosses Eddy's face, the flicker of a man hearing the ice creak underfoot. Then the money closes back over it. \"It's how corporations TALK, baby. Liability language.\" He straightens the good jacket. \"Hooky's, tonight. Wear the blue. And Mona — let me handle the words.\"",
+			"options": [
+				{ "text": "\"Sure, Eddy. You handle the words.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "He goes back to pacing his kingdom of taped-up schemes, rehearsing tomorrow's fortune under his breath. You've stopped being in the room for him. Sometimes you wonder if you ever were.",
+			"options": []
+		}
+	}
+}

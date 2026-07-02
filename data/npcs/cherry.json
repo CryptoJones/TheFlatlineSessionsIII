@@ -1,0 +1,31 @@
+{
+	"id": "cherry",
+	"name": "Cherry Chesterfield",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Cherry wears five leather jackets in layers and the expression of a woman auditing her own life choices. \"Cherry Chesterfield. Med-tech, mostly certified.\" She's already cabling her scavenged monitors to the stretcher, quick and sure. \"Before you ask: no, I don't know who he is either. Kid paid triple to not-know. I'm expensive to keep ignorant.\"",
+			"options": [
+				{ "text": "\"Give me his condition, straight.\"", "next": "condition" },
+				{ "text": "\"Why'd you take this job?\"", "next": "why" }
+			]
+		},
+		"why": {
+			"text": "\"Cleveland was over for me, and 'accompany one comatose gentleman to a scenic industrial ruin' beat the other listings.\" She tests the drip line with a flick. \"Also the Kid pays in real money, and real money buys real distance. Distance from what, you ask? See previous statement re: paid to not-know.\"",
+			"options": [
+				{ "text": "\"His condition. Straight.\"", "next": "condition" }
+			]
+		},
+		"condition": {
+			"text": "\"Vitals steady, nutrition by drip, muscle tone says weeks under, not months. Brain's another country: REM's off every chart I own — he's not comatose, he's BUSY.\" She taps the gray slab, once, with respect. \"And this thing's drawing his wattage like a meter running backward. My rig's up: pulse, pressure, and a dirty little alarm if either dips. That's my whole kingdom. Keep it powered and we'll get along.\"",
+			"set_flag": "ch02_cherry_setup",
+			"options": [
+				{ "text": "\"Welcome to the Factory, Cherry.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"Yeah, it's charming. Very... tetanus.\" She's already not listening, eyes on the amber numbers, one hand resting light on the sleeping man's wrist like a promise she didn't mean to make.",
+			"options": []
+		}
+	}
+}

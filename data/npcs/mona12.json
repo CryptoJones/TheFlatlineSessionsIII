@@ -1,0 +1,32 @@
+{
+	"id": "mona12",
+	"name": "Mona",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "She's sitting on a crate at the torchlight's edge, wearing your face like a borrowed coat she's stopped apologizing for. Mona. Cleveland in the eyes, wiz burned off, something steadier arriving underneath. \"They're all waiting on you,\" she says. \"The whole factory. Even the robots.\" A beat. \"You're really gonna do it. Go in the box.\"",
+			"options": [
+				{ "text": "\"I'm really going to do it.\"", "next": "really" },
+				{ "text": "\"What will you do — after?\"", "next": "after" }
+			]
+		},
+		"really": {
+			"text": "\"Yeah. I could tell. I rode your stims for years, you know — I know your face better than mine now, which is—\" she gestures at herself, at the whole arrangement, and laughs, short and real. \"What I mean is: I can tell the difference between the smile they sold and the real one. You've had the real one on all night.\" She looks at the stretcher, the cables, the humming slab. \"He better be worth a whole world, lady.\"",
+			"set_flag": "ch12_mona_heard",
+			"options": [
+				{ "text": "\"He is. — What will YOU do, Mona?\"", "next": "after" }
+			]
+		},
+		"after": {
+			"text": "\"Sally says the network's gonna need an Angie, after. Says the machine that writes your shows already took a meeting about me.\" She tries the idea on, visibly, like the coat becoming hers. \"I figure — somebody's gotta wear the face where the cameras are, so the girl in the box gets left alone. Might as well be somebody who knows what the job costs.\" She stands, awkward and brave, and puts out her hand. \"It's a weird thing to say to your own face. But: good wedding, Angie.\"",
+			"set_flag": "ch12_mona_heard",
+			"options": [
+				{ "text": "Take her hand. \"Take care of her, Mona. She's yours now.\" (end)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "She grips your hand once, firm, Cleveland-style — and in that grip you feel the whole strange mercy of it: the network gets its product, the world gets its star, and the girl nobody was going to miss gets the life, the lights, and the last laugh.",
+			"options": []
+		}
+	}
+}

@@ -1,0 +1,31 @@
+{
+	"id": "prior10",
+	"name": "Prior",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Prior inspects you in the suite's mirror light — the face, the dress, the carriage they've drilled — with the satisfaction of a man watching an invoice mature. \"Excellent. Tonight you'll be seen in the atrium at eight, photographed near the east lifts at eight-forty, and then you'll wait with the second car in the garage. A driver will have instructions. Do nothing you aren't told to do.\"",
+			"options": [
+				{ "text": "\"Who am I being seen INSTEAD of, Prior?\"", "next": "instead" },
+				{ "text": "\"And after tonight? What happens to me after?\"", "next": "after" }
+			]
+		},
+		"instead": {
+			"text": "\"You're being seen AS a public figure whose movements certain parties wish to... simplify.\" He adjusts your collar one centimeter, proprietary as a florist. \"The resemblance is no longer approximate, so the question is obsolete. You ARE the sight of her, Mona. Sights don't need briefings.\"",
+			"options": [
+				{ "text": "\"And after tonight?\"", "next": "after" }
+			]
+		},
+		"after": {
+			"text": "A pause arrives precisely where reassurance should be. \"After tonight your contract enters its next phase,\" Prior says, in the voice of a man reading a menu to livestock, and you hear it plain under the wiz's bright edges: there is no after, not one with Mona in it. The plan needs HER face found somewhere, doing something final, and you are wearing the face. \"Rest. Hydrate. Eight o'clock.\" He leaves, keys already turning in his hand.",
+			"set_flag": "ch10_job_understood",
+			"options": [
+				{ "text": "(let him go — and stop following the plan)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "The suite door clicks with a lock's finality. In the mirror, Angie Mitchell looks back at you, scared in a way the magazines never show — and underneath her, in the eyes, Cleveland straightens its spine. First one to stop following the plan, Lanette always said. Be the first.",
+			"options": []
+		}
+	}
+}

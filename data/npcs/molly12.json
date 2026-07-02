@@ -1,0 +1,31 @@
+{
+	"id": "molly12",
+	"name": "Molly",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "She's leaning against a dead line machine with her arms folded, mirrors reflecting torchlight and the long math of her own history. \"Sally's for business. It's Molly tonight.\" The blades are away; what's out is older and quieter. \"I knew a cowboy once who went into the dark like this. I didn't get a goodbye that time. So this time I'm collecting one in advance.\"",
+			"options": [
+				{ "text": "\"The Finn told Kumiko about him. About Case.\"", "next": "case" },
+				{ "text": "\"Is this goodbye, or a blessing?\"", "next": "blessing" }
+			]
+		},
+		"case": {
+			"text": "\"Finn always did talk too much for a dead guy.\" But there's no heat in it, and the mirrors dip a centimeter. \"Case got out. Meat, wife, kids, the whole gravity well. Me, I kept the road.\" She studies you — the lace, the stretcher, the humming slab. \"He'd have understood you two, though. The thing you and your boy found in the wires — that's the same thing we all went in after. You're just the first ones it wanted BACK.\"",
+			"options": [
+				{ "text": "\"Then give me the blessing, Molly.\"", "next": "blessing" }
+			]
+		},
+		"blessing": {
+			"text": "\"Blessings.\" She snorts, softly, at the pretension of it — then unfolds her arms and gives you one anyway, razorgirl-style: \"The ghost that squeezed us all is in there waiting to be paid off. The Finn's filed what voids her paper; the dead lady of the cemeteries holds the court. You walk in like you own the place, 'cause as of tonight, kid — you two DO.\" A pause, and then, quieter than you'll ever tell anyone: \"Be happy. One of us should get to be. Consider it an ORDER.\"",
+			"set_flag": "ch12_molly_blessing",
+			"options": [
+				{ "text": "\"Yes ma'am. — Watch the door for me?\" (end)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "\"Always do,\" says Molly Millions, and turns to face the Factory doors and the whole world beyond them — the last watch of the longest-serving guardian the matrix ever had, standing easy, mirrors full of torchlight.",
+			"options": []
+		}
+	}
+}

@@ -1,0 +1,25 @@
+{
+	"id": "stim_deck",
+	"name": "Simstim Deck",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "The deck's warm slot holds the only luxury you own outright: last season's Angie Mitchell cassettes, played thin. The trodes smell like every night you couldn't sleep in your own life.",
+			"options": [
+				{ "text": "Slot the Angie stim and ride.", "next": "ride" },
+				{ "text": "Leave it. (step away)", "next": "bye" }
+			]
+		},
+		"ride": {
+			"text": "And then you're HER: stepping out of a Sense/Net car into a warm rain of flashbulbs, wearing a dress that costs more than Florida, and the whole world's love comes up through her skin like bathwater. Her body fits you like the truth. That's the part you never tell Eddy — not that you want what Angie has. That being Angie feels like coming HOME. You surface twenty minutes later with wet cheeks and the squat's water-stained ceiling, and the ceiling is the wrong life.",
+			"set_flag": "ch03_rode_stim",
+			"options": [
+				{ "text": "Unplug. (step away)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "The deck idles, patient as a dealer. On its cracked label, in silver, the network's slogan: LIVE HER LIFE. Somebody in an office somewhere thought that was harmless.",
+			"options": []
+		}
+	}
+}

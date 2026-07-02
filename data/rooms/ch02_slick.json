@@ -1,0 +1,54 @@
+{
+	"_note": "Chapter 2 — Kid Afrika delivers the Count to the Factory on Dog Solitude.",
+	"start": "c2_yard",
+	"rooms": {
+		"c2_yard": {
+			"name": "Factory Yard — Dog Solitude",
+			"bg": "S2_yard",
+			"desc": "Rust to the horizon under a sky like wet cement. Your machines stand in the yard where you built them — the Judge, the Witch, the Corpsegrinder — patient as gargoyles. A hover is coming in off the Solitude, riding low, and it's the Kid's.",
+			"exits": { "north": "c2_ground", "east": "c2_hover", "south": "c2_solitude" }
+		},
+		"c2_hover": {
+			"name": "Kid Afrika's Hover",
+			"bg": "S2_hover",
+			"desc": "Leopard-skin seats, incense, and the Kid himself, resplendent and apologetic, with a girl called Cherry riding med-tech on a stretcher in the back. On the stretcher: a man, unconscious, cabled at the skull to a gray slab the size of a suitcase.",
+			"npcs": ["kid_afrika"],
+			"exits": { "west": "c2_yard" }
+		},
+		"c2_ground": {
+			"name": "Factory — Ground Floor",
+			"bg": "S2_ground",
+			"desc": "Acres of dead line machinery and the smell of rust and ozone. Your workspace: benches, chain hoists, the skeletons of future Judges. Room enough to hide a man. Room enough to hide anything.",
+			"exits": { "south": "c2_yard", "east": "c2_workbench", "north": "c2_stairs" }
+		},
+		"c2_workbench": {
+			"name": "Workbench — the Count's Corner",
+			"bg": "S2_bench",
+			"desc": "You clear the bench and they bring him in: slack face, moving eyes under closed lids, the gray slab breathing its faint warmth. Whoever he is, somebody loved him enough to wire him a universe, or hated him enough. Cherry starts rigging her monitors without being asked.",
+			"requires_flag": "ch02_kid_terms",
+			"locked_text": "The Kid's terms first. Nobody unloads cargo like this on a handshake you haven't heard.",
+			"on_enter_flag": "ch02_count_moved",
+			"npcs": ["cherry"],
+			"exits": { "west": "c2_ground" }
+		},
+		"c2_stairs": {
+			"name": "Catwalk Stairs",
+			"bg": "S2_stairs",
+			"desc": "Welded steps climbing through the Factory's dark to the one light burning: Gentry's loft, where the Shape gets hunted nightly. He doesn't know about the Count yet. That conversation is going to go great.",
+			"exits": { "south": "c2_ground", "north": "c2_loft" }
+		},
+		"c2_loft": {
+			"name": "Gentry's Loft",
+			"bg": "S2_loft",
+			"desc": "Screens, cabling like vines, the smell of solder and obsession. Gentry believes the matrix has a Shape — one Shape, total, and his to find. He is thin as his theories and twice as sharp, and this is his Factory, technically. Technically is about to matter.",
+			"npcs": ["gentry"],
+			"exits": { "south": "c2_stairs" }
+		},
+		"c2_solitude": {
+			"name": "Dog Solitude — the Flats",
+			"bg": "S2_solitude",
+			"desc": "Gravel catchments, drums of things nobody labels anymore, a horizon that eats sound. Out here you can hear the interstate on a still day. Today it isn't still, and there's engine noise in it that doesn't belong.",
+			"exits": { "north": "c2_yard" }
+		}
+	}
+}

@@ -1,0 +1,33 @@
+{
+	"id": "cherry7",
+	"name": "Cherry Chesterfield",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Cherry's redone the Count's lines and re-taped every contact, and her amber numbers march steadier for it. \"Helped me hold him through a pressure dip at four this morning,\" she says, jerking her chin at the sleeping face. \"You were sleepwalking, kind of. Handed me tape before I asked.\" She studies you. \"You lose time, huh. Don't worry about it. You lose time useful.\"",
+			"options": [
+				{ "text": "\"Is he stable or not, Cherry?\"", "next": "stable" },
+				{ "text": "\"What happens to him when the box works hard?\"", "next": "cost", "require_flag": "cracked_aleph_tap" }
+			]
+		},
+		"stable": {
+			"text": "\"Stable-ish. I've got him fed, warm, clean, and even.\" She ticks the drip with a fingernail. \"But 'stable' means holding altitude, Slick, and we're holding it in a slow leak. He's burning more than he takes in — has been since before the Kid dropped him. Whatever he's building in there is on a deadline, 'cause HE is.\" She logs a number. \"There. Now you know what I know.\"",
+			"set_flag": "ch07_count_stable",
+			"options": [
+				{ "text": "\"What's the box costing him, exactly?\"", "next": "cost", "require_flag": "cracked_aleph_tap" },
+				{ "text": "\"Keep him even, Cherry.\" (leave)", "next": "bye" }
+			]
+		},
+		"cost": {
+			"text": "\"You went in. So you saw him — walking around in there, young and smug.\" Cherry pulls up her log: a sawtooth line, each tooth a little deeper. \"Every time that place WORKS — every time it builds or hosts or does whatever it did tonight — his vitals dip. And the dips are getting roomier.\" She kills the screen. \"Math's not hard, Slick. The gray country's real estate, and the mortgage is HIM. Somebody better tell whoever he's building it FOR to hurry.\"",
+			"set_flag": "ch07_vitals_truth",
+			"options": [
+				{ "text": "\"She's coming. I think she's coming.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "Cherry resets her dirty little alarm and settles into the vigil chair, five jackets deep, one hand on the stretcher rail — a med-tech holding the door of a world open with a shoebox of scavenged telemetry.",
+			"options": []
+		}
+	}
+}

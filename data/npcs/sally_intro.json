@@ -1,0 +1,39 @@
+{
+	"id": "sally_intro",
+	"name": "Sally Shears",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "The mirrors turn on you and you see yourself twice, small and jet-lagged. \"So you're the package.\" Her voice is flat Sprawl, sanded smooth. \"Sally Shears. I mind you while you're in the Smoke. Ground rules: you don't wander, you don't open doors for anybody, and you tell me if Swain's guests get curious about you. In exchange I don't treat you like luggage. Deal?\"",
+			"set_flag": "ch01_met_sally",
+			"options": [
+				{ "text": "\"Deal. Though everyone else here treats me like luggage.\"", "next": "luggage" },
+				{ "text": "\"Your eyes — were you born with those?\"", "next": "eyes" }
+			]
+		},
+		"eyes": {
+			"text": "A short laugh with history in it. \"Bought 'em. Chiba City, back when your dad's outfit was still fighting over pachinko money.\" The mirrors tilt. \"You ask straight questions. Good. Straight questions get you further with me than manners do.\"",
+			"options": [
+				{ "text": "\"Then, straight: do you work for Swain?\"", "next": "swain_q" },
+				{ "text": "\"Everyone here treats me like luggage anyway.\"", "next": "luggage" }
+			]
+		},
+		"luggage": {
+			"text": "\"That's 'cause to this house you ARE luggage — bonded, insured, and stored.\" She says it without cruelty, like a weather report. \"Not to me. I've been the thing in the container. Come on — I need air and you need boots that aren't Tokyo-stupid. Portobello. Snow's almost pretty over the junk stalls.\"",
+			"options": [
+				{ "text": "\"Do you work for Swain?\"", "next": "swain_q" },
+				{ "text": "\"Then let's walk.\" (leave — meet her at the market)", "next": "bye" }
+			]
+		},
+		"swain_q": {
+			"text": "The temperature drops a mirror's worth. \"I'm doing Swain a favor. Somebody upstream is making sure I can't say no to Swain's favors just now.\" She rolls her shoulders like a fighter hearing an old bell. \"That's more answer than you're owed, kid. File it and don't quote me — not in this house. Now: market. Boots. Tea. Move.\"",
+			"options": [
+				{ "text": "\"Then let's walk.\" (leave — meet her at the market)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "She's already at the parlor door, checking the street through the curtain gap by pure reflex — a woman who has never once entered a room without pricing the exits.",
+			"options": []
+		}
+	}
+}

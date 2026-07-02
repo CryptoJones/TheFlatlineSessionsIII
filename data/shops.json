@@ -1,0 +1,35 @@
+{
+	"shops": {
+		"portobello_stall": {
+			"name": "Portobello Road — Antiquities & Edges",
+			"buys": false,
+			"stock": [
+				"makeup_kit",
+				"thermos",
+				"angie_stim"
+			]
+		},
+		"florida_strip": {
+			"name": "The Strip — All-Nite Sundries",
+			"buys": true,
+			"stock": [
+				"wiz_stash",
+				"makeup_kit",
+				"angie_stim",
+				"simstim_deck",
+				"skill_streetdeal"
+			]
+		},
+		"marvins_parts": {
+			"name": "Marvin's — Parts & Salvage",
+			"buys": true,
+			"stock": [
+				"cutting_torch",
+				"thermos",
+				"flechette_pistol",
+				"skill_icebreaking",
+				"gentry_soft"
+			]
+		}
+	}
+}

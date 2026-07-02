@@ -1,0 +1,28 @@
+{
+	"_note": "Chapter 12 — the wedding in the aleph. Stretcher-side -> Mona -> Molly -> the gate -> 3Jane -> the crossroads.",
+	"start": "c12_doors",
+	"rooms": {
+		"c12_doors": {
+			"name": "Factory Doors — Night",
+			"bg": "A12_doors",
+			"desc": "Torchlight through rust, the yard full of cooling wreckage and patient machines. You walk in past a two-and-a-half-meter sculpture of judgment that lowers its blades as you pass — and every dream since Jamaica clicks into place like a key turning. You have been here a hundred nights. You have never been here.",
+			"exits": { "north": "c12_floor" }
+		},
+		"c12_floor": {
+			"name": "Factory Floor — Torchlight",
+			"bg": "A12_floor",
+			"desc": "They watch you cross the floor — the sculptor, the prophet, the med-tech girl — the way people watch weather arrive. None of them try to stop you. The dreams walked you here; the last few meters you walk yourself.",
+			"npcs": ["mona12", "molly12"],
+			"exits": { "south": "c12_doors", "north": "c12_stretcher" }
+		},
+		"c12_stretcher": {
+			"name": "The Stretcher — the Gray Box",
+			"bg": "A12_stretcher",
+			"desc": "He's thinner than the boy from Jammer's, and older, and the cables run from his skull to a gray slab that holds a country. The monitors count what's left of him in amber. Inside the lace, at the very edge of hearing: your name, said like a porch light being turned on.",
+			"on_enter_flag": "ch12_at_the_stretcher",
+			"npcs": ["bobby12"],
+			"matrix": true,
+			"exits": { "south": "c12_floor" }
+		}
+	}
+}

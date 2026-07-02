@@ -1,0 +1,31 @@
+{
+	"id": "gentry7",
+	"name": "Gentry",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "Gentry hasn't slept and it becomes him horribly — he's incandescent, wired to his own rig and the Count's tap both. \"Slick. Good. Sit. TRODES.\" He steadies himself against the bench. \"Tonight we stop measuring the box and we READ it. I go in through the tap. You hold my line and you do not let go, whatever you see, whatever I say, whatever SAYS ME BACK.\"",
+			"options": [
+				{ "text": "\"First tell me what you think it is. All of it.\"", "next": "theory" },
+				{ "text": "\"And if something goes wrong in there?\"", "next": "wrong" }
+			]
+		},
+		"wrong": {
+			"text": "\"Then you PULL, and I come out swearing, and we try again tomorrow.\" He straps in, fingers steady with pure purpose. \"But it won't go wrong. The thing in there isn't hostile, Slick — I've watched its traffic for a week. It isn't defending. It's BUILDING. Hostility is a wall. This is... nesting.\" The word visibly bothers him. \"Theory first. You've earned it.\"",
+			"options": [
+				{ "text": "\"Go on. The theory.\"", "next": "theory" }
+			]
+		},
+		"theory": {
+			"text": "\"The aleph is an approximation of everything — but approximations need an APPROXIMATOR.\" Gentry's eyes reflect his own screens like twin grids. \"When the matrix Changed — the night the cowboys' gods were born — something total existed for one moment, then broke itself into the loa. I always believed the Shape shattered. But suppose a PIECE was saved. Folded down. Bought, sold, smuggled — and finally wired to a dying cowboy who's using the last of himself to finish it into a WORLD.\" He turns to the stretcher, almost tender. \"The Count isn't dreaming, Slick. He's TERRAFORMING. Now jack in and hold my line.\"",
+			"set_flag": "ch07_gentry_theory",
+			"options": [
+				{ "text": "\"...Trodes on. Let's go meet the neighbor.\" (leave — jack in)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "Gentry checks your straps himself, an unprecedented courtesy, and settles into his own rig with the terrible serenity of a man about to read the book he's spent his life proving exists.",
+			"options": []
+		}
+	}
+}

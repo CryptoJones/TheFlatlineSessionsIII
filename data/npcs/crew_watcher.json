@@ -1,0 +1,32 @@
+{
+	"id": "crew_watcher",
+	"name": "Man with the Briefcase",
+	"start": "greet",
+	"nodes": {
+		"greet": {
+			"text": "He's been nursing the same soda water for an hour on the mezzanine, and when you take the next stool he doesn't look at you, which is how you know he's crew. \"You're early,\" he says to his glass. \"Eight o'clock, the atrium. Wasn't in your itinerary to be chatty.\"",
+			"options": [
+				{ "text": "\"Just being seen. That's the job, right? Being seen.\"", "next": "seen" },
+				{ "text": "\"How many of you are working tonight?\"", "next": "count" }
+			]
+		},
+		"count": {
+			"text": "The glass stops halfway to his mouth, fractionally. \"...Enough.\" Which is a number, if you count the flicker of his eyes: lifts, mezzanine, garage door, back. Four sightlines. He's re-checked the garage door twice in a minute. Whatever the plan is, the plan is the garage, and it's live tonight, and he's nervous — and crews this expensive don't get nervous about photographs.",
+			"set_flag": "ch10_job_understood",
+			"options": [
+				{ "text": "\"Relax. I'm a professional.\" (leave him to his soda)", "next": "bye" }
+			]
+		},
+		"seen": {
+			"text": "\"Being seen. Right.\" He almost smiles, which on that face is a structural event. \"Word of advice, sweetheart, free: when it goes loud, you drop flat and stay dropped. Doubles that improvise get itemized.\" He catches himself half a sentence too late, and the soda water gets very interesting to him. Doubles. WHEN it goes loud. Itemized. Lanette's whole curriculum, confirmed in eleven words.",
+			"set_flag": "ch10_job_understood",
+			"options": [
+				{ "text": "\"Thanks for the tip, mister.\" (leave)", "next": "bye" }
+			]
+		},
+		"bye": {
+			"text": "He goes back to being furniture with a sightline. You go back to being a sight — and start, very quietly, rewriting your own itinerary.",
+			"options": []
+		}
+	}
+}

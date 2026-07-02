@@ -13,5 +13,8 @@ build/
 *.dmg
 *.x86_64
 
+# Generated review/build scratch
+scratchpad/
+
 # OS noise
 .DS_Store

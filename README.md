@@ -34,10 +34,17 @@ and Mona stays in the meat.
 
 ## Status
 
-**Scaffold complete, art and music pending.** The whole story is playable end to end
-with placeholder plates (each room shows a hue-keyed panel + name watermark until its
-art lands in `assets/backgrounds_hd/<bg>.png`). All dialog, quests, items, shops, and
-matrix targets are in place, written in the novel's tone — our own prose throughout.
+**Playable scaffold with generated art pass.** The whole story is playable end to end.
+All dialog, quests, items, shops, and matrix targets are in place, written in the novel's
+tone — our own prose throughout.
+
+The first full art pass is in `assets/backgrounds_hd/` and `assets/cyberspace/`: heavily
+rotoscoped, painted-over-live-action plates with graphic-novel realism, flattened color
+planes, visible ink contours, warm 35mm grain, and violet/magenta cyberpunk accents. See
+[`docs/art-style-prompt.md`](docs/art-style-prompt.md) for the locked style prompt.
+
+For review from a tablet/phone, see
+[`docs/The_Art_of_The_Flatline_Sessions_III.pdf`](docs/The_Art_of_The_Flatline_Sessions_III.pdf).
 
 ## Run it
 

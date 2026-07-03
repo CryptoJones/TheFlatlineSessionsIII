@@ -4,6 +4,7 @@ extends Node
 ## Same two-player crossfade design as the original engine. The sequels ship
 ## soundtrack-light: tracks land in assets/audio/music/<name>.ogg as they're
 ## produced, and a missing file is a graceful no-op so the scaffold runs silent.
+## Also drives a playlist mode for the hidden anti-tamper room 1337.
 
 const MUSIC_DIR := "res://assets/audio/music/"
 const FADE := 1.2          # crossfade seconds
@@ -31,11 +32,16 @@ var _b: AudioStreamPlayer
 var _active: AudioStreamPlayer
 var _current := ""
 var _cache := {}
+var _playlist: Array = []
+var _pl_idx := 0
+var _pl_active := false
 
 func _ready() -> void:
 	_a = _make_player()
 	_b = _make_player()
 	_active = _a
+	_a.finished.connect(_on_finished.bind(_a))
+	_b.finished.connect(_on_finished.bind(_b))
 
 func _make_player() -> AudioStreamPlayer:
 	var p := AudioStreamPlayer.new()
@@ -75,6 +81,7 @@ func _crossfade_to(stream: AudioStream) -> void:
 
 ## Crossfade to a single looping `track`. No-op if already playing or missing.
 func play(track: String) -> void:
+	_pl_active = false
 	if not enabled or track == "" or track == _current:
 		return
 	var stream := _load(track, true)
@@ -84,7 +91,50 @@ func play(track: String) -> void:
 	track_changed.emit(track)
 	_crossfade_to(stream)
 
+## Play a list of tracks back-to-back, looping the list forever.
+func play_playlist(tracks: Array) -> void:
+	if not enabled or tracks.is_empty():
+		return
+	if _pl_active and _playlist == tracks:
+		return
+	_playlist = tracks.duplicate()
+	_pl_idx = 0
+	_pl_active = true
+	_current = "__playlist__"
+	_play_playlist_track()
+
+func _play_playlist_track() -> void:
+	var stream := _load(str(_playlist[_pl_idx]), false)
+	if stream == null:
+		return
+	_crossfade_to(stream)
+	track_changed.emit(str(_playlist[_pl_idx]))
+
+func _on_finished(which: AudioStreamPlayer) -> void:
+	if not _pl_active or which != _active:
+		return
+	_pl_idx = (_pl_idx + 1) % _playlist.size()
+	_play_playlist_track()
+
+func next_track() -> void:
+	if not _pl_active or _playlist.is_empty():
+		return
+	_pl_idx = (_pl_idx + 1) % _playlist.size()
+	_play_playlist_track()
+
+func prev_track() -> void:
+	if not _pl_active or _playlist.is_empty():
+		return
+	_pl_idx = (_pl_idx - 1 + _playlist.size()) % _playlist.size()
+	_play_playlist_track()
+
+func current_track() -> String:
+	if not _pl_active or _playlist.is_empty():
+		return ""
+	return str(_playlist[_pl_idx])
+
 func stop() -> void:
+	_pl_active = false
 	_current = ""
 	var tw := create_tween()
 	tw.tween_property(_active, "volume_db", -80.0, FADE)

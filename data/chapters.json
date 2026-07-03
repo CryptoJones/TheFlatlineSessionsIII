@@ -1,6 +1,6 @@
 {
 	"_note": "The Flatline Sessions III — Mona Lisa Underdrive. Chapter spine: four PoV campaign braids (Kumiko / Slick / Mona / Angie) interleaved in story order. All prose is our own original in-world writing.",
-	"game": "THE FLATLINE SESSIONS III — MONA LISA OVERDRIVE",
+	"game": "THE FLATLINE SESSIONS III — MONA LISA UNDERDRIVE",
 	"chapters": [
 		{
 			"id": "ch01",
@@ -20,7 +20,24 @@
 				"Colin has counted the guards and the exits and the lies per hour, and the total troubles him. Your father's man is trading in something over your head, and Sally has been drafted into it against her will.",
 				"She took you to the Portobello market in the snow and bought you tea like a normal person, and told you, mirror-blank: 'Anything happens, kid, you find me.' You believe her. She is the only thing in London you believe."
 			],
-			"start": { "credits": 2000, "items": ["colin_unit"], "minutes": 960 }
+			"start": {
+				"credits": 2000,
+				"items": [
+					"colin_unit"
+				],
+				"minutes": 960
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH01_intro_01.png",
+				"res://assets/backgrounds_hd/CH01_intro_02.png",
+				"res://assets/backgrounds_hd/CH01_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH01_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH01_outro_01.png",
+				"res://assets/backgrounds_hd/CH01_outro_02.png",
+				"res://assets/backgrounds_hd/CH01_outro_03.png"
+			]
 		},
 		{
 			"id": "ch02",
@@ -40,7 +57,24 @@
 				"Cherry checks the Count's vitals like the med-tech she almost was, and says whoever he is, somebody paid millions to park him here — or to hide him.",
 				"Out on the Solitude, weather's moving in. And on the interstate, three days out, something with money has already started asking directions to your door."
 			],
-			"start": { "credits": 90, "items": ["cutting_torch"], "minutes": 840 }
+			"start": {
+				"credits": 90,
+				"items": [
+					"cutting_torch"
+				],
+				"minutes": 840
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH02_intro_01.png",
+				"res://assets/backgrounds_hd/CH02_intro_02.png",
+				"res://assets/backgrounds_hd/CH02_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH02_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH02_outro_01.png",
+				"res://assets/backgrounds_hd/CH02_outro_02.png",
+				"res://assets/backgrounds_hd/CH02_outro_03.png"
+			]
 		},
 		{
 			"id": "ch03",
@@ -60,7 +94,24 @@
 				"But you caught the look Prior gave Eddy when Eddy wasn't looking, and it was the look the wholesaler gives packaging: the goods are you, Mona. Only you.",
 				"And in the hotel simstim rig, Angie Mitchell smiled down some red carpet, and for one bad second it felt like looking into a mirror somebody else was renting out."
 			],
-			"start": { "credits": 40, "items": ["simstim_deck"], "minutes": 1320 }
+			"start": {
+				"credits": 40,
+				"items": [
+					"simstim_deck"
+				],
+				"minutes": 1320
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH03_intro_01.png",
+				"res://assets/backgrounds_hd/CH03_intro_02.png",
+				"res://assets/backgrounds_hd/CH03_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH03_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH03_outro_01.png",
+				"res://assets/backgrounds_hd/CH03_outro_02.png",
+				"res://assets/backgrounds_hd/CH03_outro_03.png"
+			]
 		},
 		{
 			"id": "ch04",
@@ -80,7 +131,24 @@
 				"Continuity answered your questions about the vodou constructs with citations, and about the dust with evasions, and about your dreams with a silence that lasted 1.6 seconds too long. Machines don't hesitate. Unless something makes them.",
 				"You told Swift you'd fly east and shoot the Sprawl segments. What you didn't tell him: the dreams are coming back — factory dark, a gray box, a boy's voice saying your name — and this time you're going toward them."
 			],
-			"start": { "credits": 9000, "items": ["cortex_lace"], "minutes": 480 }
+			"start": {
+				"credits": 9000,
+				"items": [
+					"cortex_lace"
+				],
+				"minutes": 480
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH04_intro_01.png",
+				"res://assets/backgrounds_hd/CH04_intro_02.png",
+				"res://assets/backgrounds_hd/CH04_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH04_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH04_outro_01.png",
+				"res://assets/backgrounds_hd/CH04_outro_02.png",
+				"res://assets/backgrounds_hd/CH04_outro_03.png"
+			]
 		},
 		{
 			"id": "ch05",
@@ -100,7 +168,24 @@
 				"3Jane, the Finn said, and even the alley seemed to get colder. Last heir of the family whose empire once ran half of high orbit, dead now — dead in the flesh, and vindictive in whatever she paid to become instead.",
 				"'Kid,' Sally told you, walking back through the snow, 'whatever happens in the next few weeks — none of it's going to be what it looks like.' Colin agrees. That is what frightens you."
 			],
-			"start": { "credits": 1500, "items": ["colin_unit"], "minutes": 1140 }
+			"start": {
+				"credits": 1500,
+				"items": [
+					"colin_unit"
+				],
+				"minutes": 1140
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH05_intro_01.png",
+				"res://assets/backgrounds_hd/CH05_intro_02.png",
+				"res://assets/backgrounds_hd/CH05_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH05_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH05_outro_01.png",
+				"res://assets/backgrounds_hd/CH05_outro_02.png",
+				"res://assets/backgrounds_hd/CH05_outro_03.png"
+			]
 		},
 		{
 			"id": "ch06",
@@ -120,7 +205,24 @@
 				"Gerald was gentle, at the end, in a way that scared you worse than Prior: 'Whatever they've hired you for, girl, be done with it fast, and be somewhere else when it finishes.'",
 				"You still dream your own face. You hold onto that. Wiz makes it easier and worse. Somewhere north, the woman you're wearing has started traveling east, and the two of you are already falling toward the same address."
 			],
-			"start": { "credits": 150, "items": ["wiz_stash"], "minutes": 600 }
+			"start": {
+				"credits": 150,
+				"items": [
+					"wiz_stash"
+				],
+				"minutes": 600
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH06_intro_01.png",
+				"res://assets/backgrounds_hd/CH06_intro_02.png",
+				"res://assets/backgrounds_hd/CH06_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH06_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH06_outro_01.png",
+				"res://assets/backgrounds_hd/CH06_outro_02.png",
+				"res://assets/backgrounds_hd/CH06_outro_03.png"
+			]
 		},
 		{
 			"id": "ch07",
@@ -140,7 +242,25 @@
 				"There's a woman in there with him sometimes, Gentry says, at the edges — a dead woman from up the well, watching everything with proprietary eyes. 3Jane. Even her name drops the Factory's temperature.",
 				"And Cherry came up from the stretcher pale: the Count's vitals dip every time the aleph works. Whatever's being finished in there, it's running on the last of him. On the interstate, the hired convoy is a day out now, and it's driving toward your box."
 			],
-			"start": { "credits": 120, "items": ["cutting_torch", "factory_trodes"], "minutes": 1200 }
+			"start": {
+				"credits": 120,
+				"items": [
+					"cutting_torch",
+					"factory_trodes"
+				],
+				"minutes": 1200
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH07_intro_01.png",
+				"res://assets/backgrounds_hd/CH07_intro_02.png",
+				"res://assets/backgrounds_hd/CH07_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH07_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH07_outro_01.png",
+				"res://assets/backgrounds_hd/CH07_outro_02.png",
+				"res://assets/backgrounds_hd/CH07_outro_03.png"
+			]
 		},
 		{
 			"id": "ch08",
@@ -160,7 +280,24 @@
 				"The truth, in her voice: the dust was never medicine. It was a LOCK — bought and paid for, cutting you off from the matrix's new weather while other hands moved. The buyer: a dead woman up the well who hates what you're becoming. 3Jane.",
 				"And the boy in the gray box is real, and the box is real, and the wedding the loa spoke of when you were fifteen is REAL, and it is days away, and the venue is a factory in a poisoned nowhere that you have been dreaming in perfect detail. You told Piper to change the flight plan. East, then north. You're done being the network's dream. Time to go have your own."
 			],
-			"start": { "credits": 12000, "items": ["cortex_lace"], "minutes": 1260 }
+			"start": {
+				"credits": 12000,
+				"items": [
+					"cortex_lace"
+				],
+				"minutes": 1260
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH08_intro_01.png",
+				"res://assets/backgrounds_hd/CH08_intro_02.png",
+				"res://assets/backgrounds_hd/CH08_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH08_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH08_outro_01.png",
+				"res://assets/backgrounds_hd/CH08_outro_02.png",
+				"res://assets/backgrounds_hd/CH08_outro_03.png"
+			]
 		},
 		{
 			"id": "ch09",
@@ -180,7 +317,24 @@
 				"From Tick's line you reached Sally, one burst, compressed: SWAIN SELLS YOU. 3JANE BUYS. THE GIRL IS BAIT AND SO ARE YOU. She read it twice and said, mirrors steady: 'Good work, kid. Now stay with Tick and watch what happens to people who squeeze me.'",
 				"Colin, impossibly, is smiling. 'Your father sent you to London to keep you out of a war,' he says. 'On current evidence, he mis-shipped.'"
 			],
-			"start": { "credits": 900, "items": ["colin_unit"], "minutes": 1380 }
+			"start": {
+				"credits": 900,
+				"items": [
+					"colin_unit"
+				],
+				"minutes": 1380
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH09_intro_01.png",
+				"res://assets/backgrounds_hd/CH09_intro_02.png",
+				"res://assets/backgrounds_hd/CH09_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH09_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH09_outro_01.png",
+				"res://assets/backgrounds_hd/CH09_outro_02.png",
+				"res://assets/backgrounds_hd/CH09_outro_03.png"
+			]
 		},
 		{
 			"id": "ch10",
@@ -200,7 +354,24 @@
 				"The mirror woman looked at you, then at Angie, then did the arithmetic 3Jane paid for — and broke it. 'Plans change,' she said. 'Both of you. In the car. NOW.'",
 				"You're on a northbound freight lift-out with a kidnapper who won't kidnap, a superstar who keeps looking at your face like an apology, and nobody left alive who knows which of you is which. North: a factory, a wedding, a gray moon you've started dreaming about too."
 			],
-			"start": { "credits": 300, "items": ["wiz_stash"], "minutes": 1200 }
+			"start": {
+				"credits": 300,
+				"items": [
+					"wiz_stash"
+				],
+				"minutes": 1200
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH10_intro_01.png",
+				"res://assets/backgrounds_hd/CH10_intro_02.png",
+				"res://assets/backgrounds_hd/CH10_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH10_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH10_outro_01.png",
+				"res://assets/backgrounds_hd/CH10_outro_02.png",
+				"res://assets/backgrounds_hd/CH10_outro_03.png"
+			]
 		},
 		{
 			"id": "ch11",
@@ -220,7 +391,25 @@
 				"The mirror-eyed woman fought like the Judge's little sister and vouched for the two girls with one face. The famous one walked straight to the Count's stretcher like she'd dreamed the route — because she had.",
 				"Now Gentry says the aleph is spinning up on its own, drawing power the Factory doesn't have to give. Something in there is getting married or getting born, and everyone on this poisoned plain has been invited whether they RSVP'd or not."
 			],
-			"start": { "credits": 150, "items": ["cutting_torch", "judge_remote"], "minutes": 360 }
+			"start": {
+				"credits": 150,
+				"items": [
+					"cutting_torch",
+					"judge_remote"
+				],
+				"minutes": 360
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH11_intro_01.png",
+				"res://assets/backgrounds_hd/CH11_intro_02.png",
+				"res://assets/backgrounds_hd/CH11_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH11_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH11_outro_01.png",
+				"res://assets/backgrounds_hd/CH11_outro_02.png",
+				"res://assets/backgrounds_hd/CH11_outro_03.png"
+			]
 		},
 		{
 			"id": "ch12",
@@ -240,7 +429,24 @@
 				"Outside: Molly walked away into the snow with nothing to squeeze her ever again — the Finn's construct saw to 3Jane's estate. Kumiko testified, politely, and Swain's operation went down with all hands. Slick buried the Judge's enemies and kept the Factory. Cherry stayed. Gentry finally saw the Shape, and it was two kids holding hands.",
 				"And a girl from Cleveland with a borrowed face stepped off a lift-out into a Sense/Net contract, screen-tested by destiny itself: the network needed an Angie, and there she was — Mona, overdrive, the future's new smile. Somewhere in the aleph, the original approves. THE END — and the trilogy with it. Thanks for playing, cowboy."
 			],
-			"start": { "credits": 5000, "items": ["cortex_lace"], "minutes": 60 }
+			"start": {
+				"credits": 5000,
+				"items": [
+					"cortex_lace"
+				],
+				"minutes": 60
+			},
+			"intro_art": [
+				"res://assets/backgrounds_hd/CH12_intro_01.png",
+				"res://assets/backgrounds_hd/CH12_intro_02.png",
+				"res://assets/backgrounds_hd/CH12_intro_03.png"
+			],
+			"art": "res://assets/backgrounds_hd/CH12_intro_01.png",
+			"outro_art": [
+				"res://assets/backgrounds_hd/CH12_outro_01.png",
+				"res://assets/backgrounds_hd/CH12_outro_02.png",
+				"res://assets/backgrounds_hd/CH12_outro_03.png"
+			]
 		}
 	]
 }

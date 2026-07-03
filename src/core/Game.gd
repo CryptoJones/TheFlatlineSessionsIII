@@ -119,7 +119,7 @@ var _save_name_edit: LineEdit
 var _story_pages: Array = []
 var _story_idx := 0
 var _story_title := ""
-var _story_art := ""
+var _story_art = ""
 var _story_final: Array = []   # [[label, Callable], ...] shown on the last page
 
 
@@ -694,7 +694,7 @@ func _jack_out() -> void:
 
 ## Present `pages` one beat at a time with a "Next »" button, then show the
 ## `final` choice buttons ([[label, Callable], ...]) on the last page.
-func _begin_story(title: String, art: String, pages: Array, final: Array) -> void:
+func _begin_story(title: String, art, pages: Array, final: Array) -> void:
 	_story_title = title
 	_story_art = art
 	_story_pages = pages if not pages.is_empty() else [""]
@@ -703,13 +703,21 @@ func _begin_story(title: String, art: String, pages: Array, final: Array) -> voi
 	_show_story_page()
 
 func _show_story_page() -> void:
-	_menu_begin(_story_title, "· %d / %d ·" % [_story_idx + 1, _story_pages.size()], _story_art, true)
+	_menu_begin(_story_title, "· %d / %d ·" % [_story_idx + 1, _story_pages.size()], _story_art_path(), true)
 	_menu_label(str(_story_pages[_story_idx]))
 	if _story_idx < _story_pages.size() - 1:
 		_menu_button("Next »", _story_next)
 	else:
 		for fb in _story_final:
 			_menu_button(str(fb[0]), fb[1])
+
+func _story_art_path() -> String:
+	if typeof(_story_art) == TYPE_ARRAY:
+		var art_list: Array = _story_art
+		if art_list.is_empty():
+			return ""
+		return str(art_list[mini(_story_idx, art_list.size() - 1)])
+	return str(_story_art)
 
 func _story_next() -> void:
 	_story_idx += 1
@@ -736,8 +744,9 @@ func _start_chapter(id: String) -> void:
 	if intro.is_empty():
 		_go_explore()
 	else:
+		var intro_art = ch.get("intro_art", ch.get("art", ""))
 		_begin_story("Chapter %02d — %s" % [_chapters.index_of(id) + 1, str(ch.get("title", ""))],
-			str(ch.get("art", "")), intro, [["» Begin", _go_explore]])
+			intro_art, intro, [["» Begin", _go_explore]])
 
 ## Called after anything that can set a flag: completes the chapter's main
 ## quest when its last step lands (the Conclude button then appears in explore).
@@ -758,8 +767,9 @@ func _conclude_chapter() -> void:
 	GameState.set_flag("concluded_" + id)
 	_chapters.finish(GameState, id)
 	var outro: Array = ch.get("outro", [])
+	var outro_art = ch.get("outro_art", ch.get("art", ""))
 	_begin_story("Chapter %02d — %s" % [_chapters.index_of(id) + 1, str(ch.get("title", ""))],
-		str(ch.get("art", "")), outro if not outro.is_empty() else ["(end of chapter)"],
+		outro_art, outro if not outro.is_empty() else ["(end of chapter)"],
 		[["» Continue", _go_chapters]])
 
 

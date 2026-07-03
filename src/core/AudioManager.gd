@@ -26,6 +26,8 @@ const CHAPTER_TRACKS := {
 
 signal track_changed(track)
 
+const SETTINGS_PATH := "user://settings.cfg"
+
 var enabled := true
 var _a: AudioStreamPlayer
 var _b: AudioStreamPlayer
@@ -35,8 +37,13 @@ var _cache := {}
 var _playlist: Array = []
 var _pl_idx := 0
 var _pl_active := false
+# What the game last asked for, tracked even while muted, so re-enabling
+# music resumes the right cue instead of silence.
+var _wanted := ""
+var _wanted_list: Array = []
 
 func _ready() -> void:
+	_load_settings()
 	_a = _make_player()
 	_b = _make_player()
 	_active = _a
@@ -82,6 +89,9 @@ func _crossfade_to(stream: AudioStream) -> void:
 ## Crossfade to a single looping `track`. No-op if already playing or missing.
 func play(track: String) -> void:
 	_pl_active = false
+	if track != "":
+		_wanted = track
+		_wanted_list = []
 	if not enabled or track == "" or track == _current:
 		return
 	var stream := _load(track, true)
@@ -93,7 +103,11 @@ func play(track: String) -> void:
 
 ## Play a list of tracks back-to-back, looping the list forever.
 func play_playlist(tracks: Array) -> void:
-	if not enabled or tracks.is_empty():
+	if tracks.is_empty():
+		return
+	_wanted = ""
+	_wanted_list = tracks.duplicate()
+	if not enabled:
 		return
 	if _pl_active and _playlist == tracks:
 		return
@@ -139,6 +153,34 @@ func stop() -> void:
 	var tw := create_tween()
 	tw.tween_property(_active, "volume_db", -80.0, FADE)
 	tw.tween_callback(_active.stop)
+
+## Settings-panel switch: mute fades the music out and remembers the choice;
+## unmute resumes whatever the game last asked for.
+func set_music_enabled(on: bool) -> void:
+	if enabled == on:
+		return
+	enabled = on
+	if on:
+		if not _wanted_list.is_empty():
+			play_playlist(_wanted_list.duplicate())
+		elif _wanted != "":
+			var track := _wanted
+			_current = ""
+			play(track)
+	else:
+		stop()
+	_save_settings()
+
+func _save_settings() -> void:
+	var cf := ConfigFile.new()
+	cf.load(SETTINGS_PATH)
+	cf.set_value("audio", "music", enabled)
+	cf.save(SETTINGS_PATH)
+
+func _load_settings() -> void:
+	var cf := ConfigFile.new()
+	if cf.load(SETTINGS_PATH) == OK:
+		enabled = bool(cf.get_value("audio", "music", true))
 
 ## Pick the area track for a room dictionary: an explicit "music" key wins,
 ## shops get the commerce cue, everything else the chapter's street cue.

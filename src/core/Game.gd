@@ -874,6 +874,12 @@ func _show_void_room() -> void:
 	nextb.pressed.connect(_void_skip.bind(true))
 	_fsize(nextb, 22)
 	_button_bar.add_child(nextb)
+	var gearb := Button.new()
+	gearb.text = "⚙"
+	gearb.tooltip_text = "Settings"
+	gearb.pressed.connect(_open_settings)
+	_fsize(gearb, 22)
+	_button_bar.add_child(gearb)
 	_status_lbl.text = "%s   ·   1337 cr   CON 1337   ·   1337   ·   13:37" % GameState.player_name
 	_objective_lbl.text = ""
 	AudioManager.play_playlist(VOID_TRACKS)
@@ -971,6 +977,11 @@ func _rebuild_buttons(r: Dictionary) -> void:
 	lb.text = "Load"
 	lb.pressed.connect(_do_load)
 	_button_bar.add_child(lb)
+	var gear := Button.new()
+	gear.text = "⚙"
+	gear.tooltip_text = "Settings"
+	gear.pressed.connect(_open_settings)
+	_button_bar.add_child(gear)
 	var mb := Button.new()
 	mb.text = "Menu"
 	mb.tooltip_text = "Back to chapter select"
@@ -1041,7 +1052,7 @@ func _open_save_menu() -> void:
 		_menu_label("— or overwrite an existing save —", true)
 		for s in saves:
 			_menu_button("%s   (%s)" % [s["name"], s["saved_at"]], _commit_save_named.bind(str(s["name"])))
-	_menu_button("« Cancel", _go_explore)
+	_menu_button("« Cancel (Esc)", _cancel_menu)
 	_save_name_edit.grab_focus()
 	_save_name_edit.select_all()
 
@@ -1063,6 +1074,9 @@ func _do_load() -> void:
 
 func _open_load_menu() -> void:
 	_menu_begin("LOAD GAME", "Pick a save point:")
+	# The way back comes FIRST so it can never scroll out of sight under a
+	# long save list — mid-story that means straight back to the running game.
+	_menu_button("« Back (Esc)", _cancel_menu)
 	var saves := SaveSystem.list_saves()
 	if saves.is_empty():
 		_menu_label("No saves yet — use Save first.")
@@ -1072,14 +1086,33 @@ func _open_load_menu() -> void:
 					s["name"], s["chapter"], str(s["room"]), int(s["credits"]), s["saved_at"]],
 				_do_load_slug.bind(str(s["slug"])))
 			_menu_button("        ✕ delete \"%s\"" % s["name"], _confirm_delete.bind(str(s["slug"]), str(s["name"])))
-	_menu_button("« Cancel", _cancel_menu)
+	_menu_button("« Back (Esc)", _cancel_menu)
 
 ## Cancel destination depends on where the menu was opened from.
 func _cancel_menu() -> void:
-	if GameState.current_chapter != "" and _world.has_room(GameState.current_room):
+	if GameState.current_chapter != "" and (GameState.current_room == HIDDEN_ROOM
+			or _world.has_room(GameState.current_room)):
 		_go_explore()
 	else:
 		_go_chapters()
+
+# ---- Settings -------------------------------------------------------------------
+
+func _open_settings() -> void:
+	_menu_begin("SETTINGS", "Changes apply immediately and are remembered.")
+	var cb := CheckButton.new()
+	cb.text = "Music"
+	cb.button_pressed = AudioManager.enabled
+	cb.toggled.connect(_set_music_enabled)
+	_fsize(cb, 22)
+	_menu_list.add_child(cb)
+	_menu_button("« Back (Esc)", _cancel_menu)
+
+func _set_music_enabled(on: bool) -> void:
+	AudioManager.set_music_enabled(on)
+	if on and _state == State.MENU and _world.has_room(GameState.current_room):
+		# resume the room's cue right away rather than waiting for a room change
+		AudioManager.play(AudioManager.for_room(_world.room(GameState.current_room)))
 
 func _do_load_slug(slug: String) -> void:
 	if SaveSystem.load_slug(slug) and _restore_loaded_state():

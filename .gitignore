@@ -21,4 +21,5 @@ scratchpad/
 
 # oversized review artifacts (kept locally, not shipped)
 docs/*.pdf
+!docs/The_Art_of_The_Flatline_Sessions_*.pdf
 .agent-yes/

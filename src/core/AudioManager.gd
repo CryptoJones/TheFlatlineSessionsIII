@@ -8,6 +8,20 @@ extends Node
 const MUSIC_DIR := "res://assets/audio/music/"
 const FADE := 1.2          # crossfade seconds
 const MUSIC_DB := -8.0     # nominal playback level
+const CHAPTER_TRACKS := {
+	"ch01": "ch01_the_smoke",
+	"ch02": "ch02_dog_solitude",
+	"ch03": "ch03_florida",
+	"ch04": "ch04_malibu",
+	"ch05": "ch05_oracle_lost_tech",
+	"ch06": "ch06_the_work",
+	"ch07": "ch07_the_aleph",
+	"ch08": "ch08_the_loas_price",
+	"ch09": "ch09_underground",
+	"ch10": "ch10_the_switch",
+	"ch11": "ch11_siege_dog_solitude",
+	"ch12": "ch12_mona_lisa_underdrive",
+}
 
 signal track_changed(track)
 
@@ -83,4 +97,4 @@ func for_room(r: Dictionary) -> String:
 		return str(r["music"])
 	if r.has("shop"):
 		return "shops"
-	return "streets"
+	return str(CHAPTER_TRACKS.get(GameState.current_chapter, "streets"))

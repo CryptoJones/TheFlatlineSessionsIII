@@ -20,6 +20,12 @@ Premium modern adventure-game background plate, clear navigable environment, wid
 modern cyberspace interpreted in heavily rotoscoped graphic-novel style: infinite black void gridded with glowing neon wireframe lines, luminous data architecture, cinematic perspective with hand-painted inked surfaces, flattened glow planes, warm film grain, electric magenta and violet, no text/logos, 16:9 game plate,
 ```
 
+## Album Cover Style
+
+```text
+square soundtrack album cover art, text-free front cover, heavy rotoscope animation look with bold traced contours, painted-over live-action frames, flattened color regions, hand-inked edge lines, subtle analog-film grain, halation, pastel sci-fi production design, tactile miniatures-and-practical-set feeling, no CGI smoothness, no uncanny faces, no anime, no pixel art, no visible text, no logos
+```
+
 ## Negative Prompt
 
 ```text

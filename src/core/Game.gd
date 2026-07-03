@@ -28,6 +28,46 @@ const VIEW_Y := 30
 const VIEW_W := 1848
 const VIEW_H := 636
 const MINUTES_PER_MOVE := 3
+const HIDDEN_ROOM := "1337"
+const VOID_IMAGE := "res://assets/ui/void.png"
+const VOID_TRACKS := [
+	"title",
+	"streets",
+	"shops",
+	"cyberspace",
+	"ice_combat",
+	"ch01_the_smoke",
+	"ch02_dog_solitude",
+	"ch03_florida",
+	"ch04_malibu",
+	"ch05_oracle_lost_tech",
+	"ch06_the_work",
+	"ch07_the_aleph",
+	"ch08_the_loas_price",
+	"ch09_underground",
+	"ch10_the_switch",
+	"ch11_siege_dog_solitude",
+	"ch12_mona_lisa_underdrive",
+]
+const TRACK_TITLES := {
+	"title": "THE FLATLINE SESSIONS III",
+	"streets": "Dome Snow",
+	"shops": "Junkyard Retail",
+	"cyberspace": "Aleph Weather",
+	"ice_combat": "3Jane Recursion",
+	"ch01_the_smoke": "The Smoke",
+	"ch02_dog_solitude": "Dog Solitude",
+	"ch03_florida": "Florida",
+	"ch04_malibu": "Malibu",
+	"ch05_oracle_lost_tech": "The Oracle of Lost Technology",
+	"ch06_the_work": "The Work",
+	"ch07_the_aleph": "The Aleph",
+	"ch08_the_loas_price": "The Loa's Price",
+	"ch09_underground": "Underground",
+	"ch10_the_switch": "The Switch",
+	"ch11_siege_dog_solitude": "The Siege of Dog Solitude",
+	"ch12_mona_lisa_underdrive": "Mona Lisa Underdrive",
+}
 
 var _state: int = State.TITLE
 var _world: World
@@ -96,6 +136,7 @@ func _ready() -> void:
 	_catalog.load_data()
 	_matrix = Matrix.new()
 	_matrix.load_data()
+	AudioManager.track_changed.connect(_on_track_changed)
 	_build_title_layer()
 	_build_chapters_layer()
 	_build_explore_layer()
@@ -760,11 +801,16 @@ func _go_dialog(npc_id: String) -> void:
 # ---------------------------------------------------------------- explore render
 
 func _refresh_room() -> void:
+	if GameState.current_room == HIDDEN_ROOM:
+		_show_void_room()
+		return
 	var id := GameState.current_room
 	var r := _world.room(id)
 	_room_name_lbl.text = r.get("name", id)
 	var tex := Assets.background(r.get("bg", ""))
 	_bg_rect.texture = tex
+	_bg_rect.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_bg_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_bg_rect.visible = tex != null
 	# Until a plate is painted: a quiet per-room tinted panel + watermark name.
 	_bg_placeholder.visible = tex == null
@@ -780,6 +826,65 @@ func _refresh_room() -> void:
 	_rebuild_buttons(r)
 	_refresh_status()
 	AudioManager.play(AudioManager.for_room(r))
+
+func _show_void_room() -> void:
+	_room_name_lbl.text = "1337"
+	var tex := Assets.load_texture(VOID_IMAGE)
+	_bg_rect.texture = tex
+	_bg_rect.visible = tex != null
+	_bg_rect.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_bg_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_bg_placeholder.visible = tex == null
+	_bg_room_glyph.visible = tex == null
+	if tex == null:
+		_bg_placeholder.color = Color("050609")
+		_bg_room_glyph.text = "1337"
+	_desc_lbl.text = "You slipped through a crack in the matrix into a room that's on no map. The exits have been sanded off. The only thing still answering is the soundtrack."
+	for c in _button_bar.get_children():
+		c.queue_free()
+	var loadb := Button.new()
+	loadb.text = "Load"
+	loadb.pressed.connect(_do_load)
+	_fsize(loadb, 22)
+	_button_bar.add_child(loadb)
+	var quitb := Button.new()
+	quitb.text = "Quit"
+	quitb.pressed.connect(_do_quit)
+	_fsize(quitb, 22)
+	_button_bar.add_child(quitb)
+	var prevb := Button.new()
+	prevb.text = "◀"
+	prevb.tooltip_text = "Previous soundtrack cut"
+	prevb.pressed.connect(_void_skip.bind(false))
+	_fsize(prevb, 22)
+	_button_bar.add_child(prevb)
+	var nextb := Button.new()
+	nextb.text = "▶"
+	nextb.tooltip_text = "Next soundtrack cut"
+	nextb.pressed.connect(_void_skip.bind(true))
+	_fsize(nextb, 22)
+	_button_bar.add_child(nextb)
+	_status_lbl.text = "%s   ·   1337 cr   CON 1337   ·   1337   ·   13:37" % GameState.player_name
+	_objective_lbl.text = ""
+	AudioManager.play_playlist(VOID_TRACKS)
+	_room_name_lbl.text = _void_nowplaying()
+
+func _void_nowplaying() -> String:
+	var track := AudioManager.current_track()
+	if track == "":
+		return "1337"
+	return "1337  ·  " + str(TRACK_TITLES.get(track, track))
+
+func _void_skip(next := true) -> void:
+	if next:
+		AudioManager.next_track()
+	else:
+		AudioManager.prev_track()
+	_room_name_lbl.text = _void_nowplaying()
+
+func _on_track_changed(_track: String) -> void:
+	if GameState.current_room == HIDDEN_ROOM and _room_name_lbl != null:
+		_room_name_lbl.text = _void_nowplaying()
 
 ## Placeholder plate tint: a stable dark hue keyed off the room id, so every
 ## room reads distinct before its art exists.
@@ -974,19 +1079,35 @@ func _do_load_slug(slug: String) -> void:
 		_toast("Load failed — save is corrupt.")
 		_go_chapters()
 
-## Rebuild the chapter's world for a loaded save; reject anything invalid.
+## Rebuild the chapter's world for a loaded save; hacked saves go to room 1337.
 func _restore_loaded_state() -> bool:
+	var tampered := false
 	var ch := _chapters.by_id(GameState.current_chapter)
 	if ch.is_empty():
-		return false
-	if not _world.load_file(str(ch.get("rooms", ""))):
-		return false
-	if not _world.has_room(GameState.current_room):
-		GameState.current_room = _world.start_id
+		tampered = true
+	elif not _world.load_file(str(ch.get("rooms", ""))):
+		tampered = true
+	elif GameState.current_room != HIDDEN_ROOM and not _world.has_room(GameState.current_room):
+		tampered = true
+	if GameState.credits < 0 or GameState.credits > 1_000_000_000:
+		tampered = true
+	if GameState.health < 0 or GameState.health > 100:
+		tampered = true
+	if GameState.constitution < 0 or GameState.constitution > 2000:
+		tampered = true
+	if GameState.game_minutes < 0:
+		tampered = true
+	for iid in GameState.inventory:
+		if _catalog.item(str(iid)).is_empty():
+			tampered = true
+			break
 	GameState.credits = clampi(GameState.credits, 0, 1_000_000_000)
 	GameState.health = clampi(GameState.health, 0, 100)
 	GameState.constitution = clampi(GameState.constitution, 0, 2000)
 	GameState.game_minutes = maxi(GameState.game_minutes, 0)
+	if tampered:
+		push_warning("Load: tampered or invalid save - banished to room 1337")
+		GameState.current_room = HIDDEN_ROOM
 	return true
 
 func _confirm_delete(slug: String, display_name: String) -> void:

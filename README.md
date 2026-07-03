@@ -1,16 +1,15 @@
-# The Flatline Sessions III — Mona Lisa Overdrive
+# The Flatline Sessions III — Mona Lisa Underdrive
 
-A fan-made, modern-look adventure after William Gibson's **Mona Lisa Overdrive** — the
+A fan-made, modern-look cyberpunk adventure after a famous cyberpunk trilogy — the
 third game in the Flatline Sessions trilogy, completing the arc begun by
-[The Flatline Sessions](../neuromancer-godot) (the 2026 remaster of Interplay's 1988
-*Neuromancer*) and continued by
-[The Flatline Sessions II — Count Zero](../TheFlatlineSessionsII). Renders clean at a
+[The Flatline Sessions](../neuromancer-godot) and continued by
+[The Flatline Sessions II — Count Binary](../TheFlatlineSessionsII). Renders clean at a
 **native 1920×1080 canvas in full 32-bit color**.
 
 ## The shape of the game
 
-*Mona Lisa Overdrive* braids four viewpoint characters, so the game does too. Twelve
-chapters, played in novel order, each locking you to one PoV:
+*Mona Lisa Underdrive* runs through four viewpoint characters. Twelve
+chapters play in campaign order, each locking you to one PoV:
 
 | # | Chapter | You play |
 |---|---------|----------|
@@ -25,7 +24,7 @@ chapters, played in novel order, each locking you to one PoV:
 | 09 | Underground | Kumiko Yanaka |
 | 10 | The Switch | Mona |
 | 11 | The Siege of Dog Solitude | Slick Henry |
-| 12 | Mona Lisa Overdrive | Angie Mitchell |
+| 12 | Mona Lisa Underdrive | Angie Mitchell |
 
 Each chapter has its own room graph, main quest, NPCs, and starting kit. Finishing a
 chapter unlocks the next. Matrix access varies by PoV: Slick jacks in through the
@@ -35,13 +34,18 @@ and Mona stays in the meat.
 ## Status
 
 **Playable scaffold with generated art pass.** The whole story is playable end to end.
-All dialog, quests, items, shops, and matrix targets are in place, written in the novel's
-tone — our own prose throughout.
+All dialog, quests, items, shops, and matrix targets are in place, written as original in-world
+prose throughout.
 
 The first full art pass is in `assets/backgrounds_hd/` and `assets/cyberspace/`: heavily
 rotoscoped, painted-over-live-action plates with graphic-novel realism, flattened color
 planes, visible ink contours, warm 35mm grain, and violet/magenta cyberpunk accents. See
 [`docs/art-style-prompt.md`](docs/art-style-prompt.md) for the locked style prompt.
+
+The first soundtrack pass is in `assets/audio/music/`, with chapter cues plus title,
+shops, cyberspace, and ICE-combat loops. See [`docs/soundtrack.md`](docs/soundtrack.md).
+Album-cover art is stored in [`assets/album_art/`](assets/album_art/) and mirrored in
+[`docs/album_art/`](docs/album_art/) for review/export workflows.
 
 For review from a tablet/phone, see
 [`docs/The_Art_of_The_Flatline_Sessions_III.pdf`](docs/The_Art_of_The_Flatline_Sessions_III.pdf).
@@ -80,6 +84,6 @@ src/                      engine (see src/core/Game.gd)
 
 ## Credits
 
-Fan project after the novel *Mona Lisa Overdrive* by William Gibson. Game code and all
+Fan project after a famous cyberpunk trilogy. Game code and all
 in-game prose are original to this project. Copyright **CryptoJones**
 <cryptojones@owasp.org>; engine shared with The Flatline Sessions.

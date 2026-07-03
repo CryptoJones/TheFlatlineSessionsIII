@@ -1,5 +1,5 @@
 {
-	"_note": "Mona Lisa Overdrive item catalog. type: hardware = matrix interface (enables Jack In), software = warez, skill = chipped skill, misc/key = story items (key items can't be sold).",
+	"_note": "Mona Lisa Underdrive item catalog. type: hardware = matrix interface (enables Jack In), software = warez, skill = chipped skill, misc/key = story items (key items can't be sold).",
 	"items": {
 		"colin_unit": {
 			"name": "Maas-Neotek unit (Colin)",

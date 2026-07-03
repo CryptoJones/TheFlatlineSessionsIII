@@ -1,5 +1,5 @@
 {
-	"_note": "The Flatline Sessions III — Mona Lisa Overdrive. Chapter spine: the novel's four PoV braids (Kumiko / Slick / Mona / Angie) interleaved in novel order. All prose is our own, written in the book's tone — no verbatim novel text.",
+	"_note": "The Flatline Sessions III — Mona Lisa Underdrive. Chapter spine: four PoV campaign braids (Kumiko / Slick / Mona / Angie) interleaved in story order. All prose is our own original in-world writing.",
 	"game": "THE FLATLINE SESSIONS III — MONA LISA OVERDRIVE",
 	"chapters": [
 		{
@@ -224,7 +224,7 @@
 		},
 		{
 			"id": "ch12",
-			"title": "Mona Lisa Overdrive",
+			"title": "Mona Lisa Underdrive",
 			"pov": "angie",
 			"pov_name": "Angie Mitchell",
 			"pov_desc": "At the gray box at the end of every dream, where all the roads were always going.",

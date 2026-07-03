@@ -18,3 +18,7 @@ scratchpad/
 
 # OS noise
 .DS_Store
+
+# oversized review artifacts (kept locally, not shipped)
+docs/*.pdf
+.agent-yes/

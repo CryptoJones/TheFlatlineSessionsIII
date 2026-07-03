@@ -1,5 +1,5 @@
 ; Engine configuration file.
-; The Flatline Sessions III — Mona Lisa Overdrive
+; The Flatline Sessions III — Mona Lisa Underdrive
 ;
 ; Modern-look sequel built on the Flatline Sessions engine (neuromancer-godot).
 ; Open in Godot 4.x.
@@ -8,9 +8,9 @@ config_version=5
 
 [application]
 
-config/name="The Flatline Sessions III — Mona Lisa Overdrive"
-config/version="0.1.0"
-config/description="The Flatline Sessions III — a fan-made modern adventure after William Gibson's Mona Lisa Overdrive. Chapter-based, playable from every point of view: Kumiko, Slick Henry, Mona, and Angie Mitchell."
+config/name="The Flatline Sessions III — Mona Lisa Underdrive"
+config/version="1.0.0"
+config/description="The Flatline Sessions III — Mona Lisa Underdrive, a fan-made modern adventure after a famous cyberpunk trilogy. Chapter-based, playable from every point of view: Kumiko, Slick Henry, Mona, and Angie Mitchell."
 run/main_scene="res://scenes/Boot.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"

@@ -3,6 +3,20 @@
 All notable changes to **The Flatline Sessions III — Mona Lisa Underdrive** are
 documented here. This project adheres to [Semantic Versioning](https://semver.org).
 
+## [1.0.4] — 2026-07-03
+
+### Added
+- **Give Hint.** A "? Give Hint" button (and the `H` key) in every room maps the
+  compass route to your current objective and names the action to take.
+- **Endgame.** Finishing the final chapter now plays a finale card (THE END + a
+  closing coda) before returning to the title.
+
+### Changed
+- **Deck detection.** `_has_deck()` now also recognises a deck-flagged software
+  item, so a borrowed/patched deck can enable Jack In (parity with II's fix).
+- **Action-bar declutter.** A finished conversation drops its Talk button, kept
+  only when the current objective still needs that NPC.
+
 ## [1.0.3] — 2026-07-03
 
 ### Added

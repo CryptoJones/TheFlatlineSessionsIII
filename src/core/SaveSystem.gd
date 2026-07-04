@@ -7,6 +7,7 @@ extends RefCounted
 
 const SAVE_DIR := "user://saves/"
 const QUICK_SLUG := "quicksave"
+const AUTO_SLUG := "autosave"
 
 
 static func _ensure_dir() -> void:
@@ -36,6 +37,11 @@ static func save_as(display_name: String) -> bool:
 
 static func quicksave() -> bool:
 	return _write(QUICK_SLUG, "Quicksave")
+
+
+## Rolling autosave slot, refreshed automatically as the player progresses.
+static func autosave() -> bool:
+	return _write(AUTO_SLUG, "Autosave")
 
 
 static func _write(slug: String, display_name: String) -> bool:

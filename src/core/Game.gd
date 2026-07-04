@@ -8,7 +8,7 @@ extends Control
 ## Each chapter locks the player to one of the novel's PoV characters and ends
 ## when its main quest completes (outro pages, next chapter unlocks).
 
-enum State { TITLE, CHAPTERS, EXPLORE, DIALOG, MENU }
+enum State { TITLE, CHAPTERS, EXPLORE, DIALOG, MENU, DEDICATION }
 
 # Preloaded (not class_name globals) so the game runs without a prebuilt
 # .godot global-class cache — i.e. on a fresh checkout before any editor open.
@@ -23,6 +23,10 @@ const UITheme = preload("res://src/ui/UITheme.gd")
 
 const NPC_DIR := "res://data/npcs/"
 const TITLE_COVER := "res://assets/ui/cover.png"
+## Shown as a quiet fade-in card before the title, every boot.
+const DEDICATION_TEXT := "Dedicated to William Gibson and all other Science Fiction authors; past, present, and future."
+## Player preferences (autosave flag) — same file AudioManager keeps music in.
+const SETTINGS_PATH := "user://settings.cfg"
 const VIEW_X := 36
 const VIEW_Y := 30
 const VIEW_W := 1848
@@ -70,6 +74,7 @@ const TRACK_TITLES := {
 }
 
 var _state: int = State.TITLE
+var _autosave := true                 # rolling autosave, on by default
 var _world: World
 var _dialog: DialogEngine
 var _dialog_npc: String = ""
@@ -79,6 +84,8 @@ var _catalog: Catalog
 var _matrix: Matrix
 
 # Layers
+var _dedication_layer: Control
+var _dedication_tween: Tween
 var _title_layer: Control
 var _chapters_layer: Control
 var _explore_layer: Control
@@ -137,12 +144,14 @@ func _ready() -> void:
 	_matrix = Matrix.new()
 	_matrix.load_data()
 	AudioManager.track_changed.connect(_on_track_changed)
+	_load_prefs()
+	_build_dedication_layer()
 	_build_title_layer()
 	_build_chapters_layer()
 	_build_explore_layer()
 	_build_dialog_layer()
 	_build_menu_layer()
-	_go_title()
+	_go_dedication()
 
 
 # ---------------------------------------------------------------- layer builders
@@ -158,13 +167,36 @@ func _full_control(name: String) -> Control:
 func _fsize(node: Control, size: int) -> void:
 	node.add_theme_font_size_override("font_size", size)
 
+func _build_dedication_layer() -> void:
+	_dedication_layer = _full_control("Dedication")
+	var bg := ColorRect.new()
+	bg.color = UITheme.BG
+	bg.size = Vector2(1920, 1080)
+	_dedication_layer.add_child(bg)
+	# A short accent tick sits just above the dedication line.
+	var rule := ColorRect.new()
+	rule.color = UITheme.ACCENT_DIM
+	rule.position = Vector2(860, 456)
+	rule.size = Vector2(200, 4)
+	_dedication_layer.add_child(rule)
+	var ded := Label.new()
+	ded.text = DEDICATION_TEXT
+	ded.position = Vector2(360, 492)
+	ded.size = Vector2(1200, 240)
+	ded.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	ded.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	ded.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ded.add_theme_color_override("font_color", UITheme.TEXT)
+	_fsize(ded, 40)
+	_dedication_layer.add_child(ded)
+
 func _build_title_layer() -> void:
 	_title_layer = _full_control("Title")
 	var bg := ColorRect.new()
 	bg.color = UITheme.BG
 	bg.size = Vector2(1920, 1080)
 	_title_layer.add_child(bg)
-	# Cover art renders clean and full-res when present (art comes later).
+	# Cover art fills behind the title (clean, full-res).
 	var tex: Texture2D = Assets.load_texture(TITLE_COVER)
 	if tex != null:
 		var tr := TextureRect.new()
@@ -174,28 +206,43 @@ func _build_title_layer() -> void:
 		tr.clip_contents = true
 		tr.size = Vector2(1920, 1080)
 		_title_layer.add_child(tr)
-	else:
-		var series := Label.new()
-		series.text = "THE FLATLINE SESSIONS"
-		series.position = Vector2(0, 288)
-		series.size = Vector2(1920, 72)
-		series.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		series.add_theme_color_override("font_color", UITheme.TEXT_DIM)
-		_fsize(series, 30)
-		_title_layer.add_child(series)
+	# The title ALWAYS renders on top of the cover — the cover art carries no
+	# lettering, so the game name lives here, outlined to read over any plate.
+	# game_title is the full "THE FLATLINE SESSIONS II — COUNT BINARY"; split it
+	# on the em dash into a main line + accent subtitle so it fits and reads big.
+	var full := _chapters.game_title if _chapters.game_title != "" else "THE FLATLINE SESSIONS II"
+	var main_line := full
+	var sub_line := ""
+	var dash := full.find("—")
+	if dash != -1:
+		main_line = full.substr(0, dash).strip_edges()
+		sub_line = full.substr(dash + 1).strip_edges()
+	var series := Label.new()
+	series.text = main_line
+	series.position = Vector2(0, 132)
+	series.size = Vector2(1920, 72)
+	series.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	series.add_theme_color_override("font_color", UITheme.TEXT)
+	series.add_theme_color_override("font_outline_color", UITheme.BG)
+	series.add_theme_constant_override("outline_size", 10)
+	_fsize(series, 44)
+	_title_layer.add_child(series)
+	if sub_line != "":
 		var t := Label.new()
-		t.text = _chapters.game_title if _chapters.game_title != "" else "II"
-		t.position = Vector2(0, 384)
-		t.size = Vector2(1920, 180)
+		t.text = sub_line
+		t.position = Vector2(0, 210)
+		t.size = Vector2(1920, 110)
 		t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		t.add_theme_color_override("font_color", UITheme.ACCENT)
-		_fsize(t, 64)
+		t.add_theme_color_override("font_outline_color", UITheme.BG)
+		t.add_theme_constant_override("outline_size", 12)
+		_fsize(t, 72)
 		_title_layer.add_child(t)
-		var rule := ColorRect.new()
-		rule.color = UITheme.ACCENT_DIM
-		rule.position = Vector2(600, 588)
-		rule.size = Vector2(720, 6)
-		_title_layer.add_child(rule)
+	var rule := ColorRect.new()
+	rule.color = UITheme.ACCENT
+	rule.position = Vector2(660, 338)
+	rule.size = Vector2(600, 4)
+	_title_layer.add_child(rule)
 	var prompt := Label.new()
 	prompt.text = "PRESS ANY KEY"
 	prompt.position = Vector2(0, 876)
@@ -226,6 +273,18 @@ func _build_chapters_layer() -> void:
 	bg.color = UITheme.BG
 	bg.size = Vector2(1920, 1080)
 	_chapters_layer.add_child(bg)
+	# The title cover sits behind the list as a faint wash — atmosphere, not a
+	# focal point, so it never competes with the chapter text.
+	var cover: Texture2D = Assets.load_texture(TITLE_COVER)
+	if cover != null:
+		var cr := TextureRect.new()
+		cr.texture = cover
+		cr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		cr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		cr.clip_contents = true
+		cr.size = Vector2(1920, 1080)
+		cr.modulate = Color(1, 1, 1, 0.18)
+		_chapters_layer.add_child(cr)
 	var head := Label.new()
 	head.text = _chapters.game_title
 	head.position = Vector2(72, 42)
@@ -766,6 +825,7 @@ func _conclude_chapter() -> void:
 	var id := str(ch.get("id", ""))
 	GameState.set_flag("concluded_" + id)
 	_chapters.finish(GameState, id)
+	_autosave_now()
 	var outro: Array = ch.get("outro", [])
 	var outro_art = ch.get("outro_art", ch.get("art", ""))
 	_begin_story("Chapter %02d — %s" % [_chapters.index_of(id) + 1, str(ch.get("title", ""))],
@@ -776,10 +836,26 @@ func _conclude_chapter() -> void:
 # ---------------------------------------------------------------- state switches
 
 func _show_only(active: Control) -> void:
-	for layer in [_title_layer, _chapters_layer, _explore_layer, _dialog_layer, _menu_layer]:
+	for layer in [_dedication_layer, _title_layer, _chapters_layer, _explore_layer, _dialog_layer, _menu_layer]:
 		layer.visible = (layer == active)
 
+## Boot card: fade the Gibson dedication up, hold, fade out, then hand off to the
+## title. Any key/click during it skips straight to the title (see _unhandled_input).
+func _go_dedication() -> void:
+	_state = State.DEDICATION
+	_show_only(_dedication_layer)
+	_dedication_layer.modulate.a = 0.0
+	if _dedication_tween != null and _dedication_tween.is_valid():
+		_dedication_tween.kill()
+	_dedication_tween = create_tween()
+	_dedication_tween.tween_property(_dedication_layer, "modulate:a", 1.0, 1.0)
+	_dedication_tween.tween_interval(2.4)
+	_dedication_tween.tween_property(_dedication_layer, "modulate:a", 0.0, 0.8)
+	_dedication_tween.tween_callback(_go_title)
+
 func _go_title() -> void:
+	if _dedication_tween != null and _dedication_tween.is_valid():
+		_dedication_tween.kill()
 	_state = State.TITLE
 	_show_only(_title_layer)
 	AudioManager.play("title")
@@ -836,6 +912,10 @@ func _refresh_room() -> void:
 	_rebuild_buttons(r)
 	_refresh_status()
 	AudioManager.play(AudioManager.for_room(r))
+	# Every room entry is a natural checkpoint — roll the autosave here so moves,
+	# pickups, and dialog exits (all of which funnel back through _refresh_room)
+	# are captured without the player ever opening the Save menu.
+	_autosave_now()
 
 func _show_void_room() -> void:
 	_room_name_lbl.text = "1337"
@@ -911,16 +991,20 @@ func _placeholder_color(room_id: String) -> Color:
 func _rebuild_buttons(r: Dictionary) -> void:
 	for c in _button_bar.get_children():
 		c.queue_free()
+	# Compass stays fixed every room: all four directions always show, but only
+	# the room's real exits are live — the rest sit visibly dimmed and unclickable.
 	var dir_abbr := { "north": "N", "south": "S", "east": "E", "west": "W" }
 	var exits: Dictionary = r.get("exits", {})
 	for dir in ["west", "north", "south", "east"]:
-		if not exits.has(dir):
-			continue
-		var dest: String = exits[dir]
 		var b := Button.new()
 		b.text = dir_abbr.get(dir, dir)
-		b.tooltip_text = "Go %s to %s" % [dir, _world.room(dest).get("name", dest)]
-		b.pressed.connect(_try_move.bind(dir))
+		if exits.has(dir):
+			var dest: String = exits[dir]
+			b.tooltip_text = "Go %s to %s" % [dir, _world.room(dest).get("name", dest)]
+			b.pressed.connect(_try_move.bind(dir))
+		else:
+			b.disabled = true
+			b.tooltip_text = "No exit %s" % dir
 		_button_bar.add_child(b)
 	# Talk actions for NPCs in the room.
 	for npc in r.get("npcs", []):
@@ -1106,6 +1190,12 @@ func _open_settings() -> void:
 	cb.toggled.connect(_set_music_enabled)
 	_fsize(cb, 22)
 	_menu_list.add_child(cb)
+	var ab := CheckButton.new()
+	ab.text = "Autosave"
+	ab.button_pressed = _autosave
+	ab.toggled.connect(_set_autosave_enabled)
+	_fsize(ab, 22)
+	_menu_list.add_child(ab)
 	_menu_button("« Back (Esc)", _cancel_menu)
 
 func _set_music_enabled(on: bool) -> void:
@@ -1113,6 +1203,30 @@ func _set_music_enabled(on: bool) -> void:
 	if on and _state == State.MENU and _world.has_room(GameState.current_room):
 		# resume the room's cue right away rather than waiting for a room change
 		AudioManager.play(AudioManager.for_room(_world.room(GameState.current_room)))
+
+func _set_autosave_enabled(on: bool) -> void:
+	_autosave = on
+	_save_prefs()
+	if on:
+		_autosave_now()   # capture the current spot the moment it's switched on
+
+## Roll the autosave when enabled and we're actually inside a chapter (never on
+## the title, and never in the hidden room 1337).
+func _autosave_now() -> void:
+	if not _autosave or GameState.current_chapter == "" or GameState.current_room == HIDDEN_ROOM:
+		return
+	SaveSystem.autosave()
+
+func _load_prefs() -> void:
+	var cf := ConfigFile.new()
+	if cf.load(SETTINGS_PATH) == OK:
+		_autosave = bool(cf.get_value("game", "autosave", true))
+
+func _save_prefs() -> void:
+	var cf := ConfigFile.new()
+	cf.load(SETTINGS_PATH)
+	cf.set_value("game", "autosave", _autosave)
+	cf.save(SETTINGS_PATH)
 
 func _do_load_slug(slug: String) -> void:
 	if SaveSystem.load_slug(slug) and _restore_loaded_state():
@@ -1250,6 +1364,11 @@ func _end_dialog() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	match _state:
+		State.DEDICATION:
+			if (event is InputEventKey and event.pressed) \
+					or (event is InputEventMouseButton and event.pressed):
+				_go_title()
+				get_viewport().set_input_as_handled()
 		State.TITLE:
 			if (event is InputEventKey and event.pressed) \
 					or (event is InputEventMouseButton and event.pressed):

@@ -46,6 +46,27 @@ static func build() -> Theme:
 	th.set_color("caret_color", "LineEdit", ACCENT)
 
 	th.set_color("font_color", "Label", TEXT)
+
+	# Sliders (settings — music volume). Only the track + fill are themed; the
+	# grabber icon falls back to the default theme so it stays visible.
+	var track := StyleBoxFlat.new()
+	track.bg_color = Color("0d1420")
+	track.border_color = PANEL_BORDER
+	track.set_border_width_all(1)
+	track.set_corner_radius_all(4)
+	track.content_margin_top = 6
+	track.content_margin_bottom = 6
+	th.set_stylebox("slider", "HSlider", track)
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = ACCENT_DIM
+	fill.set_corner_radius_all(4)
+	fill.content_margin_top = 6
+	fill.content_margin_bottom = 6
+	th.set_stylebox("grabber_area", "HSlider", fill)
+	var fill_hi: StyleBoxFlat = fill.duplicate()
+	fill_hi.bg_color = ACCENT
+	th.set_stylebox("grabber_area_highlight", "HSlider", fill_hi)
+
 	return th
 
 ## A rounded flat StyleBoxFlat with a hairline border and comfy 1080p padding.

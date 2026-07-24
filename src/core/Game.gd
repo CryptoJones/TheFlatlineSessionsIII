@@ -23,8 +23,6 @@ const UITheme = preload("res://src/ui/UITheme.gd")
 
 const NPC_DIR := "res://data/npcs/"
 const TITLE_COVER := "res://assets/ui/cover.png"
-## Shown as a quiet fade-in card before the title, every boot.
-const DEDICATION_TEXT := "Dedicated to William Gibson and all other Science Fiction authors; past, present, and future."
 ## Player preferences (autosave flag) — same file AudioManager keeps music in.
 const SETTINGS_PATH := "user://settings.cfg"
 const VIEW_X := 36
@@ -75,6 +73,7 @@ const TRACK_TITLES := {
 
 var _state: int = State.TITLE
 var _autosave := true                 # rolling autosave, on by default
+var _dedication_text := ""            # from chapters.json "dedication" (empty = skip card)
 var _world: World
 var _dialog: DialogEngine
 var _dialog_npc: String = ""
@@ -129,6 +128,7 @@ var _story_idx := 0
 var _story_title := ""
 var _story_art = ""
 var _story_final: Array = []   # [[label, Callable], ...] shown on the last page
+var _interaction_room := ""
 
 
 func _ready() -> void:
@@ -137,6 +137,7 @@ func _ready() -> void:
 	_chapters = Chapters.new()
 	if not _chapters.load_data():
 		push_error("Game: failed to load data/chapters.json")
+	_dedication_text = _chapters.dedication
 	_quests = Quests.new()
 	_quests.load_data()
 	_world = World.new()
@@ -182,7 +183,7 @@ func _build_dedication_layer() -> void:
 	rule.size = Vector2(200, 4)
 	_dedication_layer.add_child(rule)
 	var ded := Label.new()
-	ded.text = DEDICATION_TEXT
+	ded.text = _dedication_text
 	ded.position = Vector2(360, 492)
 	ded.size = Vector2(1200, 240)
 	ded.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -267,6 +268,20 @@ func _build_title_layer() -> void:
 	ver.add_theme_color_override("font_color", UITheme.TEXT_DIM)
 	_fsize(ver, 20)
 	_title_layer.add_child(ver)
+	# "Press any key" also means the mouse. Keys advance via _unhandled_input, but the
+	# root Control's default MOUSE_FILTER_STOP swallows mouse clicks before they reach
+	# there — so a full-screen transparent catcher grabs the click via gui_input and
+	# advances explicitly. Added last so it sits on top of the title art.
+	var catcher := Control.new()
+	catcher.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	catcher.mouse_filter = Control.MOUSE_FILTER_STOP
+	catcher.gui_input.connect(_on_title_click)
+	_title_layer.add_child(catcher)
+
+func _on_title_click(event: InputEvent) -> void:
+	if _state == State.TITLE and event is InputEventMouseButton and event.pressed:
+		_go_chapters()
+		get_viewport().set_input_as_handled()
 
 func _build_chapters_layer() -> void:
 	_chapters_layer = _full_control("ChapterSelect")
@@ -620,8 +635,12 @@ func _open_quest_log() -> void:
 		var steps := _quests.steps(qid)
 		var cur := _quests.current_step(GameState, qid)
 		for i in steps.size():
-			var mark := "✓" if i < cur else ("▸" if i == cur else "·")
-			_menu_label("  %s  %s" % [mark, str(steps[i].get("text", ""))],  i > cur)
+			var step: Dictionary = steps[i]
+			var optional := bool(step.get("optional", false))
+			var done := _quests.step_done(GameState, step)
+			var mark := "✓" if done else ("▸" if i == cur else "·")
+			var tag := "[Optional] " if optional else ""
+			_menu_label("  %s  %s%s" % [mark, tag, str(step.get("text", ""))], not done and i != cur)
 	_menu_button("« Back", _go_explore)
 
 
@@ -674,6 +693,9 @@ func _resolve_flag_target(flag: String) -> Dictionary:
 			var iid := str(p.get("item", ""))
 			if flag == "took_" + iid or flag == "granted_" + iid:
 				return {"room": rid, "action": str(p.get("label", "Take " + _catalog.item_name(iid)))}
+		for interaction in ra.get("interactions", []):
+			if str(interaction.get("set_flag", "")) == flag:
+				return {"room": rid, "action": str(interaction.get("label", "Investigate"))}
 	for rid2 in _world.rooms:
 		var rb: Dictionary = _world.rooms[rid2]
 		for npc in rb.get("npcs", []):
@@ -707,6 +729,23 @@ func _current_step_npc() -> String:
 	var ss := _quests.steps(qid)
 	var flag := str(ss[_quests.current_step(GameState, qid)].get("flag", ""))
 	return str(_resolve_flag_target(flag).get("npc", ""))
+
+## NPCs that a LATER quest step needs (any step after the current one). Their Talk
+## buttons stay hidden until it's their turn, so conversations happen in quest order.
+func _future_objective_npcs() -> Dictionary:
+	var out := {}
+	var ch := _current_chapter()
+	var qid := str(ch.get("quest", ""))
+	if qid == "" or _quests.is_complete(GameState, qid):
+		return out
+	var ss := _quests.steps(qid)
+	for i in range(_quests.current_step(GameState, qid) + 1, ss.size()):
+		if bool(ss[i].get("optional", false)):
+			continue
+		var npc := str(_resolve_flag_target(str(ss[i].get("flag", ""))).get("npc", ""))
+		if npc != "":
+			out[npc] = true
+	return out
 
 func _first_matrix_room() -> String:
 	for rid in _world.rooms:
@@ -972,6 +1011,9 @@ func _show_only(active: Control) -> void:
 ## Boot card: fade the Gibson dedication up, hold, fade out, then hand off to the
 ## title. Any key/click during it skips straight to the title (see _unhandled_input).
 func _go_dedication() -> void:
+	if _dedication_text.strip_edges() == "":
+		_go_title()
+		return
 	_state = State.DEDICATION
 	_show_only(_dedication_layer)
 	_dedication_layer.modulate.a = 0.0
@@ -1205,15 +1247,23 @@ func _rebuild_buttons(r: Dictionary) -> void:
 			b.tooltip_text = "No exit %s" % dir
 		_button_bar.add_child(b)
 	# Talk actions for NPCs in the room. A conversation you have already finished
-	# drops its button to save space — unless it is the NPC the current quest step
-	# needs, which always stays reachable.
+	# drops its button to save space; and an NPC that a LATER quest step needs stays
+	# hidden until it's the current objective — so you talk to people in quest order.
+	# The NPC the current step needs always stays reachable. EXCEPTION: an NPC whose
+	# dialog carries "repeat_until_flag" stays talkable (bypassing both rules) while
+	# that flag is unset — for repeatable gag/flavor lines the player can re-trigger.
 	var need_npc := _current_step_npc()
+	var later_npcs := _future_objective_npcs()
 	for npc in r.get("npcs", []):
-		if GameState.has_flag("spoke_" + str(npc)) and str(npc) != need_npc:
+		var nid := str(npc)
+		var nd = _load_json(NPC_DIR + nid + ".json")
+		var repeat_flag := str(nd.get("repeat_until_flag", "")) if nd != null and typeof(nd) == TYPE_DICTIONARY else ""
+		var keep_talkable := repeat_flag != "" and not GameState.has_flag(repeat_flag)
+		if not keep_talkable and nid != need_npc and (GameState.has_flag("spoke_" + nid) or later_npcs.has(nid)):
 			continue
 		var b := Button.new()
-		b.text = "Talk: %s" % _npc_label(str(npc))
-		b.pressed.connect(_go_dialog.bind(str(npc)))
+		b.text = "Talk: %s" % (str(nd.get("name", nid)) if nd != null and typeof(nd) == TYPE_DICTIONARY else nid)
+		b.pressed.connect(_go_dialog.bind(nid))
 		_button_bar.add_child(b)
 	# Pickups (quest items lying in the world). Taken-state rides story_flags.
 	for p in r.get("pickups", []):
@@ -1224,6 +1274,11 @@ func _rebuild_buttons(r: Dictionary) -> void:
 		b.text = str(p.get("label", "Take " + _catalog.item_name(iid)))
 		b.pressed.connect(_do_pickup.bind(iid))
 		_button_bar.add_child(b)
+	if not _available_interactions(r).is_empty():
+		var inspectb := Button.new()
+		inspectb.text = "Investigate"
+		inspectb.pressed.connect(_open_interactions)
+		_button_bar.add_child(inspectb)
 	if r.has("shop"):
 		var shopb := Button.new()
 		shopb.text = "Shop"
@@ -1296,6 +1351,69 @@ func _do_pickup(iid: String) -> void:
 	_toast("Taken: %s" % _catalog.item_name(iid))
 	_check_quest()
 	_refresh_room()
+
+func _available_interactions(room: Dictionary) -> Array:
+	var out: Array = []
+	var concluding: Array = []
+	for raw in room.get("interactions", []):
+		var interaction: Dictionary = raw
+		var iid := str(interaction.get("id", ""))
+		if iid == "":
+			continue
+		if bool(interaction.get("once", true)) and GameState.has_flag("seen_interaction_" + iid):
+			continue
+		var req := str(interaction.get("require_flag", ""))
+		if req != "" and not GameState.has_flag(req):
+			continue
+		var hide := str(interaction.get("hide_flag", ""))
+		if hide != "" and GameState.has_flag(hide):
+			continue
+		var item := str(interaction.get("require_item", ""))
+		if item != "" and not GameState.inventory.has(item):
+			continue
+		if bool(interaction.get("conclude_chapter", false)):
+			concluding.append(interaction)
+		else:
+			out.append(interaction)
+	out.append_array(concluding)
+	return out
+
+func _open_interactions() -> void:
+	var room := _world.room(GameState.current_room)
+	var available := _available_interactions(room)
+	if available.is_empty():
+		_go_explore()
+		return
+	_interaction_room = GameState.current_room
+	_menu_begin("INVESTIGATE — %s" % str(room.get("name", GameState.current_room)),
+		"Look closer, use what you know, or act on the moment.")
+	for interaction in available:
+		_menu_button(str(interaction.get("label", "Investigate")), _begin_interaction.bind(interaction))
+	_menu_button("« Back", _go_explore)
+
+func _begin_interaction(interaction: Dictionary) -> void:
+	var pages: Array = interaction.get("pages", [])
+	var art = interaction.get("art", "")
+	if (typeof(art) == TYPE_STRING and str(art) == "") or (typeof(art) == TYPE_ARRAY and art.is_empty()):
+		var bg := str(_world.room(_interaction_room).get("bg", ""))
+		art = "res://assets/backgrounds_hd/%s.png" % bg if bg != "" else ""
+	_begin_story(str(interaction.get("label", "Investigate")), art, pages,
+		[["« Return", _complete_interaction.bind(interaction)]])
+
+func _complete_interaction(interaction: Dictionary) -> void:
+	var iid := str(interaction.get("id", ""))
+	if iid != "":
+		GameState.set_flag("seen_interaction_" + iid)
+	var flag := str(interaction.get("set_flag", ""))
+	if flag != "":
+		GameState.set_flag(flag)
+	GameState.game_minutes += maxi(0, int(interaction.get("minutes", 0)))
+	_check_quest()
+	if bool(interaction.get("conclude_chapter", false)) and _quests.is_complete(GameState, str(_current_chapter().get("quest", ""))):
+		_conclude_chapter()
+		return
+	_autosave_now()
+	_go_explore()
 
 func _refresh_status() -> void:
 	var hh := int(GameState.game_minutes / 60.0) % 24
@@ -1399,6 +1517,15 @@ func _open_settings() -> void:
 	cb.toggled.connect(_set_music_enabled)
 	_fsize(cb, 22)
 	_menu_list.add_child(cb)
+	_menu_label("Music Volume", true)
+	var vs := HSlider.new()
+	vs.min_value = 0.0
+	vs.max_value = 1.0
+	vs.step = 0.05
+	vs.value = AudioManager.music_volume
+	vs.custom_minimum_size = Vector2(1758, 40)
+	vs.value_changed.connect(_set_music_volume)
+	_menu_list.add_child(vs)
 	var ab := CheckButton.new()
 	ab.text = "Autosave"
 	ab.button_pressed = _autosave
@@ -1412,6 +1539,9 @@ func _set_music_enabled(on: bool) -> void:
 	if on and _state == State.MENU and _world.has_room(GameState.current_room):
 		# resume the room's cue right away rather than waiting for a room change
 		AudioManager.play(AudioManager.for_room(_world.room(GameState.current_room)))
+
+func _set_music_volume(v: float) -> void:
+	AudioManager.set_music_volume(v)
 
 func _set_autosave_enabled(on: bool) -> void:
 	_autosave = on

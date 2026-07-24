@@ -6,6 +6,18 @@
 			"name": "New Suzuki Envoy — the Suite",
 			"bg": "M10_suite",
 			"desc": "Weather in the atrium, a bed the size of the squat, and clothes laid out that photograph as somebody else's. Prior's crew comes and goes without knocking. You are furniture with a pulse, and the pulse is theirs on paper.",
+			"interactions": [
+				{
+					"id": "ch10_measure_imperfect_double",
+					"label": "Measure the differences they left",
+					"set_flag": "ch10_measured_differences",
+					"minutes": 20,
+					"pages": [
+						"The wardrobe camera compares you with Angie frame by frame. Your left shoulder sits lower. Her hands are longer. Gerald matched the face for distance and motion, but no surgery can give you the life that taught another body how to stand.",
+						"Prior's rehearsal notes compensate with camera angles and a heavy coat. This was never meant to survive conversation. You are a flash of mistaken identity, a target offered to violence for the seconds required to move the real woman somewhere else."
+					]
+				}
+			],
 			"npcs": ["prior10"],
 			"exits": { "south": "c10_atrium" }
 		},
@@ -15,12 +27,36 @@
 			"desc": "They walk you the route twice: lobby, lifts, service corridor, garage. Marks on the floor only you are meant to notice. A man with a camera who is not a tourist. You smile HER smile at the staff, and the staff smile back at the wrong woman.",
 			"on_enter_flag": "ch10_rehearsed",
 			"net": true,
+			"interactions": [
+				{
+					"id": "ch10_map_envoy_cameras",
+					"label": "Map the Envoy's camera choreography",
+					"set_flag": "ch10_mapped_cameras",
+					"minutes": 26,
+					"pages": [
+						"The waterfall conceals three lenses. The lift bank carries four more, and the decorative palms are mostly sensor masts. Prior's route keeps your face in view until the service door, then loses you precisely where the switch is meant to happen.",
+						"A second pattern becomes visible once you stop following floor marks: two cameras belong to hotel security, not Prior. Their blind zones intersect beside a public fire stair. Lanette's rule returns—before a bad plan starts, find the route its author forgot."
+					]
+				}
+			],
 			"exits": { "north": "c10_suite", "east": "c10_service", "west": "c10_bar10" }
 		},
 		"c10_bar10": {
 			"name": "Atrium Bar",
 			"bg": "M10_bar",
 			"desc": "You nurse a juice like it's a career and do what Lanette taught you: count the crew. Two by the lifts pretending not to know each other. One on the mezzanine with a briefcase that never opens. Wheels within wheels — and every wheel rolls down to the garage tonight.",
+			"interactions": [
+				{
+					"id": "ch10_overhear_crew_terms",
+					"label": "Overhear what Prior promised the crew",
+					"set_flag": "ch10_heard_crew_terms",
+					"minutes": 19,
+					"pages": [
+						"The men by the lifts speak in fragments reflected through the bar mirror. Half now, half after visual confirmation. One package exits by limousine. The other remains with the car until disposal arrives. They never use names.",
+						"The mezzanine man asks what happens if both women reach the garage. Laughter answers first, then: the face is the contract, not the person. You finish the juice. Knowing you were expendable is less useful than knowing the crew believes it too."
+					]
+				}
+			],
 			"npcs": ["crew_watcher"],
 			"exits": { "east": "c10_atrium" }
 		},

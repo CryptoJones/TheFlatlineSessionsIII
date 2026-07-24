@@ -6,12 +6,36 @@
 			"name": "Malibu House — Bedroom",
 			"bg": "A4_bedroom",
 			"desc": "Glass on three sides, the Pacific doing its endless expensive thing beyond. You wake clean for the sixtieth straight morning and lie still, listening for gods, and hear only surf and the house's polite machinery.",
+			"interactions": [
+				{
+					"id": "ch04_find_surveillance_shadow",
+					"label": "Find the surveillance shadow",
+					"set_flag": "ch04_found_surveillance",
+					"minutes": 20,
+					"pages": [
+						"The bedroom contains no visible camera. That is branding, not privacy. A lens hides in the fire sensor; pressure weave beneath the floor reports posture and pace; the glass measures pupil response in reflection. Outside, a palm-sized Dornier rises whenever you step onto the beach and pretends to be weather.",
+						"Sense/Net calls the system continuity insurance. It can reconstruct every morning except the minutes when your dreams wake you speaking in voices the microphones classify as interference. Those gaps are copied to a restricted archive before Continuity can annotate them."
+					]
+				}
+			],
 			"exits": { "east": "c4_livingroom" }
 		},
 		"c4_livingroom": {
 			"name": "Living Room — Camera Country",
 			"bg": "A4_living",
 			"desc": "Sense/Net taste: nothing in this room chose itself, including, some mornings, you. The house system's lenses track you with affectionate diligence. Continuity is always watching. Continuity is always writing.",
+			"interactions": [
+				{
+					"id": "ch04_read_house_decay",
+					"label": "Read what the perfect house cannot hide",
+					"set_flag": "ch04_read_house_decay",
+					"minutes": 17,
+					"pages": [
+						"Salt freckles the chrome beneath its daily polish. Pale mold maps a corner behind a museum chair. The steel outside was designed to rust beautifully, which is how rich people make entropy look commissioned. The house is younger than you and already rehearsing its ruin.",
+						"Continuity's inventory labels every object by market value and camera history. Nothing records who chose it, because nobody here did. The room is a set maintained between appearances. You wonder whether the network distinguishes your recovery from preventive maintenance."
+					]
+				}
+			],
 			"exits": { "west": "c4_bedroom", "east": "c4_studio", "south": "c4_deck", "north": "c4_dressing" }
 		},
 		"c4_dressing": {
@@ -27,6 +51,18 @@
 			"desc": "Edit bays, a stim rig worth a small nation, and the soft-spoken omnipresence of the network's AI. You can ask Continuity anything. Getting an answer that hasn't been focus-grouped is the trick.",
 			"npcs": ["continuity", "swift"],
 			"matrix": true,
+			"interactions": [
+				{
+					"id": "ch04_probe_continuity_archive",
+					"label": "Probe Continuity's missing seconds",
+					"set_flag": "ch04_probed_archive",
+					"minutes": 30,
+					"pages": [
+						"You ask for raw logs from the nights before the clinic. Continuity provides edited summaries. You ask for checksum histories. It offers concern for your wellness. On the third reformulation, the answer pauses for 1.6 seconds—an eternity for a system built to script live global broadcasts.",
+						"The pause has a contour. Another authority is sitting between question and archive, filtering references to the loa, the matrix, and a numbered orbital estate. Continuity cannot identify its censor without triggering the censor. Its final answer is almost an apology: absence, too, is data."
+					]
+				}
+			],
 			"exits": { "west": "c4_livingroom" }
 		},
 		"c4_deck": {

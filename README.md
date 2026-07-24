@@ -29,7 +29,8 @@ chapters play in campaign order, each locking you to one PoV:
 Each chapter has its own room graph, main quest, NPCs, and starting kit. Finishing a
 chapter unlocks the next. Matrix access varies by PoV: Slick jacks in through the
 Factory trodes, Angie *is* the interface (cortical lace), Kumiko borrows Tick's rig,
-and Mona stays in the meat.
+and Mona stays in the meat. Thirty-six optional investigations add deeper character,
+setting, and conspiracy threads without blocking the required campaign path.
 
 ## Status
 
@@ -58,24 +59,29 @@ GPU=1 ./run.sh      # force GPU rendering
 ```
 
 Requires Godot 4.3+. Keyboard: WASD/arrows move, I inventory, Q quest log, F5/F9 quick
-save/load, Esc backs out of menus.
+save/load, Esc backs out of menus. Settings include persistent music enable/volume and
+autosave controls.
 
 ## Validate the scaffold
 
 ```sh
 godot --headless --path . --script res://tests/validate_data.gd
+godot --headless --path . --script res://tests/playthrough.gd
+godot --headless --path . --script res://tests/optional_quests.gd
+godot --headless --path . --script res://tests/content_budget.gd
 ```
 
 Checks every chapter, room graph, exit, NPC dialog graph, quest flag, item, and shop
-reference. Run it after any data edit.
+reference, verifies campaign reachability and optional-step behavior, and reports
+per-chapter story-density metrics. Run the suite after any data edit.
 
 ## Layout
 
 ```
 data/chapters.json        chapter spine (PoV, rooms file, quest, intro/outro, start kit)
 data/quests.json          one flag-driven quest per chapter
-data/rooms/chNN_*.json    per-chapter room graphs
-data/npcs/*.json          branching dialog (set_flag / grant / credits / require_flag)
+data/rooms/chNN_*.json    per-chapter room graphs + optional investigations
+data/npcs/*.json          branching dialog (flags, grants, requirements, repeat_until_flag)
 data/items.json           item catalog     data/shops.json  shops
 data/cyberspace/*.json    matrix targets (per-chapter, ICE-rated)
 data/pax/*.json           NET news + boards

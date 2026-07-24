@@ -29,6 +29,8 @@ signal track_changed(track)
 const SETTINGS_PATH := "user://settings.cfg"
 
 var enabled := true
+# User music level, linear 0.0–1.0 (1.0 == the nominal MUSIC_DB). Persisted.
+var music_volume := 1.0
 var _a: AudioStreamPlayer
 var _b: AudioStreamPlayer
 var _active: AudioStreamPlayer
@@ -72,6 +74,11 @@ func _load(track: String, loop_it := true) -> AudioStream:
 	_cache[key] = stream
 	return stream
 
+## Effective fade-in level: the nominal MUSIC_DB scaled by the user's linear
+## music_volume. At/near zero we hard-mute to -80 dB instead of -inf.
+func _target_db() -> float:
+	return -80.0 if music_volume <= 0.005 else MUSIC_DB + linear_to_db(music_volume)
+
 func _crossfade_to(stream: AudioStream) -> void:
 	var prev := _active
 	var next := _b if _active == _a else _a
@@ -81,7 +88,7 @@ func _crossfade_to(stream: AudioStream) -> void:
 	_active = next
 	var tw := create_tween()
 	tw.set_parallel(true)
-	tw.tween_property(next, "volume_db", MUSIC_DB, FADE)
+	tw.tween_property(next, "volume_db", _target_db(), FADE)
 	tw.tween_property(prev, "volume_db", -80.0, FADE)
 	tw.set_parallel(false)
 	tw.tween_callback(prev.stop)
@@ -171,16 +178,26 @@ func set_music_enabled(on: bool) -> void:
 		stop()
 	_save_settings()
 
+## Settings-panel slider: set the music level (linear 0.0–1.0). Applied to the
+## playing cue immediately (no crossfade) and remembered.
+func set_music_volume(v: float) -> void:
+	music_volume = clampf(v, 0.0, 1.0)
+	if enabled and _active != null and _active.playing:
+		_active.volume_db = _target_db()
+	_save_settings()
+
 func _save_settings() -> void:
 	var cf := ConfigFile.new()
 	cf.load(SETTINGS_PATH)
 	cf.set_value("audio", "music", enabled)
+	cf.set_value("audio", "volume", music_volume)
 	cf.save(SETTINGS_PATH)
 
 func _load_settings() -> void:
 	var cf := ConfigFile.new()
 	if cf.load(SETTINGS_PATH) == OK:
 		enabled = bool(cf.get_value("audio", "music", true))
+		music_volume = clampf(float(cf.get_value("audio", "volume", 1.0)), 0.0, 1.0)
 
 ## Pick the area track for a room dictionary: an explicit "music" key wins,
 ## shops get the commerce cue, everything else the chapter's street cue.

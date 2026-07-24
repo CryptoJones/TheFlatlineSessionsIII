@@ -6,6 +6,18 @@
 			"name": "Sense/Net Jet — Main Cabin",
 			"bg": "A8_cabin",
 			"desc": "Leather and hush at eleven kilometers, the continent crawling beneath. Piper Hill works three screens of call sheets and watches you take your 'medication' with a warmth that files reports. The dose sits in your palm like a small white lie.",
+			"interactions": [
+				{
+					"id": "ch08_audit_medication",
+					"label": "Audit the network's medication schedule",
+					"set_flag": "ch08_audited_medication",
+					"minutes": 18,
+					"pages": [
+						"The dose history begins after Jamaica and changes whenever your dreams become coherent. Increased reports of voices produce increased dust. Clear matrix recall triggers a new physician. Every adjustment is signed by doctors who never remain assigned long enough to meet you twice.",
+						"Piper's screen calls the regimen stabilization. The private billing code calls it signal suppression. Sense/Net did not cure your addiction and accidentally silence the loa. Someone used recovery as cover to build a chemical wall inside your own head."
+					]
+				}
+			],
 			"npcs": ["piper"],
 			"exits": { "east": "c8_aft", "west": "c8_cockpit" }
 		},
@@ -24,6 +36,18 @@
 			"bg": "A8_galley",
 			"desc": "The one camera on the jet with a blind spot, which Porphyre mapped for you years ago as a going-away present. You drink real coffee in the dead angle and write Mamman Brigitte's vévé on hotel stationery from memory. The ink shouldn't matter. It matters.",
 			"pickups": [ { "item": "loa_veve", "label": "Keep the drawn vévé" } ],
+			"interactions": [
+				{
+					"id": "ch08_test_porphyre_blindspot",
+					"label": "Test Porphyre's blind spot",
+					"set_flag": "ch08_tested_blindspot",
+					"minutes": 16,
+					"pages": [
+						"You move a coffee cup across the dead angle and request the galley recording from Continuity. The cup disappears for forty-three centimeters. Porphyre found the gap years ago and hid it inside a maintenance ticket about steam damage.",
+						"The blind spot is too small for escape and large enough for choice: a pill palmed, a note written, a private expression allowed to exist unarchived. Porphyre gave you less than a square meter of freedom because it was what he could steal without the network noticing."
+					]
+				}
+			],
 			"exits": { "west": "c8_aft" }
 		},
 		"c8_cockpit": {
@@ -33,6 +57,18 @@
 			"requires_flag": "ch08_brigitte_truth",
 			"locked_text": "Not yet. You don't know where you're going — only that it's not where they're taking you.",
 			"on_enter_flag": "ch08_flightplan_east",
+			"interactions": [
+				{
+					"id": "ch08_read_shadow_manifest",
+					"label": "Read the aircraft's shadow manifest",
+					"set_flag": "ch08_read_manifest",
+					"minutes": 21,
+					"pages": [
+						"The public flight plan lists location photography. A second manifest, visible only when the avionics reconcile fuel, schedules a rendezvous with network security outside Cleveland. Passenger notes identify you as protected talent and potential medical liability.",
+						"A third route entered by an external authority waits beneath both: north toward New Jersey, coordinates matching the factory in your dreams. The aircraft has been receiving instructions from the same hidden hand that bought your silence. You are not hijacking the flight so much as choosing which hijacker to disappoint."
+					]
+				}
+			],
 			"exits": { "east": "c8_cabin" }
 		}
 	}

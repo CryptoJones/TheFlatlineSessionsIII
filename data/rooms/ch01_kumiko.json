@@ -6,6 +6,18 @@
 			"name": "Jaguar — Heathrow Run",
 			"bg": "K1_carriage",
 			"desc": "Grey motorway, grey rain, a driver who has not spoken since the airport. In your pocket the Maas-Neotek unit is warm as a sparrow. London assembles itself outside the glass, stone by wet stone.",
+			"interactions": [
+				{
+					"id": "ch01_audit_arrival",
+					"label": "Audit the journey your father arranged",
+					"set_flag": "ch01_audited_arrival",
+					"minutes": 12,
+					"pages": [
+						"The first-class cabin had been purchased around you as empty space. At Heathrow, three officials found reasons not to inspect your bags. Now the Jaguar follows a route with no repeated turns while a second car keeps two exits behind. None of this is hospitality. It is your father's grammar: protection written so densely it becomes a threat.",
+						"Colin reconstructs the handoffs from what little he saw through the unit's sensors. The London people knew your measurements, allergies, school schedule, and preferred tea before the aircraft landed. Someone had prepared a life-shaped container for you. The only missing fact is whether it was built to keep danger out or to keep Kumiko Yanaka in."
+					]
+				}
+			],
 			"exits": { "east": "c1_hall" }
 		},
 		"c1_hall": {
@@ -18,6 +30,18 @@
 			"name": "Swain's Study",
 			"bg": "K1_study",
 			"desc": "Leather, brandy, a fire kept lit for effect. Swain wears his obligation to your father like a suit one size too small, and his smile does arithmetic behind its teeth.",
+			"interactions": [
+				{
+					"id": "ch01_read_swain_ledger",
+					"label": "Read the room as an account book",
+					"set_flag": "ch01_read_swain_ledger",
+					"minutes": 18,
+					"pages": [
+						"The leather is real and the paintings are not. Fresh rectangles in the dust mark objects recently sold. One decanter carries a private-club crest; the matching glasses have been replaced with machine-cut copies. Swain's money is performing solvency for a guest young enough that he expects her not to notice.",
+						"Beside the terminal lies a paper memorandum—paper because nervous men trust what cannot be searched remotely. The visible figures are fragments: storage fees in orbit, legal retainers, payments routed through shell charities. Colin calls it debt with stage lighting. Your father's favor may be the last liquid asset in the house."
+					]
+				}
+			],
 			"npcs": ["swain"],
 			"exits": { "south": "c1_hall" }
 		},
@@ -51,6 +75,18 @@
 			"on_enter_flag": "ch01_portobello",
 			"shop": "portobello_stall",
 			"pickups": [ { "item": "shuriken", "label": "Accept Sally's souvenir" } ],
+			"interactions": [
+				{
+					"id": "ch01_follow_sally_tradecraft",
+					"label": "Follow Sally's invisible security drill",
+					"set_flag": "ch01_learned_sally_tradecraft",
+					"minutes": 24,
+					"pages": [
+						"Sally appears to wander. She pauses at silver, old cameras, military surplus, tea. Colin counts the real pattern: every mirrored surface checked, every bottleneck crossed at an angle, every idling vehicle given exactly one casual glance. She is teaching you a route without admitting there is a lesson.",
+						"At the third stall she changes your paper cup for an identical one and leaves the first beneath a brazier. A minute later a narrow man retrieves it and finds nothing but cooling tea. Sally's mirrored lenses never turn. You understand why her kindness feels so severe: she cannot stop protecting people long enough to look gentle."
+					]
+				}
+			],
 			"exits": { "north": "c1_parlor" }
 		}
 	}

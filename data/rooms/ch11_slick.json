@@ -20,6 +20,18 @@
 			"name": "Factory — Ground Floor",
 			"bg": "S11_ground",
 			"desc": "Torchlight on steel and everything that cuts, rolled to the doors. The Judge stands finished in the center of the floor — two and a half meters of blades and verdicts — waiting for the only permission it's ever wanted.",
+			"interactions": [
+				{
+					"id": "ch11_assign_machine_roles",
+					"label": "Assign the machines their fields of fire",
+					"set_flag": "ch11_assigned_machines",
+					"minutes": 28,
+					"pages": [
+						"The Witch is fast and cannot distinguish surrender from a change in posture. The Corpsegrinder is slow, loud, and nearly impossible to stop once its flywheel catches. The Judge understands six commands and interprets all of them as escalation.",
+						"You place each where its failure will hurt the Factory least. This is what separates sculpture from defense: not beauty, not intent, but the obligation to imagine what your work does after control is lost."
+					]
+				}
+			],
 			"exits": { "north": "c11_loft", "east": "c11_bench", "south": "c11_yard", "west": "c11_marvins" }
 		},
 		"c11_bench": {
@@ -34,6 +46,18 @@
 			"bg": "S11_marvins",
 			"desc": "Marvin sells to both sides of every trouble on the Solitude, which is why he's still alive, and today he's selling to you at panic prices with the shutters half down. 'Whatever's coming,' he says, weighing your credit, 'buy it now.'",
 			"shop": "marvins_parts",
+			"interactions": [
+				{
+					"id": "ch11_trace_salvage_network",
+					"label": "Trace who bought battle parts before you",
+					"set_flag": "ch11_traced_salvage",
+					"minutes": 21,
+					"pages": [
+						"Marvin's empty bins tell the story. Someone bought directional microphones, cold-weather seals, and replacement skirts for military hovers two days ago. They paid through six accounts and asked for a road map no local would need.",
+						"One requisition includes cutting wheels sized to your machines. The attackers studied the Factory as an obstacle and purchased tools for dismantling your art. Marvin knew enough to raise prices and not enough to warn you. On Dog Solitude, neutrality is another word for invoicing both funerals."
+					]
+				}
+			],
 			"exits": { "east": "c11_ground" }
 		},
 		"c11_yard": {
@@ -53,6 +77,18 @@
 			"locked_text": "The Judge hasn't spoken yet. Nothing out there is finished being dangerous.",
 			"on_enter_flag": "ch11_yard_held",
 			"npcs": ["molly11"],
+			"interactions": [
+				{
+					"id": "ch11_read_battle_wreckage",
+					"label": "Read the battle in its wreckage",
+					"set_flag": "ch11_read_wreckage",
+					"minutes": 30,
+					"pages": [
+						"The convoy expected frightened squatters and one eccentric technician. Their ammunition is specialized, their armor corporate, their retreat plan nonexistent. Whoever hired them priced secrecy above survival.",
+						"Near the first burned hover lies a guidance beacon keyed to the aleph's emissions. The box was never hidden once it began drawing power. Gentry's Shape hunt made the Factory visible; Bobby's universe bent the world around itself until money, ghosts, gods, and guns all rolled downhill toward Dog Solitude."
+					]
+				}
+			],
 			"exits": { "west": "c11_yard" }
 		}
 	}

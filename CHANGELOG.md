@@ -3,6 +3,27 @@
 All notable changes to **The Flatline Sessions III — Mona Lisa Underdrive** are
 documented here. This project adheres to [Semantic Versioning](https://semver.org).
 
+## [1.2.5] — 2026-07-24
+
+### Added
+- **Optional investigations.** Thirty-six non-blocking investigations across all
+  twelve chapters add seventy-two pages of original character, setting, and
+  conspiracy material.
+- **Investigation-aware quest log.** Optional objectives are identified
+  separately and never prevent required campaign progression.
+- **Content validation.** Automated optional-quest, playthrough, and story-density
+  checks now protect the complete campaign.
+
+### Changed
+- **Selected story plates.** Intro and outro sequences now use CryptoJones'
+  chosen renders where alternate story and room plates depicted the same scene.
+- **Toolkit conformance.** Runtime behavior now matches the current TFS Visual
+  Novel Tools conventions for quest-order NPC gating, repeat-until flags,
+  title-screen mouse input, and data-driven dedication text.
+- **Audio settings.** Music volume is independently adjustable and persists
+  between sessions.
+- **Art book.** Regenerated all 289 pages from the live, selected plate set.
+
 ## [1.0.4] — 2026-07-03
 
 ### Added

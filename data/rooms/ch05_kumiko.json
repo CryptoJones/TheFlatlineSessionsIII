@@ -6,6 +6,18 @@
 			"name": "Suborbital — London to the Sprawl",
 			"bg": "K5_suborbital",
 			"desc": "Sally sleeps like a knife in a drawer, upright, eyes closed behind the mirrors. Colin admires the drink service. Below, the Atlantic slides past in forty minutes. Nobody told Swain you were leaving. That, Colin observes, is the most educational fact of the week.",
+			"interactions": [
+				{
+					"id": "ch05_read_sally_passports",
+					"label": "Read the lives inside Sally's travel wallet",
+					"set_flag": "ch05_read_sally_aliases",
+					"minutes": 18,
+					"pages": [
+						"Sally's travel wallet falls open when the aircraft climbs. Four passports agree on the face and disagree on everything else. Sally Shears is the newest identity and the least worn. Molly Millions has been invalid for years, yet its security laminate carries repairs made in three different cities.",
+						"Colin identifies customs stamps from Chiba, Paris, London, and orbital transfer stations whose names mean nothing to you. These are not disguises worn for a job. They are emergency exits from entire lives. Sally wakes, closes the wallet, and says only that names are cheaper than bodies."
+					]
+				}
+			],
 			"exits": { "east": "c5_street" }
 		},
 		"c5_street": {
@@ -29,6 +41,18 @@
 			"desc": "A slot between buildings, snow-choked, dead-ended by an armored bulk the size of a delivery van, all gun ports and graffiti wards. The locals leave offerings: cigarettes, hardware, small change. The speaker crackles like frying. It knows Sally's step.",
 			"on_enter_flag": "ch05_found_alley",
 			"npcs": ["finn_construct"],
+			"interactions": [
+				{
+					"id": "ch05_catalog_finn_offerings",
+					"label": "Catalog the offerings at the dead man's shrine",
+					"set_flag": "ch05_cataloged_finn_shrine",
+					"minutes": 25,
+					"pages": [
+						"The cigarettes are fresh, the coins obsolete, the circuit boards deliberately broken. Someone has left a child's plastic horse beside a military-grade memory wafer. Colin dates the oldest offerings to before the armored housing was installed. People consulted the Finn when he still had a body; death merely improved his office hours.",
+						"The shrine's gun ports are real, but so are the maintenance hatches polished by nervous hands. The construct survives because a neighborhood of thieves, technicians, and frightened clients keeps replacing fans and filters. Immortality here is not transcendence. It is a service contract nobody admits signing."
+					]
+				}
+			],
 			"exits": { "west": "c5_street", "north": "c5_walk" }
 		},
 		"c5_walk": {
@@ -38,6 +62,18 @@
 			"requires_flag": "ch05_3jane_named",
 			"locked_text": "Not yet. The oracle hasn't finished with Sally — or with you.",
 			"on_enter_flag": "ch05_snow_walk",
+			"interactions": [
+				{
+					"id": "ch05_compare_ghosts",
+					"label": "Compare Colin with the Finn",
+					"set_flag": "ch05_compared_constructs",
+					"minutes": 20,
+					"pages": [
+						"The Finn is a dead man reduced until only appetite and useful memory remain. Colin is a manufactured companion assembled to feel continuous. One began human; the other began as a promise that imitation could be kinder than absence. Both resent being called software.",
+						"Colin says the distinction matters enormously, then spends two blocks failing to explain why. Sally listens without looking over. At last she says people are mostly habits carrying debts. Snow gathers on her shoulders. For a moment all three of you qualify."
+					]
+				}
+			],
 			"exits": { "south": "c5_alley" }
 		}
 	}

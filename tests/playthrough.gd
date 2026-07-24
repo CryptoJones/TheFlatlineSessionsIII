@@ -110,6 +110,18 @@ func _check_room(cid: String, rid: String, r: Dictionary, rooms: Dictionary, ite
 		var iid := str(pk.get("item", ""))
 		if not item_defs.has(iid):
 			_err("%s: room %s pickup item '%s' not in items.json" % [cid, rid, iid])
+	var interaction_ids := {}
+	for raw in r.get("interactions", []):
+		var interaction: Dictionary = raw
+		var aid := str(interaction.get("id", ""))
+		if aid == "" or interaction_ids.has(aid):
+			_err("%s: room %s bad/duplicate interaction id '%s'" % [cid, rid, aid])
+		interaction_ids[aid] = true
+		if str(interaction.get("label", "")).strip_edges() == "" or (interaction.get("pages", []) as Array).is_empty():
+			_err("%s: room %s interaction %s missing label/pages" % [cid, rid, aid])
+		var req_item := str(interaction.get("require_item", ""))
+		if req_item != "" and not item_defs.has(req_item):
+			_err("%s: room %s interaction %s requires unknown item '%s'" % [cid, rid, aid, req_item])
 	if r.has("shop") and not shop_defs.has(str(r["shop"])):
 		_err("%s: room %s shop '%s' not in shops.json" % [cid, rid, str(r["shop"])])
 	if r.has("music") and not _exists(MUSIC_DIR + str(r["music"]) + ".ogg"):
@@ -140,6 +152,9 @@ func _check_quest(cid: String, qid: String, q: Dictionary, rooms: Dictionary, db
 		for pk in r.get("pickups", []):
 			setters["took_" + str(pk.get("item", ""))] = true
 			setters["granted_" + str(pk.get("item", ""))] = true
+		for interaction in r.get("interactions", []):
+			if interaction.has("set_flag"):
+				setters[str(interaction["set_flag"])] = true
 	for npc_file in _npc_files():
 		var nd = _json("res://data/npcs/" + npc_file)
 		if nd == null:

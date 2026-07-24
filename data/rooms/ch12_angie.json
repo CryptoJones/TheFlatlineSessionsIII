@@ -6,12 +6,36 @@
 			"name": "Factory Doors — Night",
 			"bg": "A12_doors",
 			"desc": "Torchlight through rust, the yard full of cooling wreckage and patient machines. You walk in past a two-and-a-half-meter sculpture of judgment that lowers its blades as you pass — and every dream since Jamaica clicks into place like a key turning. You have been here a hundred nights. You have never been here.",
+			"interactions": [
+				{
+					"id": "ch12_match_dream_geography",
+					"label": "Match the Factory to your dreams",
+					"set_flag": "ch12_matched_dreams",
+					"minutes": 22,
+					"pages": [
+						"The dreams omitted scale and smell but preserved relationships: three doors, a broken gantry, the place where torchlight divides around the Judge. The loa were not sending symbols. They were teaching your nervous system a route.",
+						"Each remembered landmark aligns with a path through gunfire and wreckage. The instructions began years before the aleph reached this building. Either the matrix learned the future, or enough hands shaped the future to fit a map already planted in you."
+					]
+				}
+			],
 			"exits": { "north": "c12_floor" }
 		},
 		"c12_floor": {
 			"name": "Factory Floor — Torchlight",
 			"bg": "A12_floor",
 			"desc": "They watch you cross the floor — the sculptor, the prophet, the med-tech girl — the way people watch weather arrive. None of them try to stop you. The dreams walked you here; the last few meters you walk yourself.",
+			"interactions": [
+				{
+					"id": "ch12_read_convergence",
+					"label": "Read the four lives gathered here",
+					"set_flag": "ch12_read_convergence",
+					"minutes": 25,
+					"pages": [
+						"Kumiko's warning crossed an ocean. Slick's machines held the yard. Mona survived being made into your decoy. Molly broke the contract meant to spend both of you. None knew the whole design; each carried one edge of it to this room.",
+						"3Jane arranged people as assets and liabilities. The loa moved through dreams, favors, errors, and acts of refusal. Their plan succeeded because it allowed every participant to misunderstand it—and because, at the necessary moment, each chose more than the role purchased for them."
+					]
+				}
+			],
 			"npcs": ["mona12", "molly12"],
 			"exits": { "south": "c12_doors", "north": "c12_stretcher" }
 		},
@@ -22,6 +46,18 @@
 			"on_enter_flag": "ch12_at_the_stretcher",
 			"npcs": ["bobby12"],
 			"matrix": true,
+			"interactions": [
+				{
+					"id": "ch12_measure_bobbys_cost",
+					"label": "Measure the cost of Bobby's new world",
+					"set_flag": "ch12_measured_cost",
+					"minutes": 28,
+					"pages": [
+						"The monitors show a body spending itself in careful increments. Every expansion inside the aleph takes oxygen, glucose, electrical order. Bobby did not upload and leave the meat behind. He has been using the last of it as scaffolding.",
+						"Inside the lace, the gray house waits in permanent summer. Outside, his pulse narrows. The offered wedding is not rescue and not simple death. It is a transfer paid for with two mortal lives, one already nearly exhausted and one still standing beside the choice."
+					]
+				}
+			],
 			"exits": { "south": "c12_floor" }
 		}
 	}

@@ -6,6 +6,18 @@
 			"name": "Swain's House — Upstairs Landing",
 			"bg": "K9_landing",
 			"desc": "The house has changed voice: new men below, crates in the hall, phones that ring once and stop. Down through the old heating grate, Swain's study leaks conversation like gas. Colin holds up one finger: LISTEN.",
+			"interactions": [
+				{
+					"id": "ch09_reconstruct_house_coup",
+					"label": "Reconstruct how the house changed hands",
+					"set_flag": "ch09_reconstructed_coup",
+					"minutes": 18,
+					"pages": [
+						"The new men wear no shared uniform, but their shoes carry identical polymer dust from a hired transport. Crates in the hall contain restraint foam, disposable weapons, and medical cold packs. Swain has not strengthened his household. He has rented a temporary operation.",
+						"Colin correlates arrivals with outgoing calls and finds the moment authority shifted: shortly after Sally was ordered north, Swain stopped giving instructions and began repeating them. The house is no longer his trap. It is a room inside someone else's."
+					]
+				}
+			],
 			"exits": { "east": "c9_grate" }
 		},
 		"c9_grate": {
@@ -30,6 +42,18 @@
 			"bg": "K9_tube",
 			"desc": "Sodium light, wind from black tunnels, a carriage of strangers minding centuries of their own business. Colin rides beside you reading advertisements with delight. 'Brixton,' he says. 'Three stops. Your father would be appalled, which I find rather bracing.'",
 			"on_enter_flag": "ch09_crossed_london",
+			"interactions": [
+				{
+					"id": "ch09_learn_underground_crowd",
+					"label": "Learn the crowd's oldest security system",
+					"set_flag": "ch09_learned_crowd",
+					"minutes": 24,
+					"pages": [
+						"The carriage protects you by refusing to care. A courier sleeps on a locked case. Two nurses compare shifts. A child watches Colin's projected silhouette without quite seeing him. Everyone maintains the London rule: notice everything, acknowledge nothing.",
+						"At Oxford Circus you change lines twice without taking the obvious stairs. Colin uses reflections in black tunnel glass to count pursuit. Nobody follows. Your father's guards trained you to survive attention; the Underground teaches the opposite craft—becoming one private problem among millions."
+					]
+				}
+			],
 			"exits": { "north": "c9_backstairs", "south": "c9_brixton" }
 		},
 		"c9_brixton": {
@@ -46,6 +70,18 @@
 			"npcs": ["tick"],
 			"matrix": true,
 			"pickups": [ { "item": "tick_rig_pass", "label": "Take the guest line Tick opens for you" } ],
+			"interactions": [
+				{
+					"id": "ch09_open_colin_unit",
+					"label": "Let Tick open Colin's unit",
+					"set_flag": "ch09_opened_colin_unit",
+					"minutes": 34,
+					"pages": [
+						"Tick removes the back panel with tools meant for teeth. Maas-Neotek stepped the leads down around an undocumented switch, elegant work designed to survive exactly one forbidden use. Colin complains about the indignity while watching more closely than anyone.",
+						"The switch can burn the unit's physical lattice into a network long enough to make Colin independent of the box. It can also erase him. Tick solders a bypass and leaves the choice unmade. For the first time, Colin's future is not identical to the survival of the object in your hand."
+					]
+				}
+			],
 			"exits": { "west": "c9_brixton" }
 		}
 	}

@@ -9,6 +9,7 @@ extends RefCounted
 ## chapters.json shape:
 ## {
 ##   "game": "display name",
+##   "dedication": "optional boot-card text",
 ##   "chapters": [ {
 ##     "id": "ch01", "title": "...", "pov": "turner", "pov_name": "Turner",
 ##     "pov_desc": "one-liner for the select screen",
@@ -23,6 +24,7 @@ extends RefCounted
 const CHAPTERS_PATH := "res://data/chapters.json"
 
 var game_title: String = ""
+var dedication: String = ""
 var chapters: Array = []
 
 func load_data() -> bool:
@@ -34,6 +36,7 @@ func load_data() -> bool:
 		push_warning("Chapters: bad %s" % CHAPTERS_PATH)
 		return false
 	game_title = str(d.get("game", ""))
+	dedication = str(d.get("dedication", ""))
 	chapters = d["chapters"]
 	return not chapters.is_empty()
 

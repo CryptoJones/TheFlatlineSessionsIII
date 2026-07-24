@@ -13,12 +13,36 @@
 			"name": "Factory — Ground Floor",
 			"bg": "S7_ground",
 			"desc": "Torchlight and machine skeletons. The Judge stands half-rebuilt where you left it, one arm raised like a question you haven't answered. Overhead, Gentry's loft burns its lonely light.",
+			"interactions": [
+				{
+					"id": "ch07_name_the_investigators",
+					"label": "Name the Investigators you still remember",
+					"set_flag": "ch07_named_investigators",
+					"minutes": 24,
+					"pages": [
+						"The small machines came first. Each Investigator carries a tool for discovering what happened: probe, lamp, saw, magnet, claw. You named none of them after people because people are where the missing time lives.",
+						"One chassis bears a court-date stamp hammered flat beneath your weld. Another uses the door of a prison transport. You remember acquiring neither. The machines circle the Judge like questions around a verdict, and suddenly you understand the joke your hands made while your mind was elsewhere."
+					]
+				}
+			],
 			"exits": { "south": "c7_bench", "north": "c7_loft", "west": "c7_catwalk" }
 		},
 		"c7_generator": {
 			"name": "Generator Shed",
 			"bg": "S7_generator",
 			"desc": "The Factory's heart: a scavenged fusion cell and a prayer of cabling. The aleph tap draws more every night. When the needles dip, somewhere inside a universe, it is dreaming harder.",
+			"interactions": [
+				{
+					"id": "ch07_audit_stolen_power",
+					"label": "Audit Gentry's stolen power",
+					"set_flag": "ch07_audited_power",
+					"minutes": 22,
+					"pages": [
+						"Gentry spoofs the Fission Authority with a monthly ritual of false load reports. The Factory appears on their grid as a pumping station two counties east. Every lie has held—until the aleph arrived and consumption began climbing in pulses too regular to explain as machinery.",
+						"The latest pulse drew enough power for a town and lasted eleven seconds. Somewhere inside the slab, architecture changed. The Count's heart slowed during the same interval. Generator, body, and constructed universe are now one circuit, and only Cherry seems willing to call the fuel by its name."
+					]
+				}
+			],
 			"exits": { "west": "c7_bench" }
 		},
 		"c7_catwalk": {
@@ -33,6 +57,18 @@
 			"desc": "Every screen Gentry owns is turned to the tap like flowers to a black sun. He's strung a second trode set — yours. 'You hold the line,' he says, eyes enormous. 'I read the Shape. And Slick — whatever speaks in there, we do NOT insult it.'",
 			"npcs": ["gentry7"],
 			"matrix": true,
+			"interactions": [
+				{
+					"id": "ch07_trace_3jane_signature",
+					"label": "Trace the second intelligence in the aleph",
+					"set_flag": "ch07_traced_3jane",
+					"minutes": 35,
+					"pages": [
+						"Bobby's activity looks improvised: structures growing, paths revised, whole regions opened like rooms under renovation. Another signature moves through the aleph with inherited authority. It never builds. It closes, redirects, and marks ownership.",
+						"Gentry isolates a recursive seal attached to old Tessier-Ashpool credentials. The name beneath it is Lady 3Jane Marie-France. Officially dead. Administratively omnipresent. The aleph contains a young man making a world and a dead heiress insisting the world remains her property."
+					]
+				}
+			],
 			"exits": { "south": "c7_ground" }
 		}
 	}

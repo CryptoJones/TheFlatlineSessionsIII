@@ -6,6 +6,18 @@
 			"name": "The Squat",
 			"bg": "M3_squat",
 			"desc": "A room over a dead arcade: mattress, hotplate, Eddy's schemes taped to the wall in his careful loser's handwriting. The ocean comes through the floorboards as a smell. Home, insofar as the word applies.",
+			"interactions": [
+				{
+					"id": "ch03_read_eddys_wall",
+					"label": "Read Eddy's empire on the wall",
+					"set_flag": "ch03_read_eddys_wall",
+					"minutes": 16,
+					"pages": [
+						"Eddy has drawn corporations as boxes and himself as arrows passing through them. Every scheme ends in a clean apartment, a legitimate number, clothes that close their own seams. None includes the cost of getting there. Your name appears only as M, beside estimated weekly income.",
+						"Under the newest diagram is an older one: a route from Cleveland, crossed out after Lanette disappeared. Eddy keeps failed futures because paper makes them look pending. You realize the wall is not a plan. It is camouflage over the fact that both of you have been standing still."
+					]
+				}
+			],
 			"npcs": ["eddy", "stim_deck"],
 			"exits": { "south": "c3_strip" }
 		},
@@ -16,6 +28,18 @@
 			"on_enter_flag": "ch03_worked_strip",
 			"shop": "florida_strip",
 			"net": true,
+			"interactions": [
+				{
+					"id": "ch03_listen_texas_radio",
+					"label": "Listen past the strip's commercial noise",
+					"set_flag": "ch03_heard_texas_radio",
+					"minutes": 22,
+					"pages": [
+						"Between club loops, a pirate signal leaks from an open service hatch: a woman reciting freight weather, missing girls, and police frequencies over a guitar recorded before the coast died. The station calls itself Texas though the transmitter is probably three blocks away.",
+						"One missing-girl description fits you until the age, then fits Lanette until the city. Nobody on the strip stops walking. The signal repeats its address for replies, but SINless girls do not send replies. You memorize it anyway—the private reflex of someone beginning to suspect she may survive long enough to need witnesses."
+					]
+				}
+			],
 			"exits": { "north": "c3_squat", "east": "c3_bar", "south": "c3_beach", "west": "c3_lobby" }
 		},
 		"c3_bar": {
@@ -38,6 +62,18 @@
 			"requires_flag": "ch03_met_prior",
 			"locked_text": "No suit, no suite. The meeting at Hooky's comes first.",
 			"on_enter_flag": "ch03_left_florida",
+			"interactions": [
+				{
+					"id": "ch03_audit_priors_upgrade",
+					"label": "Audit what Prior has purchased",
+					"set_flag": "ch03_audited_upgrade",
+					"minutes": 18,
+					"pages": [
+						"The room key carries a temporary identity with your photograph softened toward respectability. New clothes wait in three sizes. A clinic menu offers bone, skin, endocrine, and dental packages without prices. The minibar recognizes Eddy by name although he never gave it.",
+						"This is not generosity assembled in a hurry. Prior's people modeled you before Hooky Green's—your gait, measurements, habits, dependencies. Eddy sees proof that his pitch worked. You see a receiving department confirming that the shipment matches its advance notice."
+					]
+				}
+			],
 			"exits": { "east": "c3_strip" }
 		}
 	}

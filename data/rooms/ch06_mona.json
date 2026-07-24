@@ -6,6 +6,18 @@
 			"name": "The Van — Baltimore",
 			"bg": "M6_van",
 			"desc": "No windows in the back, which says plenty. Prior drives like a man with an appointment he doesn't fear being late for, because the appointment is you and you're already in the van.",
+			"interactions": [
+				{
+					"id": "ch06_search_identity_packet",
+					"label": "Search the identity packet beneath the seat",
+					"set_flag": "ch06_found_identity_packet",
+					"minutes": 15,
+					"pages": [
+						"The envelope contains a birth certificate, school record, vaccination history, and credit trace for a woman who never existed. Her age is twenty-one. Her fingerprints are yours. A blank field waits for the face the clinic will provide.",
+						"You have lived sixteen years without a system number; Prior manufactured a compliant citizen during the drive from Florida. The papers do not free you from being nobody. They prove that somebody with money can decide which nobody you are."
+					]
+				}
+			],
 			"exits": { "north": "c6_reception" }
 		},
 		"c6_reception": {
@@ -20,6 +32,18 @@
 			"name": "Consulting Room",
 			"bg": "M6_consult",
 			"desc": "Light like the inside of a refrigerator, a wall of before-and-afters with the eyes blacked out. Gerald studies your face the way Slick... the way an artist studies raw material: kindly, and entirely in terms of what it's about to become.",
+			"interactions": [
+				{
+					"id": "ch06_read_surgical_blueprint",
+					"label": "Read the face they ordered",
+					"set_flag": "ch06_read_face_blueprint",
+					"minutes": 26,
+					"pages": [
+						"Gerald's model overlays Angie's public scans on your skull. The match is good because someone selected you for it: orbital distance, jaw angle, eye spacing, the small asymmetries cameras forgive. Red annotations mark where bone must become contract.",
+						"The work order specifies recognizability at broadcast distance, not perfect identity at arm's length. You are not meant to fool Angie's friends. You are meant to fool lenses, crowds, and the first panicked witness. The distinction makes the plan worse, not better."
+					]
+				}
+			],
 			"npcs": ["gerald"],
 			"exits": { "west": "c6_reception" }
 		},
@@ -45,6 +69,18 @@
 			"requires_flag": "ch06_surgery_done",
 			"locked_text": "There's nothing to see yet. There's barely a you.",
 			"on_enter_flag": "ch06_faced_mirror",
+			"interactions": [
+				{
+					"id": "ch06_inventory_mona",
+					"label": "Inventory what the surgeons could not replace",
+					"set_flag": "ch06_inventoried_self",
+					"minutes": 30,
+					"pages": [
+						"The face belongs to a woman watched by millions. The bitten nail on your left thumb is Mona's. So is the scar under one knee, the Cleveland vowel Gerald could not cut away, the reflex that counts doors before furniture. You list each item silently.",
+						"Angie's beauty is now equipment bolted over your history. Equipment can be used. Equipment can be abandoned. You practice her smile until it arrives on command, then let it fall and watch your own suspicion return through her eyes."
+					]
+				}
+			],
 			"exits": { "south": "c6_theater" }
 		}
 	}

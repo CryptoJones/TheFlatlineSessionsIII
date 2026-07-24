@@ -38,6 +38,7 @@ func _initialize() -> void:
 			_err("%s: start room '%s' not in %s" % [cid, start, rooms_path])
 		for rid in rooms:
 			var r: Dictionary = rooms[rid]
+			_check_interactions(cid, rid, r, item_defs, setters)
 			for dir in r.get("exits", {}):
 				var dest := str(r["exits"][dir])
 				if not rooms.has(dest):
@@ -69,6 +70,28 @@ func _initialize() -> void:
 			if not item_defs.has(str(iid)):
 				_err("shop %s stocks unknown item '%s'" % [sid, iid])
 	_finish()
+
+func _check_interactions(cid: String, rid: String, room: Dictionary, item_defs: Dictionary, setters: Dictionary) -> void:
+	var ids := {}
+	for raw in room.get("interactions", []):
+		var interaction: Dictionary = raw
+		var iid := str(interaction.get("id", ""))
+		if iid == "":
+			_err("%s: room %s interaction has no id" % [cid, rid])
+		elif ids.has(iid):
+			_err("%s: room %s duplicates interaction '%s'" % [cid, rid, iid])
+		else:
+			ids[iid] = true
+		if str(interaction.get("label", "")).strip_edges() == "":
+			_err("%s: room %s interaction %s has no label" % [cid, rid, iid])
+		if (interaction.get("pages", []) as Array).is_empty():
+			_err("%s: room %s interaction %s has no pages" % [cid, rid, iid])
+		var item := str(interaction.get("require_item", ""))
+		if item != "" and not item_defs.has(item):
+			_err("%s: room %s interaction %s requires unknown item '%s'" % [cid, rid, iid, item])
+		var flag := str(interaction.get("set_flag", ""))
+		if flag != "":
+			setters[flag] = true
 
 ## Every flag anything in the data can set.
 func _collect_flag_setters(chapters: Dictionary, dbs) -> Dictionary:
@@ -102,6 +125,9 @@ func _collect_flag_setters(chapters: Dictionary, dbs) -> Dictionary:
 			for pk in r.get("pickups", []):
 				setters["took_" + str(pk.get("item", ""))] = true
 				setters["granted_" + str(pk.get("item", ""))] = true
+			for interaction in r.get("interactions", []):
+				if interaction.has("set_flag"):
+					setters[str(interaction["set_flag"])] = true
 	# Cyberspace: cracked_<id> + optional set_flag.
 	if dbs != null:
 		for d in dbs.get("databases", []):

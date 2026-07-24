@@ -1,46 +1,58 @@
 {
-	"_note": "One main quest per chapter. Flags come from dialog set_flag, room on_enter_flag, grants/pickups (granted_/took_), and cracked databases (cracked_<id>).",
+	"_note": "One main quest per chapter. Required steps drive progression; optional steps add investigations without blocking completion. Flags come from dialog set_flag, room interactions/on_enter_flag, grants/pickups (granted_/took_), and cracked databases (cracked_<id>).",
 	"quests": {
 		"q01_the_smoke": {
 			"name": "The Smoke",
 			"desc": "Learn the shape of Swain's house, keep Colin close, and take the measure of the woman with mirrors for eyes.",
 			"steps": [
+				{ "text": "Audit the journey your father arranged.", "flag": "ch01_audited_arrival", "optional": true },
 				{ "text": "Present yourself to Swain.", "flag": "ch01_met_swain" },
+				{ "text": "Read Swain's study as an account book.", "flag": "ch01_read_swain_ledger", "optional": true },
 				{ "text": "Consult Colin in private.", "flag": "ch01_colin_briefed" },
 				{ "text": "Learn the house's rhythms from Petal.", "flag": "ch01_petal_talk" },
 				{ "text": "Meet Sally Shears.", "flag": "ch01_met_sally" },
-				{ "text": "Walk Portobello market with Sally.", "flag": "ch01_portobello" }
+				{ "text": "Walk Portobello market with Sally.", "flag": "ch01_portobello" },
+				{ "text": "Follow Sally's invisible security drill.", "flag": "ch01_learned_sally_tradecraft", "optional": true }
 			]
 		},
 		"q02_the_count_arrives": {
 			"name": "The Count Arrives",
 			"desc": "Take Kid Afrika's cargo: a comatose man wired to a gray slab. Get him stable, get answers, get ready.",
 			"steps": [
+				{ "text": "Inventory the Judge's old wounds.", "flag": "ch02_inventoried_judge", "optional": true },
 				{ "text": "Hear Kid Afrika's terms.", "flag": "ch02_kid_terms" },
+				{ "text": "Trace the route hidden in Kid's delivery.", "flag": "ch02_traced_delivery", "optional": true },
 				{ "text": "Move the Count into the Factory.", "flag": "ch02_count_moved" },
 				{ "text": "Let Cherry rig her monitors.", "flag": "ch02_cherry_setup" },
 				{ "text": "Face Gentry about the arrangement.", "flag": "ch02_gentry_faced" },
-				{ "text": "Hear what Gentry thinks the slab is.", "flag": "ch02_aleph_named" }
+				{ "text": "Hear what Gentry thinks the slab is.", "flag": "ch02_aleph_named" },
+				{ "text": "Map the evidence behind Gentry's Shape.", "flag": "ch02_mapped_shape", "optional": true }
 			]
 		},
 		"q03_the_offer": {
 			"name": "The Offer",
 			"desc": "Eddy's found a suit with serious money and no explanations. Find out what's being bought before it's you.",
 			"steps": [
+				{ "text": "Read Eddy's paper empire on the squat wall.", "flag": "ch03_read_eddys_wall", "optional": true },
 				{ "text": "Work the strip one more night.", "flag": "ch03_worked_strip" },
+				{ "text": "Listen past the strip's commercial noise.", "flag": "ch03_heard_texas_radio", "optional": true },
 				{ "text": "Hear Eddy's pitch back at the squat.", "flag": "ch03_eddy_pitch" },
 				{ "text": "Meet Prior at the bar.", "flag": "ch03_met_prior" },
 				{ "text": "Ride Angie's stim and dream the other life.", "flag": "ch03_rode_stim" },
-				{ "text": "Leave Florida with Prior.", "flag": "ch03_left_florida" }
+				{ "text": "Leave Florida with Prior.", "flag": "ch03_left_florida" },
+				{ "text": "Audit what Prior purchased before meeting you.", "flag": "ch03_audited_upgrade", "optional": true }
 			]
 		},
 		"q04_the_silence": {
 			"name": "The Silence",
 			"desc": "The loa are gone from your dreams and the network is glad. Find the edges of the quiet.",
 			"steps": [
+				{ "text": "Find the surveillance shadow in the Malibu house.", "flag": "ch04_found_surveillance", "optional": true },
+				{ "text": "Read what the perfect house cannot hide.", "flag": "ch04_read_house_decay", "optional": true },
 				{ "text": "Get through the morning with Porphyre.", "flag": "ch04_porphyre" },
 				{ "text": "Take Hilton Swift's call.", "flag": "ch04_swift_call" },
 				{ "text": "Question Continuity about the constructs.", "flag": "ch04_continuity_asked" },
+				{ "text": "Probe Continuity's missing seconds.", "flag": "ch04_probed_archive", "optional": true },
 				{ "text": "Search your dreams on the beach at dusk.", "flag": "ch04_beach_dusk" },
 				{ "text": "Decide: fly east for the Sprawl shoot.", "flag": "ch04_decided_east" }
 			]
@@ -49,32 +61,41 @@
 			"name": "The Oracle of Lost Technology",
 			"desc": "Sally is taking you to consult a dead man. Listen well: oracles bill by the truth.",
 			"steps": [
+				{ "text": "Read the lives inside Sally's travel wallet.", "flag": "ch05_read_sally_aliases", "optional": true },
 				{ "text": "Fly to the Sprawl with Sally.", "flag": "ch05_arrived_sprawl" },
 				{ "text": "Find the alley shrine.", "flag": "ch05_found_alley" },
+				{ "text": "Catalog the offerings at the dead man's shrine.", "flag": "ch05_cataloged_finn_shrine", "optional": true },
 				{ "text": "Hear the Finn read Sally's past.", "flag": "ch05_molly_named" },
 				{ "text": "Hear who is squeezing Sally — and from where.", "flag": "ch05_3jane_named" },
-				{ "text": "Walk back through the snow with Sally.", "flag": "ch05_snow_walk" }
+				{ "text": "Walk back through the snow with Sally.", "flag": "ch05_snow_walk" },
+				{ "text": "Compare the two kinds of ghost traveling with you.", "flag": "ch05_compared_constructs", "optional": true }
 			]
 		},
 		"q06_the_face": {
 			"name": "The Work",
 			"desc": "The clinic has your consent forms and somebody else's face. Survive the week. Keep Mona underneath.",
 			"steps": [
+				{ "text": "Search the identity packet beneath the van seat.", "flag": "ch06_found_identity_packet", "optional": true },
 				{ "text": "Check in under a name that isn't yours.", "flag": "ch06_checked_in" },
 				{ "text": "Ask Gerald what, exactly, is being done.", "flag": "ch06_gerald_talk" },
+				{ "text": "Read the face ordered from Gerald.", "flag": "ch06_read_face_blueprint", "optional": true },
 				{ "text": "Press Prior about Eddy.", "flag": "ch06_pressed_prior" },
 				{ "text": "Go under.", "flag": "ch06_surgery_done" },
-				{ "text": "Face the mirror.", "flag": "ch06_faced_mirror" }
+				{ "text": "Face the mirror.", "flag": "ch06_faced_mirror" },
+				{ "text": "Inventory what the surgeons could not replace.", "flag": "ch06_inventoried_self", "optional": true }
 			]
 		},
 		"q07_the_count_dreams": {
 			"name": "The Count Dreams",
 			"desc": "Gentry means to read the aleph through the Count's tap. Hold the line and meet what lives inside.",
 			"steps": [
+				{ "text": "Name the Investigators you still remember building.", "flag": "ch07_named_investigators", "optional": true },
 				{ "text": "Help Cherry stabilize the Count.", "flag": "ch07_count_stable" },
 				{ "text": "Hear Gentry's aleph cosmology.", "flag": "ch07_gentry_theory" },
+				{ "text": "Audit the stolen power feeding the aleph.", "flag": "ch07_audited_power", "optional": true },
 				{ "text": "Jack in through the Count's tap.", "flag": "cracked_aleph_tap" },
 				{ "text": "Speak with the boy in the gray house.", "flag": "ch07_met_bobby" },
+				{ "text": "Trace the second intelligence inside the aleph.", "flag": "ch07_traced_3jane", "optional": true },
 				{ "text": "Learn what the aleph is costing the Count.", "flag": "ch07_vitals_truth" }
 			]
 		},
@@ -82,10 +103,13 @@
 			"name": "The Loa's Price",
 			"desc": "Stop taking the network's dust. Jack the lace raw. Ask the silence who bought it.",
 			"steps": [
+				{ "text": "Audit the network's medication schedule.", "flag": "ch08_audited_medication", "optional": true },
 				{ "text": "Palm the dose and keep Piper convinced.", "flag": "ch08_palmed_dose" },
 				{ "text": "Review the dreams in the jet's dark.", "flag": "ch08_dreams_reviewed" },
+				{ "text": "Test the blind spot Porphyre left you.", "flag": "ch08_tested_blindspot", "optional": true },
 				{ "text": "Jack the lace and cross the wall.", "flag": "cracked_loa_channel" },
 				{ "text": "Hear Mamman Brigitte's accounting.", "flag": "ch08_brigitte_truth" },
+				{ "text": "Read the aircraft's shadow manifest.", "flag": "ch08_read_manifest", "optional": true },
 				{ "text": "Order the flight plan east.", "flag": "ch08_flightplan_east" }
 			]
 		},
@@ -93,10 +117,13 @@
 			"name": "Underground",
 			"desc": "Swain's house has become a market and you are on the shelf. Get to Tick's. Warn Sally.",
 			"steps": [
+				{ "text": "Reconstruct how Swain's house changed hands.", "flag": "ch09_reconstructed_coup", "optional": true },
 				{ "text": "Overhear Swain's accounting.", "flag": "ch09_overheard" },
 				{ "text": "Slip the house with Colin.", "flag": "ch09_slipped_house" },
 				{ "text": "Cross London by Underground.", "flag": "ch09_crossed_london" },
+				{ "text": "Learn the crowd's oldest security system.", "flag": "ch09_learned_crowd", "optional": true },
 				{ "text": "Reach Tick's flat in Brixton.", "flag": "ch09_reached_tick" },
+				{ "text": "Let Tick show you Colin's forbidden switch.", "flag": "ch09_opened_colin_unit", "optional": true },
 				{ "text": "See the aleph macroform on Tick's rig.", "flag": "cracked_aleph_macroform" },
 				{ "text": "Get the warning through to Sally.", "flag": "ch09_warned_sally" }
 			]
@@ -105,8 +132,11 @@
 			"name": "The Switch",
 			"desc": "You're the double. The plan is the garage. Be the first one to stop following the plan.",
 			"steps": [
+				{ "text": "Measure the differences the clinic left behind.", "flag": "ch10_measured_differences", "optional": true },
 				{ "text": "Walk the rehearsal like a good little ghost.", "flag": "ch10_rehearsed" },
+				{ "text": "Map the Envoy's camera choreography.", "flag": "ch10_mapped_cameras", "optional": true },
 				{ "text": "Work out what the job really is.", "flag": "ch10_job_understood" },
+				{ "text": "Overhear what Prior promised the crew.", "flag": "ch10_heard_crew_terms", "optional": true },
 				{ "text": "Be in the garage when the mark arrives.", "flag": "ch10_garage" },
 				{ "text": "Survive the switch going sideways.", "flag": "ch10_switch_broken" },
 				{ "text": "Get in the car.", "flag": "ch10_in_the_car" }
@@ -118,9 +148,12 @@
 			"steps": [
 				{ "text": "Spot the convoy from the catwalk.", "flag": "ch11_convoy_spotted" },
 				{ "text": "Wire the yard defenses with Gentry.", "flag": "ch11_defenses_wired" },
+				{ "text": "Trace who bought battle parts before you.", "flag": "ch11_traced_salvage", "optional": true },
+				{ "text": "Assign the machines their fields of fire.", "flag": "ch11_assigned_machines", "optional": true },
 				{ "text": "Keep Cherry and the Count secure.", "flag": "ch11_count_secured" },
 				{ "text": "Loose the Judge.", "flag": "ch11_judge_loosed" },
 				{ "text": "Hold the yard.", "flag": "ch11_yard_held" },
+				{ "text": "Read the battle in its wreckage.", "flag": "ch11_read_wreckage", "optional": true },
 				{ "text": "Let the mirror-eyed woman in.", "flag": "ch11_molly_arrived" }
 			]
 		},
@@ -128,9 +161,12 @@
 			"name": "The Wedding",
 			"desc": "Everything the loa promised converges on a gray box in a torchlit factory. Choose.",
 			"steps": [
+				{ "text": "Match the Factory to the geography of your dreams.", "flag": "ch12_matched_dreams", "optional": true },
 				{ "text": "Stand where the dreams said to stand.", "flag": "ch12_at_the_stretcher" },
+				{ "text": "Read the four lives gathered at the Factory.", "flag": "ch12_read_convergence", "optional": true },
 				{ "text": "Hear Mona out — the girl in your face.", "flag": "ch12_mona_heard" },
 				{ "text": "Take Molly's blessing, such as it is.", "flag": "ch12_molly_blessing" },
+				{ "text": "Measure the cost of Bobby's new world.", "flag": "ch12_measured_cost", "optional": true },
 				{ "text": "Enter the aleph.", "flag": "cracked_aleph_gate" },
 				{ "text": "Put 3Jane to rest.", "flag": "cracked_3jane_knot" },
 				{ "text": "Marry the boy at the crossroads.", "flag": "ch12_wedding" }

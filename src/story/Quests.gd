@@ -39,17 +39,23 @@ func steps(id: String) -> Array:
 func step_done(state, step: Dictionary) -> bool:
 	return state.has_flag(str(step.get("flag", "")))
 
-## Index of the first unfinished step, or step count when all are done.
+## Index of the first unfinished REQUIRED step, or step count when all required
+## steps are done. Optional steps remain available but never block progression.
 func current_step(state, id: String) -> int:
 	var ss := steps(id)
 	for i in ss.size():
-		if not step_done(state, ss[i]):
+		if not bool(ss[i].get("optional", false)) and not step_done(state, ss[i]):
 			return i
 	return ss.size()
 
 func is_complete(state, id: String) -> bool:
 	var ss := steps(id)
-	return not ss.is_empty() and current_step(state, id) >= ss.size()
+	if ss.is_empty():
+		return false
+	for step in ss:
+		if not bool(step.get("optional", false)) and not step_done(state, step):
+			return false
+	return true
 
 ## One-line objective for the HUD: the current step's text (or done-message).
 func objective(state, id: String) -> String:

@@ -6,6 +6,18 @@
 			"name": "Factory Yard — Dog Solitude",
 			"bg": "S2_yard",
 			"desc": "Rust to the horizon under a sky like wet cement. Your machines stand in the yard where you built them — the Judge, the Witch, the Corpsegrinder — patient as gargoyles. A hover is coming in off the Solitude, riding low, and it's the Kid's.",
+			"interactions": [
+				{
+					"id": "ch02_inventory_the_judge",
+					"label": "Inventory the Judge's old wounds",
+					"set_flag": "ch02_inventoried_judge",
+					"minutes": 28,
+					"pages": [
+						"The Judge began with a municipal loader, two wrecked harvesters, and a pressure vessel you were told never to cut. Its left hand became a saw because fingers felt dishonest. Along the shoulder, old impacts describe a fight you cannot remember except as heat behind the eyes.",
+						"You trace welds made during missing weeks. The work is yours—same impatient bead, same habit of doubling a stressed joint—but the intention belongs to someone angrier. The machines are not memories. They are what you built because memory refused to hold still. Steel keeps testimony without asking whether you want it back."
+					]
+				}
+			],
 			"exits": { "north": "c2_ground", "east": "c2_hover", "south": "c2_solitude" }
 		},
 		"c2_hover": {
@@ -19,6 +31,18 @@
 			"name": "Factory — Ground Floor",
 			"bg": "S2_ground",
 			"desc": "Acres of dead line machinery and the smell of rust and ozone. Your workspace: benches, chain hoists, the skeletons of future Judges. Room enough to hide a man. Room enough to hide anything.",
+			"interactions": [
+				{
+					"id": "ch02_trace_kid_delivery",
+					"label": "Trace what Kid Afrika brought with him",
+					"set_flag": "ch02_traced_delivery",
+					"minutes": 20,
+					"pages": [
+						"The hover has shed three kinds of mud: coastal salt, interstate red clay, and the chemical gray of the Solitude. A melted customs seal clings beneath the rear apron. The Count did not come directly from any hospital. Someone changed vehicles, papers, and jurisdiction until a living man became freight.",
+						"Wedged in the tie-down rail is a clipped fiber from a restraint rated for orbital cargo. The gray slab has traveled farther than the body attached to it. Kid Afrika was not exaggerating the danger; he was understating how many powerful people had already agreed not to see this delivery."
+					]
+				}
+			],
 			"exits": { "south": "c2_yard", "east": "c2_workbench", "north": "c2_stairs" }
 		},
 		"c2_workbench": {
@@ -41,6 +65,18 @@
 			"name": "Gentry's Loft",
 			"bg": "S2_loft",
 			"desc": "Screens, cabling like vines, the smell of solder and obsession. Gentry believes the matrix has a Shape — one Shape, total, and his to find. He is thin as his theories and twice as sharp, and this is his Factory, technically. Technically is about to matter.",
+			"interactions": [
+				{
+					"id": "ch02_map_gentry_shape",
+					"label": "Map the evidence behind Gentry's Shape",
+					"set_flag": "ch02_mapped_shape",
+					"minutes": 32,
+					"pages": [
+						"Gentry's wall is not random. Printouts and hand plots reduce the matrix to recurring absences: traffic bending around voids, corporate geometries repeating at incompatible scales, dead zones that migrate like weather. He has marked each with the same phrase—local evidence of total form.",
+						"You do not understand the math, but you understand fabrication. A thing leaves strain around itself. Gentry is measuring strain. The newest plots bend toward a blank region that did not exist last month, and the gray slab downstairs hums at the same interval as his warning alarm."
+					]
+				}
+			],
 			"npcs": ["gentry"],
 			"exits": { "south": "c2_stairs" }
 		},

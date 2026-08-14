@@ -10,10 +10,31 @@ material sitting alongside the shipping plates, awaiting a keep/regenerate rulin
 
 | dir | contents |
 |-----|----------|
+| `full_regen/` | the 127-plate batch regeneration + a fresh SHA256 manifest |
 | `candidates/` | the 17 regenerated candidates, normalized to 1344×768, + a fresh SHA256 manifest |
+| `fixes/` | the 7 round-3 fix plates, with `superseded/` holding their round-1/round-2 versions |
 | `round1_rejected/` | the 8 round-1 versions that were rejected and regenerated |
 | `round2_rejected/` | the 2 round-2 versions (R06, R11) rejected a second time |
-| `packets/` | the original review PDFs generated on makemake |
+| `apply_plan.json` | the 144-entry plan mapping every plate to its destination |
+| `packets/` | the review PDFs — the two generated on makemake, plus the full 144-plate review |
+
+## The apply plan
+
+`apply_plan.json` is the authoritative record: 144 entries, 139 into
+`assets/backgrounds_hd/` and 5 into `assets/cyberspace/`, no duplicate destinations.
+Verified 2026-08-13 on ronin28: all 144 sources resolve, all 144 SHA256s match, and
+every destination already exists in the repo — this plan replaces plates, it never
+invents one.
+
+| origin | count |
+|--------|-------|
+| `batch regen` | 120 |
+| `approved R01` … `approved R17` | 17 |
+| `round-3 fix` | 7 |
+
+The R-slots are marked *approved* because they already cleared the consensus gate
+(three reviews, two-thirds ACCEPT, no unresolved blocker) before the plan was
+written. Nothing was ever applied.
 
 ## Slot → target plate
 

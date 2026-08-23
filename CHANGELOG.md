@@ -3,6 +3,30 @@
 All notable changes to **The Flatline Sessions III — Mona Lisa Underdrive** are
 documented here. This project adheres to [Semantic Versioning](https://semver.org).
 
+## [1.3.0] — 2026-08-23
+
+### Changed
+- **Full background art regeneration.** All 144 background plates — 139 room and
+  story plates plus the 5 cyberspace plates — were replaced from the 2026-07-31
+  regeneration pass. This retires the seventeen plates with reviewer-confirmed
+  defects: pseudo-text in markets, neon, and signage; human figures in plates the
+  prompt locks to empty rooms; scenes reused across chapters that had not happened
+  yet; and four story beats whose subject was simply wrong — Bobby rendered as a
+  child, the Hydraulic Judge as a humanoid Terminator, Mamman Brigitte without her
+  loa identity, and Mona absent from her own ending.
+- **Art book.** Regenerated all 289 pages against the new plates. Page geometry,
+  prompt text, and typography are unchanged from 1.2.5.
+
+### Added
+- **`tools/build_artbook.py`.** The art book generator is now in the repository.
+  It previously existed only in a scratch directory on a single machine, which is
+  how the 1.2.5 book became unreproducible.
+
+### Fixed
+- **Art review material no longer enters the Godot import graph.** A `.gdignore`
+  in `docs/`, plus a `docs/**` export exclusion, keeps the 309 MB of archived
+  regeneration candidates out of asset import and out of exports.
+
 ## [1.2.5] — 2026-07-24
 
 ### Added

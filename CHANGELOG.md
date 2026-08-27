@@ -3,6 +3,19 @@
 All notable changes to **The Flatline Sessions III — Mona Lisa Underdrive** are
 documented here. This project adheres to [Semantic Versioning](https://semver.org).
 
+## [1.3.1] — 2026-08-27
+
+### Changed
+- macOS archives are now signed as **Developer ID Application: Aaron Clark
+  (J6P99Q4479)**. Earlier releases were signed as Patrick Hannah (GPKDR6QL9Q);
+  that private key was destroyed and cannot be reissued, so the signing identity
+  moved to one we still hold. Builds remain signed but **not notarized**.
+
+### Added
+- A release pipeline. III previously had no `.github` directory at all, so it was
+  the only game in the trilogy whose builds were never produced by CI. Ported from
+  Flatline II: pinned Godot 4.6.3 with SHA-256 checked downloads, the four headless
+  regression suites, three-platform exports, and ephemeral-keychain signing.
 ## [1.3.0] — 2026-08-23
 
 ### Changed

@@ -1,0 +1,168 @@
+name: release
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+env:
+  GODOT_VERSION: "4.6.3"
+  GODOT_LINUX_SHA256: "d0bc2113065e481c9c2c2b2c37daa4e8be3fe9e27f0ab9ab0b6096e9a37907f3"
+  GODOT_TEMPLATES_SHA256: "3fbe2c0e2dec9d537ab9ec97bcf8da91dcf23357fc51f67092dd068d839290a8"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install Godot
+        run: |
+          curl --fail --location --retry 3 -o /tmp/godot.zip \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          echo "${GODOT_LINUX_SHA256}  /tmp/godot.zip" | sha256sum --check --strict
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          sudo install -m 0755 "/tmp/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+      - name: Verify version and import project
+        run: |
+          version="$(sed -n 's/^config\/version="\([^"]*\)"/\1/p' project.godot)"
+          test -n "$version"
+          if [[ "${GITHUB_REF_TYPE:-}" == "tag" ]]; then
+            test "$GITHUB_REF_NAME" = "v$version"
+          fi
+          godot --headless --path . --import
+      - name: Run headless regression suite
+        run: |
+          godot --headless --path . --script res://tests/optional_quests.gd
+          godot --headless --path . --script res://tests/validate_data.gd
+          godot --headless --path . --script res://tests/playthrough.gd
+          godot --headless --path . --script res://tests/content_budget.gd
+          godot --headless --path . --editor --quit
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - preset: Linux
+            out_dir: build/linux
+            artifact: flatline-iii-linux-raw
+          - preset: Windows Desktop
+            out_dir: build/windows
+            artifact: flatline-iii-windows-raw
+          - preset: macOS
+            out_dir: build/macos
+            artifact: flatline-iii-macos-raw
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install Godot and export templates
+        run: |
+          curl --fail --location --retry 3 -o /tmp/godot.zip \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          echo "${GODOT_LINUX_SHA256}  /tmp/godot.zip" | sha256sum --check --strict
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          sudo install -m 0755 "/tmp/godot/Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+          curl --fail --location --retry 3 -o /tmp/templates.tpz \
+            "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz"
+          echo "${GODOT_TEMPLATES_SHA256}  /tmp/templates.tpz" | sha256sum --check --strict
+          mkdir -p "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+          unzip -q /tmp/templates.tpz -d /tmp/templates
+          mv /tmp/templates/templates/* "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable/"
+      - run: godot --headless --path . --import
+      - name: Export ${{ matrix.preset }}
+        run: |
+          rm -rf "${{ matrix.out_dir }}"
+          mkdir -p "${{ matrix.out_dir }}"
+          godot --headless --path . --export-release "${{ matrix.preset }}"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.out_dir }}
+          if-no-files-found: error
+
+  sign-macos:
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    needs: build
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: flatline-iii-macos-raw
+          path: unsigned
+      - name: Import Developer ID identity
+        env:
+          MACOS_CERTIFICATE_P12: ${{ secrets.MACOS_CERTIFICATE_P12 }}
+          MACOS_CERTIFICATE_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PASSWORD }}
+        run: ./.github/scripts/import-developer-id.sh
+      - name: Sign and package macOS app
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          mkdir -p payload signed
+          ditto -x -k unsigned/TheFlatlineSessionsIII.zip payload
+          app="$(find payload -maxdepth 2 -type d -name '*.app' -print -quit)"
+          test -n "$app"
+          ./.github/scripts/sign-macos-app.sh "$app"
+          archive="signed/TheFlatlineSessionsIII-v${version}-macos.zip"
+          ditto -c -k --sequesterRsrc --keepParent "$app" "$archive"
+          archive_name="$(basename "$archive")"
+          (cd signed && shasum -a 256 "$archive_name" > "$archive_name.sha256")
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: flatline-iii-macos-signed
+          path: signed
+          if-no-files-found: error
+      - name: Remove temporary signing keychain
+        if: always()
+        run: security delete-keychain "$RUNNER_TEMP/developer-id.keychain-db" 2>/dev/null || true
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build, sign-macos]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: flatline-iii-linux-raw
+          path: dist/linux
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: flatline-iii-windows-raw
+          path: dist/windows
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: flatline-iii-macos-signed
+          path: dist/macos
+      - name: Package release assets
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          chmod +x dist/linux/*.x86_64
+          (cd dist/linux && zip -r "../TheFlatlineSessionsIII-v${version}-linux.zip" .)
+          (cd dist/windows && zip -r "../TheFlatlineSessionsIII-v${version}-windows.zip" .)
+          mv dist/macos/* dist/
+          cp docs/The_Art_of_The_Flatline_Sessions_II.pdf \
+            "dist/The_Art_of_The_Flatline_Sessions_II-v${version}.pdf"
+          (cd dist && sha256sum "TheFlatlineSessionsIII-v${version}-linux.zip" \
+            > "TheFlatlineSessionsIII-v${version}-linux.zip.sha256")
+          (cd dist && sha256sum "TheFlatlineSessionsIII-v${version}-windows.zip" \
+            > "TheFlatlineSessionsIII-v${version}-windows.zip.sha256")
+          (cd dist && sha256sum "The_Art_of_The_Flatline_Sessions_II-v${version}.pdf" \
+            > "The_Art_of_The_Flatline_Sessions_II-v${version}.pdf.sha256")
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          gh release create "$GITHUB_REF_NAME" dist/*.zip dist/*.pdf dist/*.sha256 \
+            --verify-tag \
+            --title "The Flatline Sessions III v${version}" \
+            --notes "The macOS app is Developer ID signed as Aaron Clark but is not notarized. Verify the matching SHA-256 manifest before use."

@@ -149,14 +149,14 @@ jobs:
           (cd dist/linux && zip -r "../TheFlatlineSessionsIII-v${version}-linux.zip" .)
           (cd dist/windows && zip -r "../TheFlatlineSessionsIII-v${version}-windows.zip" .)
           mv dist/macos/* dist/
-          cp docs/The_Art_of_The_Flatline_Sessions_II.pdf \
-            "dist/The_Art_of_The_Flatline_Sessions_II-v${version}.pdf"
+          cp docs/The_Art_of_The_Flatline_Sessions_III.pdf \
+            "dist/The_Art_of_The_Flatline_Sessions_III-v${version}.pdf"
           (cd dist && sha256sum "TheFlatlineSessionsIII-v${version}-linux.zip" \
             > "TheFlatlineSessionsIII-v${version}-linux.zip.sha256")
           (cd dist && sha256sum "TheFlatlineSessionsIII-v${version}-windows.zip" \
             > "TheFlatlineSessionsIII-v${version}-windows.zip.sha256")
-          (cd dist && sha256sum "The_Art_of_The_Flatline_Sessions_II-v${version}.pdf" \
-            > "The_Art_of_The_Flatline_Sessions_II-v${version}.pdf.sha256")
+          (cd dist && sha256sum "The_Art_of_The_Flatline_Sessions_III-v${version}.pdf" \
+            > "The_Art_of_The_Flatline_Sessions_III-v${version}.pdf.sha256")
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}

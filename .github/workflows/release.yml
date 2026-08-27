@@ -166,3 +166,48 @@ jobs:
             --verify-tag \
             --title "The Flatline Sessions III v${version}" \
             --notes "The macOS app is Developer ID signed as Aaron Clark but is not notarized. Verify the matching SHA-256 manifest before use."
+
+  itch:
+    name: Publish to itch.io
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [release]
+    runs-on: ubuntu-24.04
+    steps:
+      # Take the assets the release job just published, so itch and GitHub serve
+      # the same bytes. Rebuilding or re-zipping here could drift from what the
+      # SHA-256 manifests describe.
+      - name: Fetch the published release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p dist
+          gh release download "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" \
+            --pattern '*.zip' --dir dist
+          ls -la dist
+
+      - name: Install butler
+        run: |
+          curl -sL -o butler.zip \
+            https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default
+          unzip -q butler.zip -d "$HOME/.butler"
+          chmod +x "$HOME/.butler/butler"
+          echo "$HOME/.butler" >> "$GITHUB_PATH"
+
+      # butler pushes each ZIP as-is. Do NOT unpack the macOS archive first: the
+      # signed .app relies on symlinks and extended attributes that do not survive
+      # a round trip through a Linux runner, and unpacking would publish a bundle
+      # whose Developer ID signature no longer verifies.
+      - name: Push to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          for ch in linux windows macos; do
+            f="$(find dist -maxdepth 1 -iname "*$ch*.zip" -print -quit)"
+            if [ -z "$f" ]; then
+              echo "no $ch zip among the release assets"; exit 1
+            fi
+            echo "pushing $f -> cryptojones/the-flatline-sessions-iii:$ch"
+            butler push "$f" "cryptojones/the-flatline-sessions-iii:$ch" --userversion "$version"
+          done
+          butler status "cryptojones/the-flatline-sessions-iii"

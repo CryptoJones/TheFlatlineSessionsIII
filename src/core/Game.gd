@@ -29,6 +29,19 @@ const VIEW_X := 36
 const VIEW_Y := 30
 const VIEW_W := 1848
 const VIEW_H := 636
+## Reader-selectable text size (Settings -> Text Size). Sizes are authored for the
+## 1920x1080 canvas, which lands small once the window is scaled onto a laptop
+## panel, so the default sits one step above the authored size. Display type
+## (studio card, title, dedication, chapter heading) is never scaled.
+const TEXT_SCALES := [["Standard", 1.0], ["Large", 1.25], ["Extra Large", 1.5], ["Huge", 1.75]]
+const TEXT_SCALE_DEFAULT := 1.25
+## Canvas y where the status strip starts / the dialog panel ends; the explore
+## and dialog layouts stack upward from these so bigger text eats plate, not UI.
+const STATUS_Y := 1014
+const DIALOG_BOTTOM := 1062
+const DIALOG_MIN_H := 378
+const DIALOG_MAX_H := 1038
+const VIEW_MIN_H := 300
 const MINUTES_PER_MOVE := 3
 const HIDDEN_ROOM := "1337"
 const VOID_IMAGE := "res://assets/ui/void.png"
@@ -73,6 +86,7 @@ const TRACK_TITLES := {
 
 var _state: int = State.TITLE
 var _autosave := true                 # rolling autosave, on by default
+var _text_scale := TEXT_SCALE_DEFAULT  # Settings -> Text Size multiplier
 var _dedication_text := ""            # from chapters.json "dedication" (empty = skip card)
 var _world: World
 var _dialog: DialogEngine
@@ -106,6 +120,7 @@ var _combat_db: String = ""           # database id currently under ICE attack
 var _combat_ice: int = 0              # remaining ICE strength this run
 
 # Explore widgets
+var _view_frame: Control
 var _bg_rect: TextureRect
 var _bg_placeholder: ColorRect
 var _bg_room_glyph: Label
@@ -117,6 +132,9 @@ var _toast_lbl: Label
 var _button_bar: HBoxContainer
 
 # Dialog widgets
+var _dialog_panel: Panel
+var _dialog_scroll: ScrollContainer
+var _dialog_more: Label               # "more below" cue while a passage is unread
 var _dialog_name: Label
 var _dialog_text: Label
 var _dialog_options: VBoxContainer
@@ -147,6 +165,7 @@ func _ready() -> void:
 	_matrix.load_data()
 	AudioManager.track_changed.connect(_on_track_changed)
 	_load_prefs()
+	theme.default_font_size = _scaled(UITheme.BASE_FONT_SIZE)
 	_build_dedication_layer()
 	_build_title_layer()
 	_build_chapters_layer()
@@ -167,8 +186,45 @@ func _full_control(name: String) -> Control:
 	add_child(c)
 	return c
 
-func _fsize(node: Control, size: int) -> void:
+## Set a node's authored font size. Scaled nodes remember it in metadata so
+## _apply_text_scale() can re-derive every size when the reader changes the
+## setting; pass scaled=false for display type that must keep its composed size.
+func _fsize(node: Control, size: int, scaled := true) -> void:
+	if scaled:
+		node.set_meta("base_font_size", size)
+		size = _scaled(size)
 	node.add_theme_font_size_override("font_size", size)
+
+func _scaled(size: int) -> int:
+	return roundi(size * _text_scale)
+
+## Height of one rendered line at an authored size, with headroom for descenders.
+func _line_h(size: int) -> int:
+	return ceili(_scaled(size) * 1.4)
+
+## Wrapped height of `text` in `node`'s font at `width`. Measured from the font
+## rather than read back off the Label: an autowrap Label reports its minimum
+## height as if unwrapped, so Control.size is useless here.
+func _text_h(node: Control, text: String, width: float, size: int) -> int:
+	var font := node.get_theme_font("font")
+	var fs := _scaled(size)
+	var h := font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, width, fs).y
+	# A Label also pads every line by its line_spacing constant (0 on a Button).
+	var lines := maxi(1, roundi(h / font.get_height(fs)))
+	return ceili(h + lines * node.get_theme_constant("line_spacing"))
+
+func _rescale_tree(node: Node) -> void:
+	if node is Control and node.has_meta("base_font_size"):
+		node.add_theme_font_size_override("font_size", _scaled(int(node.get_meta("base_font_size"))))
+	for c in node.get_children():
+		_rescale_tree(c)
+
+func _apply_text_scale() -> void:
+	theme.default_font_size = _scaled(UITheme.BASE_FONT_SIZE)
+	_rescale_tree(self)
+	_layout_explore()
+	if _state == State.DIALOG:
+		_layout_dialog()
 
 func _build_dedication_layer() -> void:
 	_dedication_layer = _full_control("Dedication")
@@ -190,7 +246,7 @@ func _build_dedication_layer() -> void:
 	ded.vertical_alignment = VERTICAL_ALIGNMENT_TOP
 	ded.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	ded.add_theme_color_override("font_color", UITheme.TEXT)
-	_fsize(ded, 40)
+	_fsize(ded, 40, false)
 	_dedication_layer.add_child(ded)
 
 func _build_title_layer() -> void:
@@ -228,7 +284,7 @@ func _build_title_layer() -> void:
 	series.add_theme_color_override("font_color", UITheme.TEXT)
 	series.add_theme_color_override("font_outline_color", UITheme.BG)
 	series.add_theme_constant_override("outline_size", 10)
-	_fsize(series, 44)
+	_fsize(series, 44, false)
 	_title_layer.add_child(series)
 	if sub_line != "":
 		var t := Label.new()
@@ -239,7 +295,7 @@ func _build_title_layer() -> void:
 		t.add_theme_color_override("font_color", UITheme.ACCENT)
 		t.add_theme_color_override("font_outline_color", UITheme.BG)
 		t.add_theme_constant_override("outline_size", 12)
-		_fsize(t, 72)
+		_fsize(t, 72, false)
 		_title_layer.add_child(t)
 	var rule := ColorRect.new()
 	rule.color = UITheme.ACCENT
@@ -255,7 +311,7 @@ func _build_title_layer() -> void:
 	prompt.add_theme_color_override("font_color", UITheme.TEXT)
 	prompt.add_theme_color_override("font_outline_color", UITheme.BG)
 	prompt.add_theme_constant_override("outline_size", 10)
-	_fsize(prompt, 30)
+	_fsize(prompt, 30, false)
 	_title_layer.add_child(prompt)
 	var blink := create_tween().set_loops()
 	blink.tween_property(prompt, "modulate:a", 0.15, 0.7).set_trans(Tween.TRANS_SINE)
@@ -266,7 +322,7 @@ func _build_title_layer() -> void:
 	ver.size = Vector2(1896, 48)
 	ver.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	ver.add_theme_color_override("font_color", UITheme.TEXT_DIM)
-	_fsize(ver, 20)
+	_fsize(ver, 20, false)
 	_title_layer.add_child(ver)
 	# "Press any key" also means the mouse. Keys advance via _unhandled_input, but the
 	# root Control's default MOUSE_FILTER_STOP swallows mouse clicks before they reach
@@ -307,7 +363,7 @@ func _build_chapters_layer() -> void:
 	head.position = Vector2(72, 42)
 	head.size = Vector2(1776, 72)
 	head.add_theme_color_override("font_color", UITheme.ACCENT)
-	_fsize(head, 36)
+	_fsize(head, 36, false)
 	_chapters_layer.add_child(head)
 	var sub := Label.new()
 	sub.text = "CHAPTERS — the story passes between its players. Finish one to unlock the next."
@@ -372,10 +428,10 @@ func _build_explore_layer() -> void:
 	screen.size = Vector2(1920, 1080)
 	_explore_layer.add_child(screen)
 	# Scene view: a clean framed plate (or a hue-keyed placeholder until art lands).
-	var frame := Panel.new()
-	frame.position = Vector2(VIEW_X - 6, VIEW_Y - 6)
-	frame.size = Vector2(VIEW_W + 12, VIEW_H + 12)
-	_explore_layer.add_child(frame)
+	_view_frame = Panel.new()
+	_view_frame.position = Vector2(VIEW_X - 6, VIEW_Y - 6)
+	_view_frame.size = Vector2(VIEW_W + 12, VIEW_H + 12)
+	_explore_layer.add_child(_view_frame)
 	_bg_placeholder = ColorRect.new()
 	_bg_placeholder.color = Color("141a28")
 	_bg_placeholder.position = Vector2(VIEW_X, VIEW_Y)
@@ -386,7 +442,7 @@ func _build_explore_layer() -> void:
 	_bg_room_glyph.size = Vector2(VIEW_W, 156)
 	_bg_room_glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_bg_room_glyph.add_theme_color_override("font_color", Color(1, 1, 1, 0.08))
-	_fsize(_bg_room_glyph, 84)
+	_fsize(_bg_room_glyph, 84, false)
 	_explore_layer.add_child(_bg_room_glyph)
 	_bg_rect = TextureRect.new()
 	_bg_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -407,6 +463,9 @@ func _build_explore_layer() -> void:
 	_desc_lbl.position = Vector2(VIEW_X, 756)
 	_desc_lbl.size = Vector2(VIEW_W, 162)
 	_desc_lbl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	# Clipped so the box can be held to the height _layout_explore() gives it
+	# (an unclipped autowrap Label refuses to be shorter than its text).
+	_desc_lbl.clip_text = true
 	_desc_lbl.add_theme_color_override("font_color", UITheme.TEXT)
 	_fsize(_desc_lbl, 22)
 	_explore_layer.add_child(_desc_lbl)
@@ -424,6 +483,7 @@ func _build_explore_layer() -> void:
 	_status_lbl = Label.new()
 	_status_lbl.position = Vector2(36, 1020)
 	_status_lbl.size = Vector2(1080, 54)
+	_status_lbl.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_status_lbl.add_theme_color_override("font_color", UITheme.TEXT_DIM)
 	_fsize(_status_lbl, 20)
 	_explore_layer.add_child(_status_lbl)
@@ -447,32 +507,118 @@ func _build_explore_layer() -> void:
 	_fsize(_toast_lbl, 32)
 	_toast_lbl.visible = false
 	_explore_layer.add_child(_toast_lbl)
+	_layout_explore()
+
+## Stack the explore UI upward from the status strip: action bar, description,
+## room name — and whatever is left is the plate. At Standard and Large every
+## description fits the authored 162px box, so the plate keeps its authored
+## height; only bigger text (or an unusually long description) trades plate for
+## legibility. Runs on build, on every room change, and when Text Size changes.
+## Returns false if the description had to be clipped to keep VIEW_MIN_H of plate.
+func _layout_explore() -> bool:
+	var bar_h := maxi(72, _line_h(22) + 22)
+	var name_h := maxi(60, _line_h(30))
+	var want_h := maxi(162, _text_h(_desc_lbl, _desc_lbl.text, VIEW_W, 22) + 6)
+	var desc_h := mini(want_h, STATUS_Y - 18 - bar_h - 6 - 6 - name_h - 24 - VIEW_Y - VIEW_MIN_H)
+	var bar_y := STATUS_Y - 18 - bar_h
+	var desc_y := bar_y - 6 - desc_h
+	var name_y := desc_y - 6 - name_h
+	var view_h := name_y - 24 - VIEW_Y
+	_button_bar.position = Vector2(VIEW_X, bar_y)
+	_button_bar.size = Vector2(VIEW_W, bar_h)
+	_desc_lbl.position = Vector2(VIEW_X, desc_y)
+	_desc_lbl.size = Vector2(VIEW_W, desc_h)
+	_room_name_lbl.position = Vector2(VIEW_X, name_y)
+	_room_name_lbl.size = Vector2(VIEW_W, name_h)
+	_view_frame.size = Vector2(VIEW_W + 12, view_h + 12)
+	_bg_placeholder.size = Vector2(VIEW_W, view_h)
+	_bg_rect.size = Vector2(VIEW_W, view_h)
+	_bg_room_glyph.position = Vector2(VIEW_X, VIEW_Y + (view_h - 156) * 0.5)
+	_toast_lbl.position = Vector2(VIEW_X, VIEW_Y + (view_h - 168) * 0.5)
+	return desc_h == want_h
 
 func _build_dialog_layer() -> void:
 	_dialog_layer = _full_control("Dialog")
 	_dialog_layer.mouse_filter = Control.MOUSE_FILTER_STOP
 	var panel := Panel.new()
-	panel.position = Vector2(24, 684)
-	panel.size = Vector2(1872, 378)
+	panel.position = Vector2(24, DIALOG_BOTTOM - DIALOG_MIN_H)
+	panel.size = Vector2(1872, DIALOG_MIN_H)
 	_dialog_layer.add_child(panel)
+	_dialog_panel = panel
 	_dialog_name = Label.new()
 	_dialog_name.position = Vector2(36, 18)
 	_dialog_name.size = Vector2(1800, 48)
 	_dialog_name.add_theme_color_override("font_color", UITheme.ACCENT)
 	_fsize(_dialog_name, 24)
 	panel.add_child(_dialog_name)
+	# The passage sits in a scroller: _layout_dialog() grows the panel to fit it,
+	# and only a passage too tall for the screen at the chosen Text Size scrolls.
+	_dialog_scroll = ScrollContainer.new()
+	_dialog_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_dialog_scroll.position = Vector2(36, 72)
+	_dialog_scroll.size = Vector2(1800, 132)
+	panel.add_child(_dialog_scroll)
 	_dialog_text = Label.new()
-	_dialog_text.position = Vector2(36, 72)
-	_dialog_text.size = Vector2(1800, 132)
 	_dialog_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_dialog_text.add_theme_color_override("font_color", UITheme.TEXT)
 	_fsize(_dialog_text, 24)
-	panel.add_child(_dialog_text)
+	_dialog_scroll.add_child(_dialog_text)
+	# A thin scrollbar is easy to miss, and missing it means skipping the end of
+	# the passage — so say so, until the reader has actually reached the bottom.
+	_dialog_more = Label.new()
+	_dialog_more.text = "▼ more below — scroll"
+	_dialog_more.position = Vector2(36, 18)
+	_dialog_more.size = Vector2(1800, 48)
+	_dialog_more.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_dialog_more.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_dialog_more.add_theme_color_override("font_color", UITheme.ACCENT)
+	_fsize(_dialog_more, 20)
+	_dialog_more.visible = false
+	panel.add_child(_dialog_more)
+	_dialog_scroll.get_v_scroll_bar().value_changed.connect(_on_dialog_scrolled)
 	_dialog_options = VBoxContainer.new()
 	_dialog_options.position = Vector2(36, 210)
 	_dialog_options.size = Vector2(1800, 156)
 	_dialog_options.add_theme_constant_override("separation", 6)
 	panel.add_child(_dialog_options)
+
+func _on_dialog_scrolled(value: float) -> void:
+	var bar := _dialog_scroll.get_v_scroll_bar()
+	if value >= bar.max_value - bar.page - 2.0:
+		_dialog_more.visible = false
+
+## Size the dialog panel to its content and grow it UPWARD from a fixed bottom
+## edge, so long passages and larger text cover more of the plate instead of
+## running into the reply buttons. Every height is measured from the font —
+## never read back off a Control (see _text_h). Returns false when the passage
+## is too tall for the screen at this Text Size and scrolls instead.
+func _layout_dialog() -> bool:
+	const INNER := 1800
+	const TEXT_W := INNER - 24    # leaves the scrollbar its gutter
+	var name_h := maxi(48, _line_h(24))
+	var full_h := _text_h(_dialog_text, _dialog_text.text, TEXT_W, 24) + 6
+	var text_h := maxi(132, full_h)
+	var opts_h := -6
+	for b in _dialog_options.get_children():
+		if not b.is_queued_for_deletion():
+			opts_h += _text_h(b, b.text, INNER - 40, 22) + 24 + 6
+	opts_h = maxi(0, opts_h)
+	var chrome_h := 18 + name_h + 6 + 6 + opts_h + 12
+	var fits := chrome_h + text_h <= DIALOG_MAX_H
+	text_h = mini(text_h, DIALOG_MAX_H - chrome_h)
+	var panel_h := maxi(DIALOG_MIN_H, chrome_h + text_h)
+	_dialog_panel.position = Vector2(24, DIALOG_BOTTOM - panel_h)
+	_dialog_panel.size = Vector2(1872, panel_h)
+	_dialog_name.size = Vector2(INNER, name_h)
+	_dialog_scroll.position = Vector2(36, 18 + name_h + 6)
+	_dialog_scroll.size = Vector2(INNER, text_h)
+	_dialog_scroll.scroll_vertical = 0
+	_dialog_text.custom_minimum_size = Vector2(TEXT_W, full_h)
+	_dialog_more.size = Vector2(INNER, name_h)
+	_dialog_more.visible = not fits
+	_dialog_options.position = Vector2(36, 18 + name_h + 6 + text_h + 6)
+	_dialog_options.size = Vector2(INNER, opts_h)
+	return fits
 
 func _build_menu_layer() -> void:
 	# One reusable full-screen list panel: shops, net terminal, cyberspace,
@@ -498,6 +644,7 @@ func _build_menu_layer() -> void:
 	panel.add_child(_menu_title)
 	_menu_info = Label.new()
 	_menu_info.size = Vector2(1800, 48)
+	_menu_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_menu_info.add_theme_color_override("font_color", UITheme.TEXT_DIM)
 	_fsize(_menu_info, 20)
 	panel.add_child(_menu_info)
@@ -517,6 +664,13 @@ func _menu_begin(title: String, info: String, img_path := "", big_art := false) 
 	_state = State.MENU
 	_show_only(_menu_layer)
 	var art_h := 570 if big_art else 450
+	# Above Large the header and body need the room more than the art does.
+	art_h -= roundi(maxf(0.0, _text_scale - 1.25) * 320.0)
+	var title_step := maxi(72, _line_h(32) + 6)
+	# The info line wraps (a long POV blurb at a large Text Size would otherwise
+	# run off the right edge), so the list starts below however tall it lands.
+	var info_h := _text_h(_menu_info, info, 1800, 20)
+	var info_step := maxi(60, info_h + 12)
 	if img_path != "":
 		var t: Texture2D = Assets.load_texture(img_path)
 		_menu_img.texture = t
@@ -526,11 +680,12 @@ func _menu_begin(title: String, info: String, img_path := "", big_art := false) 
 	_menu_img.size = Vector2(1824, art_h)
 	var top: int = (art_h + 60) if _menu_img.visible else 42
 	_menu_title.position = Vector2(60, top)
-	_menu_info.position = Vector2(60, top + 72)
-	_menu_scroll.position = Vector2(60, top + 132)
-	_menu_scroll.size = Vector2(1800, 1044 - (top + 132))
+	_menu_info.position = Vector2(60, top + title_step)
+	_menu_scroll.position = Vector2(60, top + title_step + info_step)
+	_menu_scroll.size = Vector2(1800, 1044 - (top + title_step + info_step))
 	_menu_title.text = title
 	_menu_info.text = info
+	_menu_info.size = Vector2(1800, info_h)
 	for c in _menu_list.get_children():
 		c.queue_free()
 	_menu_scroll.set_deferred("scroll_vertical", 0)
@@ -703,6 +858,8 @@ func _resolve_flag_target(flag: String) -> Dictionary:
 			var nd = _load_json(NPC_DIR + nid + ".json")
 			if nd == null or typeof(nd) != TYPE_DICTIONARY:
 				continue
+			if flag == "heard_" + nid:
+				return {"room": rid2, "npc": nid, "action": "Talk to %s" % str(nd.get("name", nid))}
 			for node_id in nd.get("nodes", {}):
 				var node: Dictionary = nd["nodes"][node_id]
 				var g := str(node.get("grant", ""))
@@ -1033,6 +1190,8 @@ func _go_title() -> void:
 	AudioManager.play("title")
 
 func _build_endgame_layer() -> void:
+	# A composed finale card, like the title screen: its type is display type and
+	# keeps its size whatever the reader's Text Size setting.
 	_endgame_layer = _full_control("Endgame")
 	_endgame_layer.mouse_filter = Control.MOUSE_FILTER_STOP
 	var bg := ColorRect.new()
@@ -1045,7 +1204,7 @@ func _build_endgame_layer() -> void:
 	series.size = Vector2(1920, 60)
 	series.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	series.add_theme_color_override("font_color", UITheme.TEXT)
-	_fsize(series, 40)
+	_fsize(series, 40, false)
 	_endgame_layer.add_child(series)
 	var sub_lbl := Label.new()
 	sub_lbl.text = "MONA LISA UNDERDRIVE"
@@ -1053,7 +1212,7 @@ func _build_endgame_layer() -> void:
 	sub_lbl.size = Vector2(1920, 96)
 	sub_lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub_lbl.add_theme_color_override("font_color", UITheme.ACCENT)
-	_fsize(sub_lbl, 64)
+	_fsize(sub_lbl, 64, false)
 	_endgame_layer.add_child(sub_lbl)
 	var rule := ColorRect.new()
 	rule.color = UITheme.ACCENT_DIM
@@ -1066,7 +1225,7 @@ func _build_endgame_layer() -> void:
 	theend.size = Vector2(1920, 80)
 	theend.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	theend.add_theme_color_override("font_color", UITheme.TEXT)
-	_fsize(theend, 52)
+	_fsize(theend, 52, false)
 	_endgame_layer.add_child(theend)
 	var coda := Label.new()
 	coda.text = "\"The future is already here. It's just not evenly distributed.\""
@@ -1075,7 +1234,7 @@ func _build_endgame_layer() -> void:
 	coda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	coda.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	coda.add_theme_color_override("font_color", UITheme.TEXT_DIM)
-	_fsize(coda, 28)
+	_fsize(coda, 28, false)
 	_endgame_layer.add_child(coda)
 	var credit := Label.new()
 	credit.text = "— William Gibson"
@@ -1083,7 +1242,7 @@ func _build_endgame_layer() -> void:
 	credit.size = Vector2(1920, 48)
 	credit.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	credit.add_theme_color_override("font_color", UITheme.TEXT_DIM)
-	_fsize(credit, 22)
+	_fsize(credit, 22, false)
 	_endgame_layer.add_child(credit)
 	var btn := Button.new()
 	btn.text = "» The End"
@@ -1091,7 +1250,7 @@ func _build_endgame_layer() -> void:
 	btn.size = Vector2(200, 64)
 	btn.add_theme_color_override("font_color", UITheme.ACCENT)
 	btn.pressed.connect(_go_title)
-	_fsize(btn, 24)
+	_fsize(btn, 24, false)
 	_endgame_layer.add_child(btn)
 
 ## The finale after the last chapter — a quiet card, then back to the title.
@@ -1149,6 +1308,7 @@ func _refresh_room() -> void:
 		GameState.set_flag(str(r["on_enter_flag"]))
 		_check_quest()
 	_desc_lbl.text = r.get("desc", "")
+	_layout_explore()
 	_rebuild_buttons(r)
 	_refresh_status()
 	AudioManager.play(AudioManager.for_room(r))
@@ -1170,6 +1330,7 @@ func _show_void_room() -> void:
 		_bg_placeholder.color = Color("050609")
 		_bg_room_glyph.text = "1337"
 	_desc_lbl.text = "You slipped through a crack in the matrix into a room that's on no map. The exits have been sanded off. The only thing still answering is the soundtrack."
+	_layout_explore()
 	for c in _button_bar.get_children():
 		c.queue_free()
 	var loadb := Button.new()
@@ -1526,6 +1687,18 @@ func _open_settings() -> void:
 	vs.custom_minimum_size = Vector2(1758, 40)
 	vs.value_changed.connect(_set_music_volume)
 	_menu_list.add_child(vs)
+	_menu_label("Text Size", true)
+	var sizes := HBoxContainer.new()
+	sizes.add_theme_constant_override("separation", 12)
+	for opt in TEXT_SCALES:
+		var tb := Button.new()
+		tb.text = str(opt[0])
+		tb.toggle_mode = true
+		tb.button_pressed = is_equal_approx(float(opt[1]), _text_scale)
+		_fsize(tb, 22)
+		tb.pressed.connect(_set_text_scale.bind(float(opt[1])))
+		sizes.add_child(tb)
+	_menu_list.add_child(sizes)
 	var ab := CheckButton.new()
 	ab.text = "Autosave"
 	ab.button_pressed = _autosave
@@ -1542,6 +1715,12 @@ func _set_music_enabled(on: bool) -> void:
 
 func _set_music_volume(v: float) -> void:
 	AudioManager.set_music_volume(v)
+
+func _set_text_scale(v: float) -> void:
+	_text_scale = v
+	_save_prefs()
+	_apply_text_scale()
+	_open_settings()   # rebuild the panel at the new size, selection re-marked
 
 func _set_autosave_enabled(on: bool) -> void:
 	_autosave = on
@@ -1560,11 +1739,13 @@ func _load_prefs() -> void:
 	var cf := ConfigFile.new()
 	if cf.load(SETTINGS_PATH) == OK:
 		_autosave = bool(cf.get_value("game", "autosave", true))
+		_text_scale = clampf(float(cf.get_value("game", "text_scale", TEXT_SCALE_DEFAULT)), 1.0, 1.75)
 
 func _save_prefs() -> void:
 	var cf := ConfigFile.new()
 	cf.load(SETTINGS_PATH)
 	cf.set_value("game", "autosave", _autosave)
+	cf.set_value("game", "text_scale", _text_scale)
 	cf.save(SETTINGS_PATH)
 
 func _do_load_slug(slug: String) -> void:
@@ -1673,6 +1854,11 @@ func _refresh_dialog() -> void:
 		if not GameState.has_flag(paid_flag):
 			GameState.set_flag(paid_flag)
 			GameState.credits = maxi(0, GameState.credits + cr)
+	# Hearing a scene out is itself a story beat: reaching the end of a
+	# conversation sets heard_<npc id>, so a quest can require it. Walking into
+	# a room is not the same as having played what happens there.
+	if _dialog.is_terminal(GameState):
+		GameState.set_flag("heard_" + _dialog_npc)
 	_check_quest()
 	for c in _dialog_options.get_children():
 		c.queue_free()
@@ -1690,6 +1876,7 @@ func _refresh_dialog() -> void:
 		_fsize(b, 22)
 		b.pressed.connect(_end_dialog)
 		_dialog_options.add_child(b)
+	_layout_dialog()
 
 func _on_dialog_option(raw_index: int) -> void:
 	if _dialog.choose(raw_index):

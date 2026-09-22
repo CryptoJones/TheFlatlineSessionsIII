@@ -15,10 +15,13 @@ const TEXT_DIM := Color("8a94a6")      # secondary / captions
 const ACCENT := Color("e05fd0")        # game III: hot violet (simstim neon)
 const ACCENT_DIM := Color("7a2f6e")
 const DANGER := Color("e05561")
+## Authored size of un-overridden text (chapter list, footer buttons). Game.gd
+## multiplies it by the reader's Text Size setting.
+const BASE_FONT_SIZE := 24
 
 static func build() -> Theme:
 	var th := Theme.new()
-	th.default_font_size = 24
+	th.default_font_size = BASE_FONT_SIZE
 
 	# Flat, rounded buttons with an accent hover.
 	var normal := _box(PANEL, PANEL_BORDER)

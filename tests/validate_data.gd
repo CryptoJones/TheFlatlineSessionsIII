@@ -111,6 +111,9 @@ func _collect_flag_setters(chapters: Dictionary, dbs) -> Dictionary:
 					setters[str(n["set_flag"])] = true
 				if n.has("grant"):
 					setters["granted_" + str(n["grant"])] = true
+				# a conversation heard to its end sets heard_<npc id>
+				if (n.get("options", []) as Array).is_empty():
+					setters["heard_" + fn.get_basename()] = true
 	# Rooms: on_enter_flag + pickups. Chapter starts: flags.
 	for ch in chapters.get("chapters", []):
 		for f in ch.get("start", {}).get("flags", []):

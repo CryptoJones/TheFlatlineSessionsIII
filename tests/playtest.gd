@@ -40,7 +40,18 @@ var action_labels := {}        # action-bar button text seen in play
 var feature_counts := {}       # filled by _audit_features, read by _audit_action_bar
 
 
+## Everything under user:// before the run, restored byte-for-byte afterwards.
+## The playtest boots the REAL game, and the real game writes to the same
+## user:// folder the player's copy uses: it rolls the autosave on every room,
+## and some games record endings or settings. Without this, one test run
+## overwrites the developer's own saved game.
+var _user_snapshot := {}
+var _user_restored := false
+const USER_SKIP := ["logs", "shader_cache", "objectdb_snapshots", "vulkan"]
+
+
 func _ready() -> void:
+	_snapshot_user_dir()
 	print("playtest: start")
 	var doc = _json(CHAPTERS)
 	chapters = (doc.get("chapters", []) if doc != null else [])
@@ -56,6 +67,7 @@ func _ready() -> void:
 	_audit_text_sizes()
 	await _audit_action_bar_fit()
 	await _audit_dialog_scroll()
+	await _audit_dialog_paging()
 	_audit_story_art()
 	if softlocks_found == 0:
 		_note("impatient reader: every chapter it could play stays finishable using legal moves only")
@@ -70,6 +82,9 @@ func _drive_runtime() -> void:
 		return
 	game = packed.instantiate()
 	add_child(game)
+	# Belt and braces with the user-data guard: never roll the autosave in a test.
+	if "_autosave" in game:
+		game._autosave = false
 	await get_tree().process_frame
 	await get_tree().process_frame
 	# Record every cue that actually plays, so the soundtrack audit is empirical
@@ -523,7 +538,8 @@ func _audit_text_sizes() -> void:
 			min_view = mini(min_view, int(game._bg_rect.size.y))
 		var max_panel := 0
 		var scrolling := 0
-		for t in passages:
+		# (a paging engine has no scroller; _audit_dialog_paging covers it)
+		for t in (passages if "_dialog_scroll" in game else []):
 			game._dialog_text.text = t
 			if not game._layout_dialog():
 				scrolling += 1
@@ -579,11 +595,73 @@ func _audit_action_bar_fit() -> void:
 	_note("action bar: %d room x size layouts rendered, every action on screen (up to %d rows)" % [checked, max_rows])
 
 
+## Engines that PAGE long passages behind a "Next" button instead of scrolling
+## them: every page of every node, at every Text Size, is rendered for real and
+## its caption bar must stay on screen with every button below the text and
+## above the bottom edge. (Scrolling engines are covered by the audits above.)
+func _audit_dialog_paging() -> void:
+	if game == null or not game.has_method("_render_dialog_page"):
+		return
+	var keep: float = game._text_scale
+	var pages_checked := 0
+	var max_pages := 1
+	for fn in DirAccess.get_files_at(NPC_DIR):
+		if not fn.ends_with(".json"):
+			continue
+		var npc: String = fn.get_basename()
+		var d = _json(NPC_DIR + fn)
+		if d == null:
+			continue
+		for opt in game.TEXT_SCALES:
+			game._text_scale = float(opt[1])
+			game._apply_text_scale()
+			game._go_dialog(npc)
+			await get_tree().process_frame
+			for nid in (d.get("nodes", {}) as Dictionary):
+				game._dialog._current = str(nid)
+				if game.has_method("_apply_dialog_mode"):
+					game._apply_dialog_mode(game._dialog.current_ui_mode())
+				game._dialog_page = 0
+				game._render_dialog_page()
+				var n_pages: int = int(game._dialog_pages)
+				max_pages = maxi(max_pages, n_pages)
+				for pg in n_pages:
+					game._dialog_page = pg
+					game._render_dialog_page()
+					await get_tree().process_frame
+					pages_checked += 1
+					var panel: Rect2 = game._dialog_panel.get_global_rect()
+					var text: Rect2 = game._dialog_text.get_global_rect()
+					# A paging engine keeps its choices on screen by shrinking the text
+					# box, so an overfilled page shows up as lines silently cut off.
+					var label: Label = game._dialog_text
+					var want: int = label.get_line_count() - label.lines_skipped
+					if label.max_lines_visible >= 0:
+						want = mini(want, label.max_lines_visible)
+					if label.get_visible_line_count() < want:
+						_err("%s/%s page %d at '%s': text clipped — %d of %d lines visible" % [npc, nid, pg + 1, opt[0], label.get_visible_line_count(), want])
+					if panel.position.y < -1 or panel.end.y > 1081:
+						_err("%s/%s page %d at '%s': caption bar leaves the screen" % [npc, nid, pg + 1, opt[0]])
+					for b in game._dialog_options.get_children():
+						if not (b is Button) or b.is_queued_for_deletion():
+							continue
+						var r: Rect2 = (b as Control).get_global_rect()
+						if r.end.y > 1081:
+							_err("%s/%s page %d at '%s': button '%s' is below the screen" % [npc, nid, pg + 1, opt[0], (b as Button).text.left(30)])
+						elif r.position.y < text.end.y - 1:
+							_err("%s/%s page %d at '%s': button '%s' covers the text" % [npc, nid, pg + 1, opt[0], (b as Button).text.left(30)])
+			game._end_dialog()
+			await get_tree().process_frame
+	game._text_scale = keep
+	game._apply_text_scale()
+	_note("dialog paging: %d pages rendered across every size, all on screen (up to %d pages a node)" % [pages_checked, max_pages])
+
+
 ## A passage too tall for the screen must really scroll: send the dialog actual
 ## mouse-wheel events and check the reader can reach the end, that the "more
 ## below" cue clears once they have, and that the next passage starts at the top.
 func _audit_dialog_scroll() -> void:
-	if game == null:
+	if game == null or not ("_dialog_scroll" in game):
 		return
 	var keep: float = game._text_scale
 	game._text_scale = float(game.TEXT_SCALES[-1][1])
@@ -728,10 +806,52 @@ func _report() -> void:
 		print("-- errors -- none")
 		print("\nPLAYTEST: PASS  (%d rooms walked, %d conversations driven)"
 			% [rooms_seen, dialogs_driven])
+		_restore_user_dir()
 		get_tree().quit(0)
 	else:
 		print("-- errors (%d) --" % errors.size())
 		for e in errors:
 			printerr("  ! " + e)
 		printerr("\nPLAYTEST: FAIL — %d error(s)" % errors.size())
+		_restore_user_dir()
 		get_tree().quit(1)
+
+
+# ------------------------------------------------------------ user-data guard
+func _snapshot_user_dir(dir: String = "user://") -> void:
+	for f in DirAccess.get_files_at(dir):
+		_user_snapshot[dir.path_join(f)] = FileAccess.get_file_as_bytes(dir.path_join(f))
+	for sub_dir in DirAccess.get_directories_at(dir):
+		if not USER_SKIP.has(sub_dir):
+			_snapshot_user_dir(dir.path_join(sub_dir))
+
+
+## Delete what the run created, rewrite what it changed. Idempotent.
+func _restore_user_dir() -> void:
+	if _user_restored:
+		return
+	_user_restored = true
+	_remove_new_files("user://")
+	for path in _user_snapshot:
+		var before: PackedByteArray = _user_snapshot[path]
+		if FileAccess.file_exists(path) and FileAccess.get_file_as_bytes(path) == before:
+			continue
+		DirAccess.make_dir_recursive_absolute(str(path).get_base_dir())
+		var f := FileAccess.open(path, FileAccess.WRITE)
+		if f != null:
+			f.store_buffer(before)
+			f.close()
+
+
+func _remove_new_files(dir: String) -> void:
+	for f in DirAccess.get_files_at(dir):
+		var path := dir.path_join(f)
+		if not _user_snapshot.has(path):
+			DirAccess.remove_absolute(path)
+	for sub_dir in DirAccess.get_directories_at(dir):
+		if not USER_SKIP.has(sub_dir):
+			_remove_new_files(dir.path_join(sub_dir))
+
+
+func _exit_tree() -> void:
+	_restore_user_dir()   # also on an early quit

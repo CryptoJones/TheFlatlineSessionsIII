@@ -42,6 +42,8 @@ const DIALOG_BOTTOM := 1062
 const DIALOG_MIN_H := 378
 const DIALOG_MAX_H := 1038
 const VIEW_MIN_H := 300
+const BAR_ROW_GAP := 8
+const BAR_FONT := 24                  # the action bar buttons use the theme's base size
 const MINUTES_PER_MOVE := 3
 const HIDDEN_ROOM := "1337"
 const VOID_IMAGE := "res://assets/ui/void.png"
@@ -129,7 +131,7 @@ var _desc_lbl: Label
 var _status_lbl: Label
 var _objective_lbl: Label
 var _toast_lbl: Label
-var _button_bar: HBoxContainer
+var _button_bar: HFlowContainer
 
 # Dialog widgets
 var _dialog_panel: Panel
@@ -469,10 +471,13 @@ func _build_explore_layer() -> void:
 	_desc_lbl.add_theme_color_override("font_color", UITheme.TEXT)
 	_fsize(_desc_lbl, 22)
 	_explore_layer.add_child(_desc_lbl)
-	_button_bar = HBoxContainer.new()
+	# A flow container, so a long row of actions wraps onto a second line at a
+	# large Text Size instead of running off the right edge of the screen.
+	_button_bar = HFlowContainer.new()
 	_button_bar.position = Vector2(VIEW_X, 924)
 	_button_bar.size = Vector2(VIEW_W, 72)
-	_button_bar.add_theme_constant_override("separation", 12)
+	_button_bar.add_theme_constant_override("h_separation", 12)
+	_button_bar.add_theme_constant_override("v_separation", BAR_ROW_GAP)
 	_explore_layer.add_child(_button_bar)
 	# Status strip.
 	var status_bg := ColorRect.new()
@@ -509,6 +514,28 @@ func _build_explore_layer() -> void:
 	_explore_layer.add_child(_toast_lbl)
 	_layout_explore()
 
+## Height the action bar needs for the buttons it holds right now, wrapping
+## rows the way the HFlowContainer will. Measured from each button's font and
+## stylebox (never read back off a Control), so it is right before a frame has
+## drawn. An empty bar still reserves one row, so the layout does not jump.
+func _bar_height() -> int:
+	var row_h := maxi(72, _line_h(BAR_FONT) + 22)
+	var rows := 1
+	var x := 0.0
+	for b in _button_bar.get_children():
+		if not (b is Button) or b.is_queued_for_deletion() or not b.visible:
+			continue
+		var fs: int = b.get_theme_font_size("font_size")
+		var font: Font = b.get_theme_font("font")
+		var box: Vector2 = b.get_theme_stylebox("normal").get_minimum_size()
+		var w: float = font.get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x + box.x + 2
+		row_h = maxi(row_h, ceili(font.get_height(fs) + box.y) + 4)
+		if x > 0.0 and x + w > VIEW_W:
+			rows += 1
+			x = 0.0
+		x += w + 12
+	return rows * row_h + (rows - 1) * BAR_ROW_GAP
+
 ## Stack the explore UI upward from the status strip: action bar, description,
 ## room name — and whatever is left is the plate. At Standard and Large every
 ## description fits the authored 162px box, so the plate keeps its authored
@@ -516,7 +543,7 @@ func _build_explore_layer() -> void:
 ## legibility. Runs on build, on every room change, and when Text Size changes.
 ## Returns false if the description had to be clipped to keep VIEW_MIN_H of plate.
 func _layout_explore() -> bool:
-	var bar_h := maxi(72, _line_h(22) + 22)
+	var bar_h := _bar_height()
 	var name_h := maxi(60, _line_h(30))
 	var want_h := maxi(162, _text_h(_desc_lbl, _desc_lbl.text, VIEW_W, 22) + 6)
 	var desc_h := mini(want_h, STATUS_Y - 18 - bar_h - 6 - 6 - name_h - 24 - VIEW_Y - VIEW_MIN_H)
@@ -1308,8 +1335,7 @@ func _refresh_room() -> void:
 		GameState.set_flag(str(r["on_enter_flag"]))
 		_check_quest()
 	_desc_lbl.text = r.get("desc", "")
-	_layout_explore()
-	_rebuild_buttons(r)
+	_rebuild_buttons(r)   # lays the screen out once it knows how many actions there are
 	_refresh_status()
 	AudioManager.play(AudioManager.for_room(r))
 	# Every room entry is a natural checkpoint — roll the autosave here so moves,
@@ -1331,7 +1357,10 @@ func _show_void_room() -> void:
 		_bg_room_glyph.text = "1337"
 	_desc_lbl.text = "You slipped through a crack in the matrix into a room that's on no map. The exits have been sanded off. The only thing still answering is the soundtrack."
 	_layout_explore()
+	# Detach before freeing: a queue_free()d button stays in the bar until the end
+	# of the frame, and the flow container would briefly lay out old + new together.
 	for c in _button_bar.get_children():
+		_button_bar.remove_child(c)
 		c.queue_free()
 	var loadb := Button.new()
 	loadb.text = "Load"
@@ -1361,6 +1390,7 @@ func _show_void_room() -> void:
 	gearb.pressed.connect(_open_settings)
 	_fsize(gearb, 22)
 	_button_bar.add_child(gearb)
+	_layout_explore()
 	_status_lbl.text = "%s   ·   1337 cr   CON 1337   ·   1337   ·   13:37" % GameState.player_name
 	_objective_lbl.text = ""
 	AudioManager.play_playlist(VOID_TRACKS)
@@ -1390,7 +1420,10 @@ func _placeholder_color(room_id: String) -> Color:
 	return Color.from_hsv(h, 0.35, 0.14)
 
 func _rebuild_buttons(r: Dictionary) -> void:
+	# Detach before freeing: a queue_free()d button stays in the bar until the end
+	# of the frame, and the flow container would briefly lay out old + new together.
 	for c in _button_bar.get_children():
+		_button_bar.remove_child(c)
 		c.queue_free()
 	# Compass stays fixed every room: all four directions always show, but only
 	# the room's real exits are live — the rest sit visibly dimmed and unclickable.
@@ -1496,6 +1529,7 @@ func _rebuild_buttons(r: Dictionary) -> void:
 	mb.tooltip_text = "Back to chapter select"
 	mb.pressed.connect(_go_chapters)
 	_button_bar.add_child(mb)
+	_layout_explore()
 
 func _npc_label(npc_id: String) -> String:
 	# Cheap display name: dialog files carry "name"; fall back to the id.

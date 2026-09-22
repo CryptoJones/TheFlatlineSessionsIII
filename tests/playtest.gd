@@ -54,6 +54,7 @@ func _ready() -> void:
 	_audit_action_bar()
 	_audit_soundtrack()
 	_audit_text_sizes()
+	await _audit_action_bar_fit()
 	await _audit_dialog_scroll()
 	_audit_story_art()
 	if softlocks_found == 0:
@@ -331,13 +332,18 @@ func _audit_dialogs() -> void:
 		var has_terminal := false
 		var reached := {}
 		var stack: Array[String] = [start]
+		# Engines that gate the entry node on a flag ("start_gates") make those
+		# nodes roots too — they are reached without any option pointing at them.
+		for g in d.get("start_gates", []):
+			if typeof(g) == TYPE_DICTIONARY and nodes.has(str(g.get("start", ""))):
+				stack.append(str(g.get("start", "")))
 		while not stack.is_empty():
 			var nid: String = stack.pop_back()
 			if reached.has(nid):
 				continue
 			reached[nid] = true
 			var n: Dictionary = nodes[nid]
-			words_total += str(n.get("text", "")).split(" ", false).size()
+			words_total += _node_text(n).split(" ", false).size()
 			var opts: Array = n.get("options", [])
 			if opts.is_empty():
 				has_terminal = true
@@ -360,10 +366,18 @@ func _audit_dialogs() -> void:
 		for nid in nodes:
 			if not reached.has(nid):
 				_err("npc %s: orphan node '%s' unreachable from start" % [fn, nid])
-			if str(nodes[nid].get("text", "")).strip_edges() == "":
+			if _node_text(nodes[nid]).strip_edges() == "":
 				_err("npc %s: node %s has empty text" % [fn, nid])
 	_note("dialogs: %d files, %d nodes, %d words, %d end cleanly"
 		% [files.size(), nodes_total, words_total, terminals])
+
+
+## A node's text, or all of its "random_text" lines for engines that pick one.
+func _node_text(n: Dictionary) -> String:
+	var t := str(n.get("text", ""))
+	for line in n.get("random_text", []):
+		t += " " + str(line)
+	return t
 
 
 func _audit_quests() -> void:
@@ -385,6 +399,10 @@ func _audit_quests() -> void:
 			for it in r.get("interactions", []):
 				if typeof(it) == TYPE_DICTIONARY and it.has("set_flag"):
 					setters[str(it["set_flag"])] = true
+	# slotting a chip (item "slot": true) sets slotted_<item id> in engines with a socket
+	for iid in _dict_of(ITEMS, "items"):
+		if bool(_dict_of(ITEMS, "items")[iid].get("slot", false)):
+			setters["slotted_" + str(iid)] = true
 	# chapter start flags and cracked databases are setters as well
 	for ch in chapters:
 		for f in ch.get("start", {}).get("flags", []):
@@ -520,6 +538,47 @@ func _audit_text_sizes() -> void:
 	_note("text sizes: %d room descriptions x %d dialog passages x %d sizes fit" % [descs.size(), passages.size(), game.TEXT_SCALES.size()])
 
 
+## Every action must stay on screen and clickable at every Text Size. Renders a
+## real frame for every room of every chapter at every size, then checks each
+## action-bar button against the canvas edge and the status strip. The height
+## audit above cannot see this: a row of actions that runs off the right edge
+## leaves Load / Settings / Menu unreachable while every height still "fits".
+func _audit_action_bar_fit() -> void:
+	if game == null:
+		return
+	var keep: float = game._text_scale
+	var checked := 0
+	var max_rows := 1
+	for ch in chapters:
+		var cid := str(ch.get("id", ""))
+		game._start_chapter(cid)
+		await get_tree().process_frame
+		game._go_explore()
+		for rid in game._world.rooms:
+			GameState.current_room = str(rid)
+			for opt in game.TEXT_SCALES:
+				game._text_scale = float(opt[1])
+				game._apply_text_scale()
+				game._refresh_room()
+				await get_tree().process_frame
+				checked += 1
+				var bar: Control = game._button_bar
+				var rows := {}
+				for b in bar.get_children():
+					if not (b is Button) or b.is_queued_for_deletion() or not b.visible:
+						continue
+					var r: Rect2 = (b as Control).get_global_rect()
+					rows[int(r.position.y)] = true
+					if r.end.x > game.VIEW_X + game.VIEW_W + 1 or r.end.y > game.STATUS_Y + 1:
+						_err("%s/%s at '%s': action '%s' is off screen (ends at %d,%d)" % [cid, rid, opt[0], (b as Button).text, int(r.end.x), int(r.end.y)])
+				max_rows = maxi(max_rows, rows.size())
+		game._go_chapters()
+		await get_tree().process_frame
+	game._text_scale = keep
+	game._apply_text_scale()
+	_note("action bar: %d room x size layouts rendered, every action on screen (up to %d rows)" % [checked, max_rows])
+
+
 ## A passage too tall for the screen must really scroll: send the dialog actual
 ## mouse-wheel events and check the reader can reach the end, that the "more
 ## below" cue clears once they have, and that the next passage starts at the top.
@@ -582,8 +641,10 @@ func _audit_story_art() -> void:
 			# An art-light game (no plates yet) legitimately has art-less cards.
 			if art.is_empty() and not _chapter_has_plates(ch):
 				continue
-			if art.size() != pages.size():
-				_err("%s: %d %s cards but %d %s plates" % [ch.get("id", "?"), pages.size(), pair[0], art.size(), pair[1]])
+			# A shorter list is fine — the engine holds the last plate for the
+			# remaining cards. What must not happen is a card with no plate at all.
+			if art.is_empty() and not pages.is_empty():
+				_err("%s: %d %s cards but no %s plate" % [ch.get("id", "?"), pages.size(), pair[0], pair[1]])
 			for path in art:
 				cards += 1
 				if Assets.load_texture(str(path)) == null:

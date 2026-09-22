@@ -165,6 +165,9 @@ func _check_quest(cid: String, qid: String, q: Dictionary, rooms: Dictionary, db
 				setters[str(n["set_flag"])] = true
 			if n.has("grant"):
 				setters["granted_" + str(n["grant"])] = true
+			# a conversation heard to its end sets heard_<npc id>
+			if (n.get("options", []) as Array).is_empty():
+				setters["heard_" + str(npc_file).get_basename()] = true
 	if dbs != null:
 		for d in dbs.get("databases", []):
 			setters["cracked_" + str(d.get("id", ""))] = true

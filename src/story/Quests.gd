@@ -3,7 +3,8 @@ extends RefCounted
 ##
 ## A quest is an ordered list of steps; each step is satisfied by one story
 ## flag. Flags get set by dialog nodes (set_flag), room entry (on_enter_flag),
-## item grants (granted_<item>), and cracked databases (cracked_<db id>) — so
+## item grants (granted_<item>), a conversation heard to its end (heard_<npc id>),
+## and cracked databases (cracked_<db id>) — so
 ## quests need no logic of their own, just the right flag names. Pure data.
 ##
 ## quests.json shape:

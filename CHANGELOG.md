@@ -3,6 +3,37 @@
 All notable changes to **The Flatline Sessions III — Mona Lisa Underdrive** are
 documented here. This project adheres to [Semantic Versioning](https://semver.org).
 
+## [1.4.0] — 2026-09-22
+
+### Added
+- **Settings → Text Size**: Standard / Large / Extra Large / Huge, remembered
+  between sessions and defaulting to Large. The authored sizes are laid out for
+  a 1920×1080 canvas and land small once that is scaled onto a laptop panel.
+- The dialog panel grows upward to fit its passage, and a passage too tall for
+  the screen scrolls under a "▼ more below — scroll" cue that clears once the
+  reader reaches the end.
+- `tests/playtest.tscn`, the playtest that ships with every TFS game, runs in
+  CI: every passage laid out at every size, every room rendered at every size
+  with its actions checked, story-card plates checked, and an over-tall passage
+  scrolled with real mouse-wheel events.
+
+### Fixed
+- The explore action bar wraps onto a second row instead of running off the
+  right edge at a large Text Size, where it could leave Load, Give Hint,
+  Settings and Menu unreachable.
+- Long passages with paragraph breaks no longer overflow the caption box into
+  the reply buttons — a fault at the original text size too.
+
+### Unchanged
+- The endgame card keeps its composed type size, like the title and dedication.
+
+## [1.3.2] — 2026-08-28
+
+### Changed
+- macOS archives are notarized by Apple and the ticket stapled into the bundle,
+  so the app opens without a Gatekeeper warning. (Shipped in CI; recorded here
+  after the fact.)
+
 ## [1.3.1] — 2026-08-27
 
 ### Changed
